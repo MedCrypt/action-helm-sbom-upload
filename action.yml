@@ -1,23 +1,30 @@
-name: 'The name of your action here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'Medcrypt Helm SBOM Upload'
+description: 'Upload a SBOM into Medcrypt Helm system'
+author: 'Medcrypt'
 
-# Add your action's branding here. This will appear on the GitHub Marketplace.
-branding:
-  icon: 'heart'
-  color: 'red'
-
-# Define your inputs here.
 inputs:
-  milliseconds:
-    description: 'Your input description here'
+  api-base-url:
+    description: 'The root URL for the Medcrypt Helm API. This determines your environment'
     required: true
-    default: '1000'
-
-# Define your outputs here.
-outputs:
-  time:
-    description: 'Your output description here'
+  client-id:
+    description: 'The API client identifier provided to you by Medcrypt. KEEP THIS SECURE.'
+    required: true
+  client-secret:
+    description:  'The API client secret provided to you by Medcrypt. KEEP THIS SECURE.'
+    required: true
+  product-name:
+    description: 'The name of the product as it exists in the Helm system. Not case sensitive.'
+    required: true
+  product-version-name:
+    description: 'The name of the product version as it exists in the Helm system. Not case sensitive. If this is a numeric value like 1.0, be sure to enclose it in quotes to prevent it from being treated as a number and possibly truncated.'
+    required: true
+  sbom-file-path:
+    description: 'Path to the SBOM file within the github action workspace.'
+    required: true
+  create-product-and-version-if-missing:
+    description: 'If true, will create the product and version if they do not already exist.'
+    default: false
+    required: false
 
 runs:
   using: node20
