@@ -1,4 +1,4 @@
-import core from '@actions/core';
+import * as core from '@actions/core';
 import { ListOrganizations, OrganizationInfo } from './protobuf/v1/external/heim_organization_pb';
 import {
   CreateOrganizationProduct,
