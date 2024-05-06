@@ -1,4 +1,5 @@
-import * as core from '@actions/core';
+import core from '@actions/core';
+
 import { ListOrganizations, OrganizationInfo } from './protobuf/v1/external/heim_organization_pb';
 import {
   CreateOrganizationProduct,
@@ -10,7 +11,7 @@ import {
 import { unparse } from 'uuid-parse';
 import { UUID } from './protobuf/heim_common_pb';
 import { OrganizationProductVersion } from './protobuf/heim_organization_product_pb';
-import { readFile, stat } from 'node:fs/promises';
+import { readFile } from 'node:fs/promises';
 import { SubmitSbom } from './protobuf/v1/external/heim_sbom_pb';
 import { existsSync } from 'node:fs';
 import { basename } from 'node:path';
@@ -42,7 +43,6 @@ export async function run(): Promise<void> {
     required: true,
     trimWhitespace: true,
   };
-  console.log(`This is the version with protobuf stripped out.`);
   let baseUrl: string = core.getInput('api-base-url', inputOptions);
   if (!baseUrl.endsWith('/')) {
     baseUrl += '/';
@@ -66,35 +66,34 @@ export async function run(): Promise<void> {
   }
   const fileName = basename(sbomFilePath);
   const fileReadResults = await readFile(sbomFilePath);
-
-  console.log(`The SBOM file is ${fileReadResults.byteLength} bytes.`);
+  core.info(`The SBOM file is ${fileReadResults.byteLength} bytes.`);
 
   const defaultOrg = await GetDefaultOrganization(callInfo);
-  if (defaultOrg == undefined) {
+  if (defaultOrg === undefined) {
     core.setFailed(`Unable to determine default organization`);
     return;
   }
   const orgUuid = defaultOrg.getOrg()?.getId();
 
   const allProducts = await ListAllProducts(orgUuid, callInfo);
-  console.log(`Resolving product (${productName}) and version (${productVersionName})...`);
-  const foundProducts = allProducts.filter((p) => p.getName().toLowerCase() == productName.toLowerCase());
+  core.info(`Resolving product (${productName}) and version (${productVersionName})...`);
+  const foundProducts = allProducts.filter((p) => p.getName().toLowerCase() === productName.toLowerCase());
   let foundOrCreatedProduct: OrganizationProduct | undefined = undefined;
-  if (foundProducts.length == 0) {
+  if (foundProducts.length === 0) {
     if (!shouldCreate) {
       core.setFailed(`Unable to locate product ${productName}, and create-product-and-version-if-missing is false.`);
       return;
     }
-    console.log(`Creating product ${productName}...`);
+    core.info(`Creating product ${productName}...`);
     foundOrCreatedProduct = await CreateProduct(orgUuid, productName, callInfo);
   } else {
-    console.log(`Found existing product ${productName}`);
+    core.info(`Found existing product ${productName}`);
     foundOrCreatedProduct = foundProducts[0];
   }
 
   const allVersions = await ListAllVersionsOfProduct(foundOrCreatedProduct.getId(), callInfo);
   const foundVersions = allVersions.filter(
-    (v) => v.getRawVersionString().toLowerCase() == productVersionName.toLowerCase(),
+    (v) => v.getRawVersionString().toLowerCase() === productVersionName.toLowerCase(),
   );
   let foundOrCreatedVersion: OrganizationProductVersion | undefined = undefined;
   if (foundVersions.length == 0) {
@@ -104,18 +103,18 @@ export async function run(): Promise<void> {
       );
       return;
     }
-    console.log(`Creating version ${productVersionName} for product ${productName}...`);
+    core.info(`Creating version ${productVersionName} for product ${productName}...`);
     foundOrCreatedVersion = await CreateProductVersion(foundOrCreatedProduct.getId(), productVersionName, callInfo);
   } else {
-    console.log(`Found existing version ${productVersionName}`);
+    core.info(`Found existing version ${productVersionName}`);
     foundOrCreatedVersion = foundVersions[0];
   }
 
-  console.log(`Uploading SBOM...`);
+  core.info(`Uploading SBOM...`);
   // finally, upload the SBOM
   const sbomUploadResponse = await UploadSbom(foundOrCreatedVersion.getId(), fileName, fileReadResults, callInfo);
-  console.log(`SBOM uploaded successfully.`);
-  sbomUploadResponse.statusMessages.forEach((msg) => console.log(`Response Message: ${msg}`));
+  core.info(`SBOM uploaded successfully.`);
+  sbomUploadResponse.statusMessages.forEach((msg) => core.info(`Response Message: ${msg}`));
 }
 
 // overloaded function that lets TS enforce if an undefined cant be passed in, an undefined won't be returned
@@ -138,7 +137,7 @@ const GetDefaultOrganization = async (callInfo: ApiCallInformation): Promise<Org
   listOrganizations.setRequest(request);
   const orgResponse = await DoWebApiPostRequest('listorganizations', listOrganizations, ListOrganizations, callInfo);
   const orgs = orgResponse.getResponse()?.getOrginfoList();
-  if (orgs == undefined || orgs.length == 0) {
+  if (orgs === undefined || orgs.length === 0) {
     throw Error(`Unable to determine default organization out of ${orgs?.length} possible candidates`);
   }
   return orgs[0];
@@ -217,7 +216,7 @@ const CreateProductVersion = async (
   versionString: string,
   callInfo: ApiCallInformation,
 ): Promise<OrganizationProductVersion> => {
-  console.log(`Creating version ${versionString} for product...`);
+  core.info(`Creating version ${versionString} for product...`);
   const createVersion = new CreateOrganizationProductVersion();
   const requestData = new CreateOrganizationProductVersion.Request();
   createVersion.setRequest(requestData);

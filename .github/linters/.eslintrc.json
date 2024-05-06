@@ -1,0 +1,44 @@
+{
+  "ignorePatterns": ["*.js", "*.jsx", "*.test.tsx", "*.test.ts", "*.svg", "App.test.tsx_disabled","*pb.d.ts"],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint", "no-relative-import-paths"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:import/typescript", // Sorts imports/warnings
+    "plugin:github/recommended",
+    "plugin:jest/recommended",
+    "plugin:import/warnings"
+  ],
+  "rules": {
+    "@typescript-eslint/no-unused-vars": [
+      2,
+      {
+        "vars": "all",
+        "args": "all",
+        "varsIgnorePattern": "_[a-zA-Z-09]*$",
+        "argsIgnorePattern": "_[a-zA-Z-09]*$"
+      }
+    ],
+    "import/order": [
+      "warn",
+      {
+        "alphabetize": {
+          "order": "asc"
+        }
+      }
+    ],
+    "no-relative-import-paths/no-relative-import-paths": [
+      "warn",
+      { "allowSameFolder": true, "rootDir": "src" }
+    ],
+    "eqeqeq": ["error", "smart"],
+    "@typescript-eslint/no-inferrable-types": "error",
+    "@typescript-eslint/explicit-module-boundary-types": "error",
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/ban-ts-comment": "off",
+    "no-debugger":"off"
+  }
+}

@@ -34704,32 +34704,12 @@ goog.object.extend(exports, proto.medcrypt.helm.api.v1.sbom);
 
 "use strict";
 
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.UuidBytesToString = exports.run = void 0;
-const core = __importStar(__nccwpck_require__(2186));
+const core_1 = __importDefault(__nccwpck_require__(2186));
 const heim_organization_pb_1 = __nccwpck_require__(7832);
 const heim_organization_product_pb_1 = __nccwpck_require__(7007);
 const uuid_parse_1 = __nccwpck_require__(2814);
@@ -34743,17 +34723,16 @@ async function run() {
         required: true,
         trimWhitespace: true,
     };
-    console.log(`This is the version with protobuf stripped out.`);
-    let baseUrl = core.getInput('api-base-url', inputOptions);
+    let baseUrl = core_1.default.getInput('api-base-url', inputOptions);
     if (!baseUrl.endsWith('/')) {
         baseUrl += '/';
     }
-    const productName = core.getInput('product-name', inputOptions);
-    const productVersionName = core.getInput('product-version-name', inputOptions);
-    const clientId = core.getInput('client-id', inputOptions);
-    const clientSecret = core.getInput('client-secret', inputOptions);
-    const sbomFilePath = core.getInput('sbom-file-path', inputOptions);
-    const shouldCreate = core.getBooleanInput('create-product-and-version-if-missing');
+    const productName = core_1.default.getInput('product-name', inputOptions);
+    const productVersionName = core_1.default.getInput('product-version-name', inputOptions);
+    const clientId = core_1.default.getInput('client-id', inputOptions);
+    const clientSecret = core_1.default.getInput('client-secret', inputOptions);
+    const sbomFilePath = core_1.default.getInput('sbom-file-path', inputOptions);
+    const shouldCreate = core_1.default.getBooleanInput('create-product-and-version-if-missing');
     const callInfo = {
         baseUrl: baseUrl,
         clientId: clientId,
@@ -34761,54 +34740,54 @@ async function run() {
     };
     // read the file first in case things go wrong
     if (!(0, node_fs_1.existsSync)(sbomFilePath)) {
-        core.setFailed(`SBOM file does not exist at path ${sbomFilePath}`);
+        core_1.default.setFailed(`SBOM file does not exist at path ${sbomFilePath}`);
         return;
     }
     const fileName = (0, node_path_1.basename)(sbomFilePath);
     const fileReadResults = await (0, promises_1.readFile)(sbomFilePath);
-    console.log(`The SBOM file is ${fileReadResults.byteLength} bytes.`);
+    core_1.default.info(`The SBOM file is ${fileReadResults.byteLength} bytes.`);
     const defaultOrg = await GetDefaultOrganization(callInfo);
-    if (defaultOrg == undefined) {
-        core.setFailed(`Unable to determine default organization`);
+    if (defaultOrg === undefined) {
+        core_1.default.setFailed(`Unable to determine default organization`);
         return;
     }
     const orgUuid = defaultOrg.getOrg()?.getId();
     const allProducts = await ListAllProducts(orgUuid, callInfo);
-    console.log(`Resolving product (${productName}) and version (${productVersionName})...`);
-    const foundProducts = allProducts.filter((p) => p.getName().toLowerCase() == productName.toLowerCase());
+    core_1.default.info(`Resolving product (${productName}) and version (${productVersionName})...`);
+    const foundProducts = allProducts.filter((p) => p.getName().toLowerCase() === productName.toLowerCase());
     let foundOrCreatedProduct = undefined;
-    if (foundProducts.length == 0) {
+    if (foundProducts.length === 0) {
         if (!shouldCreate) {
-            core.setFailed(`Unable to locate product ${productName}, and create-product-and-version-if-missing is false.`);
+            core_1.default.setFailed(`Unable to locate product ${productName}, and create-product-and-version-if-missing is false.`);
             return;
         }
-        console.log(`Creating product ${productName}...`);
+        core_1.default.info(`Creating product ${productName}...`);
         foundOrCreatedProduct = await CreateProduct(orgUuid, productName, callInfo);
     }
     else {
-        console.log(`Found existing product ${productName}`);
+        core_1.default.info(`Found existing product ${productName}`);
         foundOrCreatedProduct = foundProducts[0];
     }
     const allVersions = await ListAllVersionsOfProduct(foundOrCreatedProduct.getId(), callInfo);
-    const foundVersions = allVersions.filter((v) => v.getRawVersionString().toLowerCase() == productVersionName.toLowerCase());
+    const foundVersions = allVersions.filter((v) => v.getRawVersionString().toLowerCase() === productVersionName.toLowerCase());
     let foundOrCreatedVersion = undefined;
     if (foundVersions.length == 0) {
         if (!shouldCreate) {
-            core.setFailed(`Unable to locate version ${productVersionName} of product ${productName}, and create-product-and-version-if-missing is false.`);
+            core_1.default.setFailed(`Unable to locate version ${productVersionName} of product ${productName}, and create-product-and-version-if-missing is false.`);
             return;
         }
-        console.log(`Creating version ${productVersionName} for product ${productName}...`);
+        core_1.default.info(`Creating version ${productVersionName} for product ${productName}...`);
         foundOrCreatedVersion = await CreateProductVersion(foundOrCreatedProduct.getId(), productVersionName, callInfo);
     }
     else {
-        console.log(`Found existing version ${productVersionName}`);
+        core_1.default.info(`Found existing version ${productVersionName}`);
         foundOrCreatedVersion = foundVersions[0];
     }
-    console.log(`Uploading SBOM...`);
+    core_1.default.info(`Uploading SBOM...`);
     // finally, upload the SBOM
     const sbomUploadResponse = await UploadSbom(foundOrCreatedVersion.getId(), fileName, fileReadResults, callInfo);
-    console.log(`SBOM uploaded successfully.`);
-    sbomUploadResponse.statusMessages.forEach((msg) => console.log(`Response Message: ${msg}`));
+    core_1.default.info(`SBOM uploaded successfully.`);
+    sbomUploadResponse.statusMessages.forEach((msg) => core_1.default.info(`Response Message: ${msg}`));
 }
 exports.run = run;
 function UuidBytesToString(uuidBytes) {
@@ -34823,7 +34802,7 @@ const GetDefaultOrganization = async (callInfo) => {
     listOrganizations.setRequest(request);
     const orgResponse = await DoWebApiPostRequest('listorganizations', listOrganizations, heim_organization_pb_1.ListOrganizations, callInfo);
     const orgs = orgResponse.getResponse()?.getOrginfoList();
-    if (orgs == undefined || orgs.length == 0) {
+    if (orgs === undefined || orgs.length === 0) {
         throw Error(`Unable to determine default organization out of ${orgs?.length} possible candidates`);
     }
     return orgs[0];
@@ -34866,7 +34845,7 @@ const ListAllVersionsOfProduct = async (productUuid, callInfo) => {
     return versionList;
 };
 const CreateProductVersion = async (productUuid, versionString, callInfo) => {
-    console.log(`Creating version ${versionString} for product...`);
+    core_1.default.info(`Creating version ${versionString} for product...`);
     const createVersion = new heim_organization_product_pb_1.CreateOrganizationProductVersion();
     const requestData = new heim_organization_product_pb_1.CreateOrganizationProductVersion.Request();
     createVersion.setRequest(requestData);
