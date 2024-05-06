@@ -47,6 +47,9 @@
       "js",
       "ts"
     ],
+    "coveragePathIgnorePatterns": [
+      "<rootDir>/src/protobuf/"
+    ],
     "testMatch": [
       "**/*.test.ts"
     ],
