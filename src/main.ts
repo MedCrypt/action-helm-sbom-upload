@@ -126,7 +126,7 @@ const GetDefaultOrganization = async(callInfo: ApiCallInformation): Promise<Orga
     const orgResponse = await DoWebApiPostRequest("listorganizations", listOrganizations, ListOrganizations, callInfo);
     const orgs = orgResponse.getResponse()?.getOrginfoList();
     if (orgs == undefined || orgs.length == 0) {
-        throw Error(`Unable to determine default organization out of ${orgs?.length} possible candidates`);
+        throw Error(`Unable to determine default organization out of ${orgs?.length} possible candidates.`);
     }
     return orgs[0];
 }
@@ -141,7 +141,7 @@ const ListAllProducts = async(organizationUuid: UUID | undefined, callInfo: ApiC
     const productResponse = await DoWebApiPostRequest("listorganizationproducts", listProducts, ListOrganizationProducts, callInfo);
     const productList = productResponse.getResponse()?.getOrganizationProductList();
     if (!productList) {
-        throw new Error('Error getting product list');
+        throw new Error('Error getting product list.');
     }
     return productList;
 }
@@ -157,7 +157,7 @@ const CreateProduct = async(organizationUuid: UUID | undefined, productName: str
     const productResponse = await DoWebApiPostRequest("createorganizationproduct", createProduct, CreateOrganizationProduct, callInfo);
     const createdProduct = productResponse.getResponse()?.getOrganizationProduct();
     if (!createdProduct) {
-        throw new Error('Error creating product');
+        throw new Error('Error creating product.');
     }
     return createdProduct;
 }
@@ -173,7 +173,7 @@ const ListAllVersionsOfProduct = async(productUuid: UUID | undefined, callInfo: 
     const productVersionResponse = await DoWebApiPostRequest("listorganizationproductversions", listVersions, ListOrganizationProductVersions, callInfo);
     const versionList = productVersionResponse.getResponse()?.getOrganizationProductVersionList();
     if (!versionList) {
-        throw new Error('Error getting product version list');
+        throw new Error('Error getting product version list.');
     }
     console.log(`${versionList.length} versions found.`);
     return versionList;
@@ -190,7 +190,7 @@ const CreateProductVersion = async(productUuid: UUID | undefined, versionString:
     const productVersionResponse = await DoWebApiPostRequest("createorganizationproductversion", createVersion, CreateOrganizationProductVersion, callInfo);
     const productVersion = productVersionResponse.getResponse()?.getOrganizationProductVersion();
     if (!productVersion) {
-        throw Error('Error creating product version');
+        throw Error('Error creating product version.');
     }
     return productVersion;
 };
