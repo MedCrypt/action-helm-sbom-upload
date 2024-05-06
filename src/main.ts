@@ -5,7 +5,7 @@ import {
   CreateOrganizationProductVersion,
   ListOrganizationProductVersions,
   ListOrganizationProducts,
-  OrganizationProduct
+  OrganizationProduct,
 } from './protobuf/v1/external/heim_organization_product_pb';
 import { unparse } from 'uuid-parse';
 import { UUID } from './protobuf/heim_common_pb';
@@ -40,7 +40,7 @@ export async function run(): Promise<void> {
   // all parameters are required, and all should be trimmed
   const inputOptions: core.InputOptions = {
     required: true,
-    trimWhitespace: true
+    trimWhitespace: true,
   };
   console.log(`This is the version with protobuf stripped out.`);
   let baseUrl: string = core.getInput('api-base-url', inputOptions);
@@ -56,7 +56,7 @@ export async function run(): Promise<void> {
   const callInfo: ApiCallInformation = {
     baseUrl: baseUrl,
     clientId: clientId,
-    clientSecret: clientSecret
+    clientSecret: clientSecret,
   };
 
   // read the file first in case things go wrong
@@ -78,7 +78,7 @@ export async function run(): Promise<void> {
 
   const allProducts = await ListAllProducts(orgUuid, callInfo);
   console.log(`Resolving product (${productName}) and version (${productVersionName})...`);
-  const foundProducts = allProducts.filter(p => p.getName().toLowerCase() == productName.toLowerCase());
+  const foundProducts = allProducts.filter((p) => p.getName().toLowerCase() == productName.toLowerCase());
   let foundOrCreatedProduct: OrganizationProduct | undefined = undefined;
   if (foundProducts.length == 0) {
     if (!shouldCreate) {
@@ -88,26 +88,26 @@ export async function run(): Promise<void> {
     console.log(`Creating product ${productName}...`);
     foundOrCreatedProduct = await CreateProduct(orgUuid, productName, callInfo);
   } else {
-    console.log(`Found existing product`);
+    console.log(`Found existing product ${productName}`);
     foundOrCreatedProduct = foundProducts[0];
   }
 
   const allVersions = await ListAllVersionsOfProduct(foundOrCreatedProduct.getId(), callInfo);
   const foundVersions = allVersions.filter(
-    v => v.getRawVersionString().toLowerCase() == productVersionName.toLowerCase()
+    (v) => v.getRawVersionString().toLowerCase() == productVersionName.toLowerCase(),
   );
   let foundOrCreatedVersion: OrganizationProductVersion | undefined = undefined;
   if (foundVersions.length == 0) {
     if (!shouldCreate) {
       core.setFailed(
-        `Unable to locate version ${productVersionName} of product ${productName}, and create-product-and-version-if-missing is false.`
+        `Unable to locate version ${productVersionName} of product ${productName}, and create-product-and-version-if-missing is false.`,
       );
       return;
     }
     console.log(`Creating version ${productVersionName} for product ${productName}...`);
     foundOrCreatedVersion = await CreateProductVersion(foundOrCreatedProduct.getId(), productVersionName, callInfo);
   } else {
-    console.log(`Found existing version`);
+    console.log(`Found existing version ${productVersionName}`);
     foundOrCreatedVersion = foundVersions[0];
   }
 
@@ -115,7 +115,7 @@ export async function run(): Promise<void> {
   // finally, upload the SBOM
   const sbomUploadResponse = await UploadSbom(foundOrCreatedVersion.getId(), fileName, fileReadResults, callInfo);
   console.log(`SBOM uploaded successfully.`);
-  sbomUploadResponse.statusMessages.forEach(msg => console.log(`Response Message: ${msg}`));
+  sbomUploadResponse.statusMessages.forEach((msg) => console.log(`Response Message: ${msg}`));
 }
 
 // overloaded function that lets TS enforce if an undefined cant be passed in, an undefined won't be returned
@@ -146,9 +146,8 @@ const GetDefaultOrganization = async (callInfo: ApiCallInformation): Promise<Org
 
 const ListAllProducts = async (
   organizationUuid: UUID | undefined,
-  callInfo: ApiCallInformation
+  callInfo: ApiCallInformation,
 ): Promise<OrganizationProduct[]> => {
-  console.log(`Listing all products for org ${UuidBytesToString(organizationUuid?.getUuid())}`);
   const listProducts = new ListOrganizationProducts();
   const request = new ListOrganizationProducts.Request();
   listProducts.setRequest(request);
@@ -158,7 +157,7 @@ const ListAllProducts = async (
     'listorganizationproducts',
     listProducts,
     ListOrganizationProducts,
-    callInfo
+    callInfo,
   );
   const productList = productResponse.getResponse()?.getOrganizationProductList();
   if (!productList) {
@@ -170,9 +169,8 @@ const ListAllProducts = async (
 const CreateProduct = async (
   organizationUuid: UUID | undefined,
   productName: string,
-  callInfo: ApiCallInformation
+  callInfo: ApiCallInformation,
 ): Promise<OrganizationProduct> => {
-  console.log(`Creating product ${productName}...`);
   const createProduct = new CreateOrganizationProduct();
   const request = new CreateOrganizationProduct.Request();
   createProduct.setRequest(request);
@@ -183,7 +181,7 @@ const CreateProduct = async (
     'createorganizationproduct',
     createProduct,
     CreateOrganizationProduct,
-    callInfo
+    callInfo,
   );
   const createdProduct = productResponse.getResponse()?.getOrganizationProduct();
   if (!createdProduct) {
@@ -194,9 +192,8 @@ const CreateProduct = async (
 
 const ListAllVersionsOfProduct = async (
   productUuid: UUID | undefined,
-  callInfo: ApiCallInformation
+  callInfo: ApiCallInformation,
 ): Promise<OrganizationProductVersion[]> => {
-  console.log(`Listing all versions for product ${UuidBytesToString(productUuid?.getUuid())}`);
   const listVersions = new ListOrganizationProductVersions();
   const requestData = new ListOrganizationProductVersions.Request();
   listVersions.setRequest(requestData);
@@ -206,20 +203,19 @@ const ListAllVersionsOfProduct = async (
     'listorganizationproductversions',
     listVersions,
     ListOrganizationProductVersions,
-    callInfo
+    callInfo,
   );
   const versionList = productVersionResponse.getResponse()?.getOrganizationProductVersionList();
   if (!versionList) {
     throw new Error('Error getting product version list');
   }
-  console.log(`${versionList.length} versions found.`);
   return versionList;
 };
 
 const CreateProductVersion = async (
   productUuid: UUID | undefined,
   versionString: string,
-  callInfo: ApiCallInformation
+  callInfo: ApiCallInformation,
 ): Promise<OrganizationProductVersion> => {
   console.log(`Creating version ${versionString} for product...`);
   const createVersion = new CreateOrganizationProductVersion();
@@ -232,7 +228,7 @@ const CreateProductVersion = async (
     'createorganizationproductversion',
     createVersion,
     CreateOrganizationProductVersion,
-    callInfo
+    callInfo,
   );
   const productVersion = productVersionResponse.getResponse()?.getOrganizationProductVersion();
   if (!productVersion) {
@@ -245,7 +241,7 @@ const UploadSbom = async (
   orgProdVersUuid: UUID | undefined,
   fileName: string,
   fileData: Uint8Array,
-  callInfo: ApiCallInformation
+  callInfo: ApiCallInformation,
 ): Promise<UploadSbomResult> => {
   const submitSbom = new SubmitSbom();
   const requestData = new SubmitSbom.Request();
@@ -255,11 +251,10 @@ const UploadSbom = async (
   requestData.setFileContents(fileData);
   // TODO: consider SPDX support (setFileType, default is Cyclone)
   requestData.setFileType(0);
-  console.log(`Name of SubmitSbom is ${SubmitSbom.name.toLowerCase()}`);
 
   const submitSbomResponse = await DoWebApiPostRequest('submitsbom', submitSbom, SubmitSbom, callInfo);
   const response: UploadSbomResult = {
-    statusMessages: submitSbomResponse.getResponse()?.getMetadata()?.getStatusMessageList() ?? []
+    statusMessages: submitSbomResponse.getResponse()?.getMetadata()?.getStatusMessageList() ?? [],
   };
   return response;
 };
@@ -268,7 +263,7 @@ const DoWebApiPostRequest = async <T extends TWebApiMsg>(
   endpointSuffix: string,
   webApiRequest: T,
   deserializer: IDeserializer<T>,
-  callInfo: ApiCallInformation
+  callInfo: ApiCallInformation,
 ): Promise<T> => {
   const endpoint = callInfo.baseUrl + endpointSuffix;
   const reqBytes = webApiRequest.serializeBinary();
@@ -279,8 +274,8 @@ const DoWebApiPostRequest = async <T extends TWebApiMsg>(
     headers: {
       client_id: callInfo.clientId,
       client_secret: callInfo.clientSecret,
-      'Content-Type': 'application/x-protobuf'
-    }
+      'Content-Type': 'application/x-protobuf',
+    },
   };
   const requestPromise = fetch(endpoint, defaultOptions);
   const rawResponse = await requestPromise;

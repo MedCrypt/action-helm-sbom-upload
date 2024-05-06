@@ -34741,7 +34741,7 @@ async function run() {
     // all parameters are required, and all should be trimmed
     const inputOptions = {
         required: true,
-        trimWhitespace: true
+        trimWhitespace: true,
     };
     console.log(`This is the version with protobuf stripped out.`);
     let baseUrl = core.getInput('api-base-url', inputOptions);
@@ -34757,7 +34757,7 @@ async function run() {
     const callInfo = {
         baseUrl: baseUrl,
         clientId: clientId,
-        clientSecret: clientSecret
+        clientSecret: clientSecret,
     };
     // read the file first in case things go wrong
     if (!(0, node_fs_1.existsSync)(sbomFilePath)) {
@@ -34775,7 +34775,7 @@ async function run() {
     const orgUuid = defaultOrg.getOrg()?.getId();
     const allProducts = await ListAllProducts(orgUuid, callInfo);
     console.log(`Resolving product (${productName}) and version (${productVersionName})...`);
-    const foundProducts = allProducts.filter(p => p.getName().toLowerCase() == productName.toLowerCase());
+    const foundProducts = allProducts.filter((p) => p.getName().toLowerCase() == productName.toLowerCase());
     let foundOrCreatedProduct = undefined;
     if (foundProducts.length == 0) {
         if (!shouldCreate) {
@@ -34786,11 +34786,11 @@ async function run() {
         foundOrCreatedProduct = await CreateProduct(orgUuid, productName, callInfo);
     }
     else {
-        console.log(`Found existing product`);
+        console.log(`Found existing product ${productName}`);
         foundOrCreatedProduct = foundProducts[0];
     }
     const allVersions = await ListAllVersionsOfProduct(foundOrCreatedProduct.getId(), callInfo);
-    const foundVersions = allVersions.filter(v => v.getRawVersionString().toLowerCase() == productVersionName.toLowerCase());
+    const foundVersions = allVersions.filter((v) => v.getRawVersionString().toLowerCase() == productVersionName.toLowerCase());
     let foundOrCreatedVersion = undefined;
     if (foundVersions.length == 0) {
         if (!shouldCreate) {
@@ -34801,14 +34801,14 @@ async function run() {
         foundOrCreatedVersion = await CreateProductVersion(foundOrCreatedProduct.getId(), productVersionName, callInfo);
     }
     else {
-        console.log(`Found existing version`);
+        console.log(`Found existing version ${productVersionName}`);
         foundOrCreatedVersion = foundVersions[0];
     }
     console.log(`Uploading SBOM...`);
     // finally, upload the SBOM
     const sbomUploadResponse = await UploadSbom(foundOrCreatedVersion.getId(), fileName, fileReadResults, callInfo);
     console.log(`SBOM uploaded successfully.`);
-    sbomUploadResponse.statusMessages.forEach(msg => console.log(`Response Message: ${msg}`));
+    sbomUploadResponse.statusMessages.forEach((msg) => console.log(`Response Message: ${msg}`));
 }
 exports.run = run;
 function UuidBytesToString(uuidBytes) {
@@ -34829,7 +34829,6 @@ const GetDefaultOrganization = async (callInfo) => {
     return orgs[0];
 };
 const ListAllProducts = async (organizationUuid, callInfo) => {
-    console.log(`Listing all products for org ${UuidBytesToString(organizationUuid?.getUuid())}`);
     const listProducts = new heim_organization_product_pb_1.ListOrganizationProducts();
     const request = new heim_organization_product_pb_1.ListOrganizationProducts.Request();
     listProducts.setRequest(request);
@@ -34842,7 +34841,6 @@ const ListAllProducts = async (organizationUuid, callInfo) => {
     return productList;
 };
 const CreateProduct = async (organizationUuid, productName, callInfo) => {
-    console.log(`Creating product ${productName}...`);
     const createProduct = new heim_organization_product_pb_1.CreateOrganizationProduct();
     const request = new heim_organization_product_pb_1.CreateOrganizationProduct.Request();
     createProduct.setRequest(request);
@@ -34856,7 +34854,6 @@ const CreateProduct = async (organizationUuid, productName, callInfo) => {
     return createdProduct;
 };
 const ListAllVersionsOfProduct = async (productUuid, callInfo) => {
-    console.log(`Listing all versions for product ${UuidBytesToString(productUuid?.getUuid())}`);
     const listVersions = new heim_organization_product_pb_1.ListOrganizationProductVersions();
     const requestData = new heim_organization_product_pb_1.ListOrganizationProductVersions.Request();
     listVersions.setRequest(requestData);
@@ -34866,7 +34863,6 @@ const ListAllVersionsOfProduct = async (productUuid, callInfo) => {
     if (!versionList) {
         throw new Error('Error getting product version list');
     }
-    console.log(`${versionList.length} versions found.`);
     return versionList;
 };
 const CreateProductVersion = async (productUuid, versionString, callInfo) => {
@@ -34892,10 +34888,9 @@ const UploadSbom = async (orgProdVersUuid, fileName, fileData, callInfo) => {
     requestData.setFileContents(fileData);
     // TODO: consider SPDX support (setFileType, default is Cyclone)
     requestData.setFileType(0);
-    console.log(`Name of SubmitSbom is ${heim_sbom_pb_1.SubmitSbom.name.toLowerCase()}`);
     const submitSbomResponse = await DoWebApiPostRequest('submitsbom', submitSbom, heim_sbom_pb_1.SubmitSbom, callInfo);
     const response = {
-        statusMessages: submitSbomResponse.getResponse()?.getMetadata()?.getStatusMessageList() ?? []
+        statusMessages: submitSbomResponse.getResponse()?.getMetadata()?.getStatusMessageList() ?? [],
     };
     return response;
 };
@@ -34909,8 +34904,8 @@ const DoWebApiPostRequest = async (endpointSuffix, webApiRequest, deserializer, 
         headers: {
             client_id: callInfo.clientId,
             client_secret: callInfo.clientSecret,
-            'Content-Type': 'application/x-protobuf'
-        }
+            'Content-Type': 'application/x-protobuf',
+        },
     };
     const requestPromise = fetch(endpoint, defaultOptions);
     const rawResponse = await requestPromise;
