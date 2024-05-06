@@ -34743,7 +34743,6 @@ async function run() {
         required: true,
         trimWhitespace: true,
     };
-    console.log(`This is the version with protobuf stripped out.`);
     let baseUrl = core.getInput('api-base-url', inputOptions);
     if (!baseUrl.endsWith('/')) {
         baseUrl += '/';
@@ -34766,7 +34765,7 @@ async function run() {
     }
     const fileName = (0, node_path_1.basename)(sbomFilePath);
     const fileReadResults = await (0, promises_1.readFile)(sbomFilePath);
-    console.log(`The SBOM file is ${fileReadResults.byteLength} bytes.`);
+    core.info(`The SBOM file is ${fileReadResults.byteLength} bytes.`);
     const defaultOrg = await GetDefaultOrganization(callInfo);
     if (defaultOrg === undefined) {
         core.setFailed(`Unable to determine default organization`);
@@ -34774,7 +34773,7 @@ async function run() {
     }
     const orgUuid = defaultOrg.getOrg()?.getId();
     const allProducts = await ListAllProducts(orgUuid, callInfo);
-    console.log(`Resolving product (${productName}) and version (${productVersionName})...`);
+    core.info(`Resolving product (${productName}) and version (${productVersionName})...`);
     const foundProducts = allProducts.filter((p) => p.getName().toLowerCase() === productName.toLowerCase());
     let foundOrCreatedProduct = undefined;
     if (foundProducts.length === 0) {
@@ -34782,11 +34781,11 @@ async function run() {
             core.setFailed(`Unable to locate product ${productName}, and create-product-and-version-if-missing is false.`);
             return;
         }
-        console.log(`Creating product ${productName}...`);
+        core.info(`Creating product ${productName}...`);
         foundOrCreatedProduct = await CreateProduct(orgUuid, productName, callInfo);
     }
     else {
-        console.log(`Found existing product ${productName}`);
+        core.info(`Found existing product ${productName}`);
         foundOrCreatedProduct = foundProducts[0];
     }
     const allVersions = await ListAllVersionsOfProduct(foundOrCreatedProduct.getId(), callInfo);
@@ -34797,18 +34796,18 @@ async function run() {
             core.setFailed(`Unable to locate version ${productVersionName} of product ${productName}, and create-product-and-version-if-missing is false.`);
             return;
         }
-        console.log(`Creating version ${productVersionName} for product ${productName}...`);
+        core.info(`Creating version ${productVersionName} for product ${productName}...`);
         foundOrCreatedVersion = await CreateProductVersion(foundOrCreatedProduct.getId(), productVersionName, callInfo);
     }
     else {
-        console.log(`Found existing version ${productVersionName}`);
+        core.info(`Found existing version ${productVersionName}`);
         foundOrCreatedVersion = foundVersions[0];
     }
-    console.log(`Uploading SBOM...`);
+    core.info(`Uploading SBOM...`);
     // finally, upload the SBOM
     const sbomUploadResponse = await UploadSbom(foundOrCreatedVersion.getId(), fileName, fileReadResults, callInfo);
-    console.log(`SBOM uploaded successfully.`);
-    sbomUploadResponse.statusMessages.forEach((msg) => console.log(`Response Message: ${msg}`));
+    core.info(`SBOM uploaded successfully.`);
+    sbomUploadResponse.statusMessages.forEach((msg) => core.info(`Response Message: ${msg}`));
 }
 exports.run = run;
 function UuidBytesToString(uuidBytes) {
@@ -34866,7 +34865,7 @@ const ListAllVersionsOfProduct = async (productUuid, callInfo) => {
     return versionList;
 };
 const CreateProductVersion = async (productUuid, versionString, callInfo) => {
-    console.log(`Creating version ${versionString} for product...`);
+    core.info(`Creating version ${versionString} for product...`);
     const createVersion = new heim_organization_product_pb_1.CreateOrganizationProductVersion();
     const requestData = new heim_organization_product_pb_1.CreateOrganizationProductVersion.Request();
     createVersion.setRequest(requestData);
