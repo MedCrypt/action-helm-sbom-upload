@@ -1,21 +1,23 @@
 {
-  "name": "typescript-action",
-  "description": "GitHub Actions TypeScript template",
-  "version": "0.0.0",
-  "author": "",
+  "name": "medcrypt-helm-sbom-upload",
+  "description": "Upload your SBOM (Software Bill of Materials) into Medcrypt's Helm System",
+  "version": "0.9.0",
+  "author": "Medcrypt",
   "private": true,
-  "homepage": "https://github.com/actions/typescript-action",
+  "homepage": "https://github.com/MedCrypt/action-helm-sbom-upload",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/actions/typescript-action.git"
+    "url": "git+https://github.com/MedCrypt/action-helm-sbom-upload.git"
   },
   "bugs": {
-    "url": "https://github.com/actions/typescript-action/issues"
+    "url": "https://github.com/MedCrypt/action-helm-sbom-upload/issues"
   },
   "keywords": [
     "sbom",
     "medcrypt",
-    "helm"
+    "helm",
+    "cybersecurity",
+    "vulnerabilities"
   ],
   "exports": {
     ".": "./dist/index.js"
