@@ -4,36 +4,27 @@ author: 'Medcrypt'
 
 inputs:
   api-base-url:
-    description:
-      'The root URL for the Medcrypt Helm API. This determines your environment'
+    description: 'The root URL for the Medcrypt Helm API. This determines your environment'
     required: true
   client-id:
-    description:
-      'The API client identifier provided to you by Medcrypt. KEEP THIS SECURE.'
+    description: 'The API client identifier provided to you by Medcrypt. KEEP THIS SECURE.'
     required: true
   client-secret:
-    description:
-      'The API client secret provided to you by Medcrypt. KEEP THIS SECURE.'
+    description: 'The API client secret provided to you by Medcrypt. KEEP THIS SECURE.'
     required: true
   product-name:
-    description:
-      'The name of the product as it exists in the Helm system. Not case
-      sensitive.'
+    description: 'The name of the product as it exists in the Helm system. Not case sensitive.'
     required: true
   product-version-name:
     description:
-      'The name of the product version as it exists in the Helm system. Not case
-      sensitive. If this is a numeric value like 1.0, be sure to enclose it in
-      quotes to prevent it from being treated as a number and possibly
-      truncated.'
+      'The name of the product version as it exists in the Helm system. Not case sensitive. If this is a numeric value
+      like 1.0, be sure to enclose it in quotes to prevent it from being treated as a number and possibly truncated.'
     required: true
   sbom-file-path:
     description: 'Path to the SBOM file within the github action workspace.'
     required: true
   create-product-and-version-if-missing:
-    description:
-      'If true, will create the product and version if they do not already
-      exist.'
+    description: 'If true, will create the product and version if they do not already exist.'
     default: false
     required: false
 

@@ -34835,9 +34835,7 @@ const ListAllProducts = async (organizationUuid, callInfo) => {
     listProducts.setRequest(request);
     request.setOrganizationId(organizationUuid);
     const productResponse = await DoWebApiPostRequest('listorganizationproducts', listProducts, heim_organization_product_pb_1.ListOrganizationProducts, callInfo);
-    const productList = productResponse
-        .getResponse()
-        ?.getOrganizationProductList();
+    const productList = productResponse.getResponse()?.getOrganizationProductList();
     if (!productList) {
         throw new Error('Error getting product list');
     }
@@ -34864,9 +34862,7 @@ const ListAllVersionsOfProduct = async (productUuid, callInfo) => {
     listVersions.setRequest(requestData);
     requestData.setOrganizationProductId(productUuid);
     const productVersionResponse = await DoWebApiPostRequest('listorganizationproductversions', listVersions, heim_organization_product_pb_1.ListOrganizationProductVersions, callInfo);
-    const versionList = productVersionResponse
-        .getResponse()
-        ?.getOrganizationProductVersionList();
+    const versionList = productVersionResponse.getResponse()?.getOrganizationProductVersionList();
     if (!versionList) {
         throw new Error('Error getting product version list');
     }
@@ -34881,9 +34877,7 @@ const CreateProductVersion = async (productUuid, versionString, callInfo) => {
     requestData.setOrganizationProductId(productUuid);
     requestData.setRawVersionString(versionString);
     const productVersionResponse = await DoWebApiPostRequest('createorganizationproductversion', createVersion, heim_organization_product_pb_1.CreateOrganizationProductVersion, callInfo);
-    const productVersion = productVersionResponse
-        .getResponse()
-        ?.getOrganizationProductVersion();
+    const productVersion = productVersionResponse.getResponse()?.getOrganizationProductVersion();
     if (!productVersion) {
         throw Error('Error creating product version');
     }
@@ -34901,8 +34895,7 @@ const UploadSbom = async (orgProdVersUuid, fileName, fileData, callInfo) => {
     console.log(`Name of SubmitSbom is ${heim_sbom_pb_1.SubmitSbom.name.toLowerCase()}`);
     const submitSbomResponse = await DoWebApiPostRequest('submitsbom', submitSbom, heim_sbom_pb_1.SubmitSbom, callInfo);
     const response = {
-        statusMessages: submitSbomResponse.getResponse()?.getMetadata()?.getStatusMessageList() ??
-            []
+        statusMessages: submitSbomResponse.getResponse()?.getMetadata()?.getStatusMessageList() ?? []
     };
     return response;
 };

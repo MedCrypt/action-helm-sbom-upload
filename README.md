@@ -1,12 +1,12 @@
-
 # Medcrypt Helm SBOM Upload V1
 
-This action uploads an SBOM (Software Bill of Materials) file into Medcrypt's Helm system for tracking and vulnerability analysis.
-
+This action uploads an SBOM (Software Bill of Materials) file into Medcrypt's Helm system for tracking and vulnerability
+analysis.
 
 # Usage
 
 <!-- start usage -->
+
 ```yaml
 - uses: medcrypt/action-helm-sbom-upload@v1
   with:
@@ -31,11 +31,8 @@ This action uploads an SBOM (Software Bill of Materials) file into Medcrypt's He
     # Path to your SBOM file; this should be the location of the file within the current github workspace after
     # checking out the source code or downloading an artifact, etc.
     sbom-file-path: ./api_test_sbom.json
-
-    
 ```
+
 <!-- end usage -->
-
-
 
 The scripts and documentation in this project are released under the [MIT License](LICENSE)
