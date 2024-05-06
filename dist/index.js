@@ -34704,32 +34704,12 @@ goog.object.extend(exports, proto.medcrypt.helm.api.v1.sbom);
 
 "use strict";
 
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.UuidBytesToString = exports.run = void 0;
-const core = __importStar(__nccwpck_require__(2186));
+const core_1 = __importDefault(__nccwpck_require__(2186));
 const heim_organization_pb_1 = __nccwpck_require__(7832);
 const heim_organization_product_pb_1 = __nccwpck_require__(7007);
 const uuid_parse_1 = __nccwpck_require__(2814);
@@ -34744,16 +34724,16 @@ async function run() {
         trimWhitespace: true,
     };
     console.log(`This is the version with protobuf stripped out.`);
-    let baseUrl = core.getInput('api-base-url', inputOptions);
+    let baseUrl = core_1.default.getInput('api-base-url', inputOptions);
     if (!baseUrl.endsWith('/')) {
         baseUrl += '/';
     }
-    const productName = core.getInput('product-name', inputOptions);
-    const productVersionName = core.getInput('product-version-name', inputOptions);
-    const clientId = core.getInput('client-id', inputOptions);
-    const clientSecret = core.getInput('client-secret', inputOptions);
-    const sbomFilePath = core.getInput('sbom-file-path', inputOptions);
-    const shouldCreate = core.getBooleanInput('create-product-and-version-if-missing');
+    const productName = core_1.default.getInput('product-name', inputOptions);
+    const productVersionName = core_1.default.getInput('product-version-name', inputOptions);
+    const clientId = core_1.default.getInput('client-id', inputOptions);
+    const clientSecret = core_1.default.getInput('client-secret', inputOptions);
+    const sbomFilePath = core_1.default.getInput('sbom-file-path', inputOptions);
+    const shouldCreate = core_1.default.getBooleanInput('create-product-and-version-if-missing');
     const callInfo = {
         baseUrl: baseUrl,
         clientId: clientId,
@@ -34761,7 +34741,7 @@ async function run() {
     };
     // read the file first in case things go wrong
     if (!(0, node_fs_1.existsSync)(sbomFilePath)) {
-        core.setFailed(`SBOM file does not exist at path ${sbomFilePath}`);
+        core_1.default.setFailed(`SBOM file does not exist at path ${sbomFilePath}`);
         return;
     }
     const fileName = (0, node_path_1.basename)(sbomFilePath);
@@ -34769,7 +34749,7 @@ async function run() {
     console.log(`The SBOM file is ${fileReadResults.byteLength} bytes.`);
     const defaultOrg = await GetDefaultOrganization(callInfo);
     if (defaultOrg == undefined) {
-        core.setFailed(`Unable to determine default organization`);
+        core_1.default.setFailed(`Unable to determine default organization`);
         return;
     }
     const orgUuid = defaultOrg.getOrg()?.getId();
@@ -34779,7 +34759,7 @@ async function run() {
     let foundOrCreatedProduct = undefined;
     if (foundProducts.length == 0) {
         if (!shouldCreate) {
-            core.setFailed(`Unable to locate product ${productName}, and create-product-and-version-if-missing is false.`);
+            core_1.default.setFailed(`Unable to locate product ${productName}, and create-product-and-version-if-missing is false.`);
             return;
         }
         console.log(`Creating product ${productName}...`);
@@ -34794,7 +34774,7 @@ async function run() {
     let foundOrCreatedVersion = undefined;
     if (foundVersions.length == 0) {
         if (!shouldCreate) {
-            core.setFailed(`Unable to locate version ${productVersionName} of product ${productName}, and create-product-and-version-if-missing is false.`);
+            core_1.default.setFailed(`Unable to locate version ${productVersionName} of product ${productName}, and create-product-and-version-if-missing is false.`);
             return;
         }
         console.log(`Creating version ${productVersionName} for product ${productName}...`);
