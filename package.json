@@ -13,9 +13,9 @@
     "url": "https://github.com/actions/typescript-action/issues"
   },
   "keywords": [
-    "actions",
-    "node",
-    "setup"
+    "sbom",
+    "medcrypt",
+    "helm"
   ],
   "exports": {
     ".": "./dist/index.js"
@@ -66,7 +66,11 @@
     ]
   },
   "dependencies": {
-    "@actions/core": "^1.10.1"
+    "@actions/core": "^1.10.1",
+    "@types/node": "^20.12.8",
+    "@types/uuid-parse": "^1.0.0",
+    "google-protobuf": "^3.15.0-rc.1",
+    "uuid-parse": "^1.0.0"
   },
   "devDependencies": {
     "@jest/globals": "^29.7.0",

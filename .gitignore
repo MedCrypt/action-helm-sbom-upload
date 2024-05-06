@@ -101,3 +101,9 @@ __tests__/runner/*
 .idea
 .vscode
 *.code-workspace
+
+# Protobuf files
+src/protobuf
+
+# results of running POM
+target/
