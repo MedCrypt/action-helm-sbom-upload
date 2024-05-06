@@ -1,4 +1,12 @@
+import { existsSync } from 'node:fs';
+import { readFile } from 'node:fs/promises';
+import { basename } from 'node:path';
+
 import * as core from '@actions/core';
+import { unparse } from 'uuid-parse';
+
+import { UUID } from './protobuf/heim_common_pb';
+import { OrganizationProductVersion } from './protobuf/heim_organization_product_pb';
 import { ListOrganizations, OrganizationInfo } from './protobuf/v1/external/heim_organization_pb';
 import {
   CreateOrganizationProduct,
@@ -7,13 +15,8 @@ import {
   ListOrganizationProducts,
   OrganizationProduct,
 } from './protobuf/v1/external/heim_organization_product_pb';
-import { unparse } from 'uuid-parse';
-import { UUID } from './protobuf/heim_common_pb';
-import { OrganizationProductVersion } from './protobuf/heim_organization_product_pb';
-import { readFile, stat } from 'node:fs/promises';
 import { SubmitSbom } from './protobuf/v1/external/heim_sbom_pb';
-import { existsSync } from 'node:fs';
-import { basename } from 'node:path';
+
 
 type TOrganizationMsg = ListOrganizations;
 
@@ -70,7 +73,7 @@ export async function run(): Promise<void> {
   console.log(`The SBOM file is ${fileReadResults.byteLength} bytes.`);
 
   const defaultOrg = await GetDefaultOrganization(callInfo);
-  if (defaultOrg == undefined) {
+  if (defaultOrg === undefined) {
     core.setFailed(`Unable to determine default organization`);
     return;
   }
@@ -78,9 +81,9 @@ export async function run(): Promise<void> {
 
   const allProducts = await ListAllProducts(orgUuid, callInfo);
   console.log(`Resolving product (${productName}) and version (${productVersionName})...`);
-  const foundProducts = allProducts.filter((p) => p.getName().toLowerCase() == productName.toLowerCase());
+  const foundProducts = allProducts.filter((p) => p.getName().toLowerCase() === productName.toLowerCase());
   let foundOrCreatedProduct: OrganizationProduct | undefined = undefined;
-  if (foundProducts.length == 0) {
+  if (foundProducts.length === 0) {
     if (!shouldCreate) {
       core.setFailed(`Unable to locate product ${productName}, and create-product-and-version-if-missing is false.`);
       return;
@@ -94,10 +97,10 @@ export async function run(): Promise<void> {
 
   const allVersions = await ListAllVersionsOfProduct(foundOrCreatedProduct.getId(), callInfo);
   const foundVersions = allVersions.filter(
-    (v) => v.getRawVersionString().toLowerCase() == productVersionName.toLowerCase(),
+    (v) => v.getRawVersionString().toLowerCase() === productVersionName.toLowerCase(),
   );
   let foundOrCreatedVersion: OrganizationProductVersion | undefined = undefined;
-  if (foundVersions.length == 0) {
+  if (foundVersions.length === 0) {
     if (!shouldCreate) {
       core.setFailed(
         `Unable to locate version ${productVersionName} of product ${productName}, and create-product-and-version-if-missing is false.`,
@@ -138,7 +141,7 @@ const GetDefaultOrganization = async (callInfo: ApiCallInformation): Promise<Org
   listOrganizations.setRequest(request);
   const orgResponse = await DoWebApiPostRequest('listorganizations', listOrganizations, ListOrganizations, callInfo);
   const orgs = orgResponse.getResponse()?.getOrginfoList();
-  if (orgs == undefined || orgs.length == 0) {
+  if (orgs === undefined || orgs.length === 0) {
     throw Error(`Unable to determine default organization out of ${orgs?.length} possible candidates`);
   }
   return orgs[0];

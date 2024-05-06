@@ -34729,14 +34729,14 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.UuidBytesToString = exports.run = void 0;
+const node_fs_1 = __nccwpck_require__(7561);
+const promises_1 = __nccwpck_require__(3977);
+const node_path_1 = __nccwpck_require__(9411);
 const core = __importStar(__nccwpck_require__(2186));
+const uuid_parse_1 = __nccwpck_require__(2814);
 const heim_organization_pb_1 = __nccwpck_require__(7832);
 const heim_organization_product_pb_1 = __nccwpck_require__(7007);
-const uuid_parse_1 = __nccwpck_require__(2814);
-const promises_1 = __nccwpck_require__(3977);
 const heim_sbom_pb_1 = __nccwpck_require__(7282);
-const node_fs_1 = __nccwpck_require__(7561);
-const node_path_1 = __nccwpck_require__(9411);
 async function run() {
     // all parameters are required, and all should be trimmed
     const inputOptions = {
@@ -34768,16 +34768,16 @@ async function run() {
     const fileReadResults = await (0, promises_1.readFile)(sbomFilePath);
     console.log(`The SBOM file is ${fileReadResults.byteLength} bytes.`);
     const defaultOrg = await GetDefaultOrganization(callInfo);
-    if (defaultOrg == undefined) {
+    if (defaultOrg === undefined) {
         core.setFailed(`Unable to determine default organization`);
         return;
     }
     const orgUuid = defaultOrg.getOrg()?.getId();
     const allProducts = await ListAllProducts(orgUuid, callInfo);
     console.log(`Resolving product (${productName}) and version (${productVersionName})...`);
-    const foundProducts = allProducts.filter((p) => p.getName().toLowerCase() == productName.toLowerCase());
+    const foundProducts = allProducts.filter((p) => p.getName().toLowerCase() === productName.toLowerCase());
     let foundOrCreatedProduct = undefined;
-    if (foundProducts.length == 0) {
+    if (foundProducts.length === 0) {
         if (!shouldCreate) {
             core.setFailed(`Unable to locate product ${productName}, and create-product-and-version-if-missing is false.`);
             return;
@@ -34790,9 +34790,9 @@ async function run() {
         foundOrCreatedProduct = foundProducts[0];
     }
     const allVersions = await ListAllVersionsOfProduct(foundOrCreatedProduct.getId(), callInfo);
-    const foundVersions = allVersions.filter((v) => v.getRawVersionString().toLowerCase() == productVersionName.toLowerCase());
+    const foundVersions = allVersions.filter((v) => v.getRawVersionString().toLowerCase() === productVersionName.toLowerCase());
     let foundOrCreatedVersion = undefined;
-    if (foundVersions.length == 0) {
+    if (foundVersions.length === 0) {
         if (!shouldCreate) {
             core.setFailed(`Unable to locate version ${productVersionName} of product ${productName}, and create-product-and-version-if-missing is false.`);
             return;
@@ -34823,7 +34823,7 @@ const GetDefaultOrganization = async (callInfo) => {
     listOrganizations.setRequest(request);
     const orgResponse = await DoWebApiPostRequest('listorganizations', listOrganizations, heim_organization_pb_1.ListOrganizations, callInfo);
     const orgs = orgResponse.getResponse()?.getOrginfoList();
-    if (orgs == undefined || orgs.length == 0) {
+    if (orgs === undefined || orgs.length === 0) {
         throw Error(`Unable to determine default organization out of ${orgs?.length} possible candidates`);
     }
     return orgs[0];
