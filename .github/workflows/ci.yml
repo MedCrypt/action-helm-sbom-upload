@@ -4,6 +4,7 @@ on:
   pull_request:
     branches:
       - main
+      - dev
   push:
     branches:
       - main
@@ -34,7 +35,7 @@ jobs:
 
       - name: Check Format
         id: npm-format-check
-        run: npm run format:check
+        run: npm run pretty
 
       - name: Lint
         id: npm-lint
@@ -42,23 +43,25 @@ jobs:
 
       - name: Test
         id: npm-ci-test
-        run: npm run ci-test
+        run: npm test
 
-  test-action:
-    name: GitHub Actions Test
-    runs-on: ubuntu-latest
+  # TODO: consider re-instating this section once the parameter list stabilizes; it
+  # will run the action locally.
+  # test-action:
+  #   name: GitHub Actions Test
+  #   runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout
-        id: checkout
-        uses: actions/checkout@v4
+  #   steps:
+  #     - name: Checkout
+  #       id: checkout
+  #       uses: actions/checkout@v4
 
-      - name: Test Local Action
-        id: test-action
-        uses: ./
-        with:
-          milliseconds: 2000
+  #     - name: Test Local Action
+  #       id: test-action
+  #       uses: ./
+  #       with:
+  #         milliseconds: 2000
 
-      - name: Print Output
-        id: output
-        run: echo "${{ steps.test-action.outputs.time }}"
+  #     - name: Print Output
+  #       id: output
+  #       run: echo "${{ steps.test-action.outputs.time }}"
