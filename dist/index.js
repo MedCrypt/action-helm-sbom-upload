@@ -34823,7 +34823,7 @@ const GetDefaultOrganization = async (callInfo) => {
     const orgResponse = await DoWebApiPostRequest('listorganizations', listOrganizations, heim_organization_pb_1.ListOrganizations, callInfo);
     const orgs = orgResponse.getResponse()?.getOrginfoList();
     if (orgs === undefined || orgs.length === 0) {
-        throw Error(`Unable to determine default organization out of ${orgs?.length} possible candidates`);
+        return undefined;
     }
     return orgs[0];
 };

@@ -17,7 +17,6 @@ import {
 } from './protobuf/v1/external/heim_organization_product_pb';
 import { SubmitSbom } from './protobuf/v1/external/heim_sbom_pb';
 
-
 type TOrganizationMsg = ListOrganizations;
 
 type TOrganizationProductMsg =
