@@ -134,14 +134,14 @@ export interface IDeserializer<T> {
   [propName: string]: any; // this means it can have any other props of any other names/types
 }
 
-const GetDefaultOrganization = async (callInfo: ApiCallInformation): Promise<OrganizationInfo> => {
+const GetDefaultOrganization = async (callInfo: ApiCallInformation): Promise<OrganizationInfo | undefined> => {
   const listOrganizations = new ListOrganizations();
   const request = new ListOrganizations.Request();
   listOrganizations.setRequest(request);
   const orgResponse = await DoWebApiPostRequest('listorganizations', listOrganizations, ListOrganizations, callInfo);
   const orgs = orgResponse.getResponse()?.getOrginfoList();
   if (orgs === undefined || orgs.length === 0) {
-    throw Error(`Unable to determine default organization out of ${orgs?.length} possible candidates`);
+    return undefined;
   }
   return orgs[0];
 };

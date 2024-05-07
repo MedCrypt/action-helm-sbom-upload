@@ -1,5 +1,5 @@
 {
-  "ignorePatterns": ["*.js", "*.jsx", "*.test.tsx", "*.test.ts", "*.svg", "App.test.tsx_disabled","*pb.d.ts"],
+  "ignorePatterns": ["*.js", "*.svg", "App.test.tsx_disabled", "*pb.d.ts"],
   "parser": "@typescript-eslint/parser",
   "plugins": ["@typescript-eslint", "no-relative-import-paths"],
   "extends": [
