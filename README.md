@@ -1,5 +1,7 @@
 # Medcrypt Helm SBOM Upload V1
 
+[![Coverage](./badges/coverage.svg)](./badges/coverage.svg)
+
 This action uploads an SBOM (Software Bill of Materials) file into Medcrypt's Helm system for tracking and vulnerability
 analysis.
 
