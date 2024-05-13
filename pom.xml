@@ -10,7 +10,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <version.helm-protocol>0.11.0</version.helm-protocol>
+        <version.helm-protocol>0.13.0-11029-SNAPSHOT</version.helm-protocol>
     </properties>
 
     <build>
@@ -31,7 +31,7 @@
                                     <groupId>co.medcrypt</groupId>
                                     <artifactId>helm-protocol-definition</artifactId>
                                     <version>${version.helm-protocol}</version>
-                                    <classifier>gen-src-js-medcrypt</classifier>
+                                    <classifier>gen-src-js-medcrypt-helm-external</classifier>
                                     <type>tgz</type>
                                     <overWrite>true</overWrite>
                                     <outputDirectory>${project.basedir}/src/protobuf</outputDirectory>

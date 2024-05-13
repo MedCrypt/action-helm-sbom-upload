@@ -102,8 +102,5 @@ __tests__/runner/*
 .vscode
 *.code-workspace
 
-# Protobuf files
-src/protobuf
-
 # results of running POM
 target/
