@@ -6,7 +6,6 @@ import * as core from '@actions/core';
 import { unparse } from 'uuid-parse';
 
 import { UUID } from './protobuf/heim_common_pb';
-import { OrganizationProductVersion } from './protobuf/v1/external/heim_organization_product_pb';
 import { ListOrganizations, OrganizationInfo } from './protobuf/v1/external/heim_organization_pb';
 import {
   CreateOrganizationProduct,
@@ -14,6 +13,7 @@ import {
   ListOrganizationProductVersions,
   ListOrganizationProducts,
   OrganizationProduct,
+  OrganizationProductVersion,
 } from './protobuf/v1/external/heim_organization_product_pb';
 import { SubmitSbom } from './protobuf/v1/external/heim_sbom_pb';
 
