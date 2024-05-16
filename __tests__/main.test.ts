@@ -9,6 +9,7 @@ const runMock = jest.spyOn(main, 'run');
 const CLIENT_ID = 'CLIENT-ID';
 const CLIENT_SECRET = 'CLIENT-SECRET';
 const PRODUCT_NAME = 'Yoyodyne';
+const PRODUCT_UUID = '9ef5460a-5246-43dd-89cf-f98cfecaf46d';
 const PRODUCT_VERSION_NAME = '1.0';
 const SBOM_FILE_PATH = './sbom-file.json';
 const API_BASE_URL = 'https://not.real.domain.com/api';
@@ -19,6 +20,7 @@ const INPUT_DICTIONARY = new Map<string, string> ([
     ['client-secret', CLIENT_SECRET],
     ['sbom-file-path', SBOM_FILE_PATH],
     ['product-name', PRODUCT_NAME],
+    ['product-uuid', PRODUCT_UUID],
     ['product-version-name', PRODUCT_VERSION_NAME],
     ['api-base-url', API_BASE_URL]
 ]);
@@ -28,32 +30,42 @@ let setFailedMock: jest.SpiedFunction<typeof core.setFailed>;
 let fsExistsMock: jest.SpiedFunction<typeof fs.existsSync>;
 let readFileMock: jest.SpiedFunction<typeof fsProm.readFile>;
 
-describe('action', () => {
+describe('action unit tests', () => {
     beforeEach(() => {
         jest.clearAllMocks();
-        // set up calls to core.getInput() such that they return values from our dictionary
-        getInputMock = jest.spyOn(core, 'getInput').mockImplementation();
-        getInputMock.mockImplementation(name => {
-            const foundValue = INPUT_DICTIONARY.get(name);
-            if (foundValue === undefined) {
-                throw Error(`Un-stubbed input parameter ${name}`);
-            }
-            return foundValue;
-        });
+        stubGetInputValues(INPUT_DICTIONARY);
         getBooleanInputMock = jest.spyOn(core, 'getBooleanInput').mockImplementation();
         // return false to indicate that we should not create the product/version; 
         // this won't be valid for all test paths once this test suite is fleshed out.
         getBooleanInputMock.mockImplementation(name => {
             switch(name) {
-                case 'create-product-and-version-if-missing':
+                case 'create-version-if-not-found':
                     return false;
                 default:
-                    throw Error('Un-stubbed getBooleanInput');
+                    throw Error(`Un-stubbed boolean input ${name}`);
             }
         });
         setFailedMock = jest.spyOn(core, 'setFailed').mockImplementation();
         fsExistsMock = jest.spyOn(fs, 'existsSync').mockImplementation();
         readFileMock = jest.spyOn(fsProm, 'readFile').mockImplementation();
+    });
+
+    it('fails when neither product uuid nor product name is present', async() =>{
+        // arrange
+        const newDict = new Map<string, string>(INPUT_DICTIONARY);
+        newDict.set('product-name', '');
+        newDict.set('product-uuid', '');
+        stubGetInputValues(newDict);
+
+        // act
+        await main.run();
+
+        // assert
+        expect(runMock).toHaveReturned();
+        expect(setFailedMock).toHaveBeenNthCalledWith(
+            1,
+            expect.stringContaining('product-name or product-uuid')
+        );
     });
 
     it('sets a failed status because file does not exist', async () => {
@@ -121,4 +133,15 @@ const SetFileExists = (filePath: string) => {
     fsExistsMock.mockImplementation(path => {
         return path === filePath;
     });
+}
+
+const stubGetInputValues = (valueDict: Map<string, string>) => {
+    getInputMock = jest.spyOn(core, 'getInput').mockImplementation();
+        getInputMock.mockImplementation(name => {
+            const foundValue = valueDict.get(name);
+            if (foundValue === undefined) {
+                throw Error(`Un-stubbed input parameter ${name}`);
+            }
+            return foundValue;
+        });
 }

@@ -34739,20 +34739,29 @@ const heim_organization_product_pb_1 = __nccwpck_require__(7007);
 const heim_sbom_pb_1 = __nccwpck_require__(7282);
 async function run() {
     // all parameters are required, and all should be trimmed
-    const inputOptions = {
+    const reqInputOptions = {
         required: true,
         trimWhitespace: true,
     };
-    let baseUrl = core.getInput('api-base-url', inputOptions);
+    const optInputOptions = {
+        required: false,
+        trimWhitespace: true,
+    };
+    let baseUrl = core.getInput('api-base-url', reqInputOptions);
     if (!baseUrl.endsWith('/')) {
         baseUrl += '/';
     }
-    const productName = core.getInput('product-name', inputOptions);
-    const productVersionName = core.getInput('product-version-name', inputOptions);
-    const clientId = core.getInput('client-id', inputOptions);
-    const clientSecret = core.getInput('client-secret', inputOptions);
-    const sbomFilePath = core.getInput('sbom-file-path', inputOptions);
-    const shouldCreate = core.getBooleanInput('create-product-and-version-if-missing');
+    const productName = core.getInput('product-name', optInputOptions);
+    const productUuidAsString = core.getInput('product-uuid', optInputOptions);
+    if (productName === '' && productUuidAsString === '') {
+        core.setFailed('Either product-name or product-uuid must be specified.');
+        return;
+    }
+    const productVersionName = core.getInput('product-version-name', reqInputOptions);
+    const clientId = core.getInput('client-id', reqInputOptions);
+    const clientSecret = core.getInput('client-secret', reqInputOptions);
+    const sbomFilePath = core.getInput('sbom-file-path', reqInputOptions);
+    const shouldCreateVersion = core.getBooleanInput('create-version-if-not-found');
     const callInfo = {
         baseUrl: baseUrl,
         clientId: clientId,
@@ -34773,31 +34782,46 @@ async function run() {
     }
     const orgUuid = defaultOrg.getOrg()?.getId();
     const allProducts = await ListAllProducts(orgUuid, callInfo);
+    let foundProduct = undefined;
     core.info(`Resolving product (${productName}) and version (${productVersionName})...`);
-    const foundProducts = allProducts.filter((p) => p.getName().toLowerCase() === productName.toLowerCase());
-    let foundOrCreatedProduct = undefined;
-    if (foundProducts.length === 0) {
-        if (!shouldCreate) {
-            core.setFailed(`Unable to locate product ${productName}, and create-product-and-version-if-missing is false.`);
+    if (productUuidAsString !== '') {
+        const foundProducts = allProducts.filter((p) => {
+            if (productUuidAsString.toLowerCase() === UuidBytesToString(p.getId()?.getUuid())?.toLowerCase()) {
+                return true;
+            }
+            return false;
+        });
+        if (foundProducts.length === 0) {
+            core.setFailed(`Unable to locate product with uuid '${productUuidAsString}'`);
             return;
         }
-        core.info(`Creating product ${productName}...`);
-        foundOrCreatedProduct = await CreateProduct(orgUuid, productName, callInfo);
+        foundProduct = foundProducts[0];
+        core.info(`Found product ${foundProduct.getName()} based on uuid`);
     }
     else {
-        core.info(`Found existing product ${productName}`);
-        foundOrCreatedProduct = foundProducts[0];
+        // search based on product name
+        const foundProducts = allProducts.filter((p) => p.getName() === productName);
+        if (foundProducts.length === 0) {
+            core.setFailed(`Unable to locate product with name '${productName}'. Bear in mind that product names are case sensitive.`);
+            return;
+        }
+        foundProduct = foundProducts[0];
+        core.info(`Found product ${foundProduct.getName()} based on name`);
     }
-    const allVersions = await ListAllVersionsOfProduct(foundOrCreatedProduct.getId(), callInfo);
+    if (foundProduct === undefined) {
+        core.setFailed(`Unable to resolve product with name '${productName}' and uuid '${productUuidAsString}'`);
+        return;
+    }
+    const allVersions = await ListAllVersionsOfProduct(foundProduct.getId(), callInfo);
     const foundVersions = allVersions.filter((v) => v.getRawVersionString().toLowerCase() === productVersionName.toLowerCase());
     let foundOrCreatedVersion = undefined;
     if (foundVersions.length === 0) {
-        if (!shouldCreate) {
+        if (!shouldCreateVersion) {
             core.setFailed(`Unable to locate version ${productVersionName} of product ${productName}, and create-product-and-version-if-missing is false.`);
             return;
         }
         core.info(`Creating version ${productVersionName} for product ${productName}...`);
-        foundOrCreatedVersion = await CreateProductVersion(foundOrCreatedProduct.getId(), productVersionName, callInfo);
+        foundOrCreatedVersion = await CreateProductVersion(foundProduct.getId(), productVersionName, callInfo);
     }
     else {
         core.info(`Found existing version ${productVersionName}`);
@@ -34839,19 +34863,28 @@ const ListAllProducts = async (organizationUuid, callInfo) => {
     }
     return productList;
 };
-const CreateProduct = async (organizationUuid, productName, callInfo) => {
-    const createProduct = new heim_organization_product_pb_1.CreateOrganizationProduct();
-    const request = new heim_organization_product_pb_1.CreateOrganizationProduct.Request();
-    createProduct.setRequest(request);
-    request.setOrganizationId(organizationUuid);
-    request.setName(productName);
-    const productResponse = await DoWebApiPostRequest('createorganizationproduct', createProduct, heim_organization_product_pb_1.CreateOrganizationProduct, callInfo);
-    const createdProduct = productResponse.getResponse()?.getOrganizationProduct();
-    if (!createdProduct) {
-        throw new Error('Error creating product');
-    }
-    return createdProduct;
-};
+// const CreateProduct = async (
+//   organizationUuid: UUID | undefined,
+//   productName: string,
+//   callInfo: ApiCallInformation,
+// ): Promise<OrganizationProduct> => {
+//   const createProduct = new CreateOrganizationProduct();
+//   const request = new CreateOrganizationProduct.Request();
+//   createProduct.setRequest(request);
+//   request.setOrganizationId(organizationUuid);
+//   request.setName(productName);
+//   const productResponse = await DoWebApiPostRequest(
+//     'createorganizationproduct',
+//     createProduct,
+//     CreateOrganizationProduct,
+//     callInfo,
+//   );
+//   const createdProduct = productResponse.getResponse()?.getOrganizationProduct();
+//   if (!createdProduct) {
+//     throw new Error('Error creating product');
+//   }
+//   return createdProduct;
+// };
 const ListAllVersionsOfProduct = async (productUuid, callInfo) => {
     const listVersions = new heim_organization_product_pb_1.ListOrganizationProductVersions();
     const requestData = new heim_organization_product_pb_1.ListOrganizationProductVersions.Request();
