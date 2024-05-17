@@ -34898,7 +34898,6 @@ const ListAllVersionsOfProduct = async (productUuid, callInfo) => {
     return versionList;
 };
 const CreateProductVersion = async (productUuid, versionString, callInfo) => {
-    core.info(`Creating version ${versionString} for product...`);
     const createVersion = new heim_organization_product_pb_1.CreateOrganizationProductVersion();
     const requestData = new heim_organization_product_pb_1.CreateOrganizationProductVersion.Request();
     createVersion.setRequest(requestData);

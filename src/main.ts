@@ -246,7 +246,6 @@ const CreateProductVersion = async (
   versionString: string,
   callInfo: ApiCallInformation,
 ): Promise<OrganizationProductVersion> => {
-  core.info(`Creating version ${versionString} for product...`);
   const createVersion = new CreateOrganizationProductVersion();
   const requestData = new CreateOrganizationProductVersion.Request();
   createVersion.setRequest(requestData);

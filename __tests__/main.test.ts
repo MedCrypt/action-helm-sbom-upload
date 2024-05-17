@@ -52,6 +52,9 @@ describe('action unit tests', () => {
 
     it('fails when neither product uuid nor product name is present', async() =>{
         // arrange
+        // for this one, we need calls to .getInput() to return empty strings for both
+        // product-name and product-uuid. Therefore we will clone the dictionary, re-set those keys,
+        // and re-stub.
         const newDict = new Map<string, string>(INPUT_DICTIONARY);
         newDict.set('product-name', '');
         newDict.set('product-uuid', '');
