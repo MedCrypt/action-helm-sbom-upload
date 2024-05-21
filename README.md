@@ -15,14 +15,18 @@ analysis.
     # Root URL of the medcrypt API. Determines your environment, and provided to you by Medcrypt.
     repository: 'https://helm.environment.medcrypt.co/sub-path/'
 
-    # Name of the product as it is represented in the Helm system. Not case sensitive for matching.
+    # Name of the product as it is represented in the Helm system. CASE SENSITIVE.
     product-name: 'Fidget Spinner'
+
+    # Helm's unique identifier for the product. This never changes over the life of the product and is more reliable than product-name.
+    product-uuid: '9ef5460a-5246-43dd-89cf-f98cfecaf46d'
 
     # String representation of the current version. Should be enclosed in quotes to prevent truncation of numeric values.
     product-version-name: '1.2'
 
-    # Indicates if a product and version of that product should be created within Helm if no match is found. USE WITH CAUTION.
-    create-product-and-version-if-missing: false
+    # Indicates if a product and version of that product should be created within Helm if no match is found. You will most commonly
+    # set this to true if your continuous integration process is often creating new versions.
+    create-version-if-not-found: false
 
     # Your Medcrypt client ID, provided to you by Medcrypt. KEEP THIS SECURE and populate it from secrets.
     client-id: ${{ secrets.CLIENT_ID }}

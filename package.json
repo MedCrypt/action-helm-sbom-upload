@@ -33,7 +33,7 @@
     "pretty-fix": "npx prettier --write \"src/**/*.{ts,tsx}\"",
     "lint": "npx eslint . -c ./.github/linters/.eslintrc.json",
     "lint-fix": "npx eslint --fix . -c ./.github/linters/.eslintrc.json",
-    "package": "npx ncc build src/index.ts -o dist --source-map --license licenses.txt",
+    "package": "npx ncc build src/index.ts -o dist --license licenses.txt",
     "package:watch": "npm run package -- --watch",
     "test": "npx jest",
     "test-watch": "npx jest --watch",
