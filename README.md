@@ -13,7 +13,7 @@ analysis.
 - uses: medcrypt/action-helm-sbom-upload@v1
   with:
     # Root URL of the medcrypt API. Determines your environment, and provided to you by Medcrypt.
-    repository: 'https://helm.environment.medcrypt.co/sub-path/'
+    api-base-url: 'https://helm.medcrypt.co/api-gw/v1/'
 
     # Name of the product as it is represented in the Helm system. CASE SENSITIVE.
     product-name: 'Fidget Spinner'
