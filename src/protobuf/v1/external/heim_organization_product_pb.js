@@ -78,7 +78,8 @@ proto.medcrypt.helm.api.v1.organizationproduct.OrganizationProduct.toObject = fu
     isSbomView: jspb.Message.getFieldWithDefault(msg, 3, false),
     isSbomModify: jspb.Message.getFieldWithDefault(msg, 4, false),
     isVulnView: jspb.Message.getFieldWithDefault(msg, 5, false),
-    isVulnModify: jspb.Message.getFieldWithDefault(msg, 6, false)
+    isVulnModify: jspb.Message.getFieldWithDefault(msg, 6, false),
+    workspaceId: (f = msg.getWorkspaceId()) && heim_common_pb.UUID.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -139,6 +140,11 @@ proto.medcrypt.helm.api.v1.organizationproduct.OrganizationProduct.deserializeBi
     case 6:
       var value = /** @type {boolean} */ (reader.readBool());
       msg.setIsVulnModify(value);
+      break;
+    case 7:
+      var value = new heim_common_pb.UUID;
+      reader.readMessage(value,heim_common_pb.UUID.deserializeBinaryFromReader);
+      msg.setWorkspaceId(value);
       break;
     default:
       reader.skipField();
@@ -210,6 +216,14 @@ proto.medcrypt.helm.api.v1.organizationproduct.OrganizationProduct.serializeBina
     writer.writeBool(
       6,
       f
+    );
+  }
+  f = message.getWorkspaceId();
+  if (f != null) {
+    writer.writeMessage(
+      7,
+      f,
+      heim_common_pb.UUID.serializeBinaryToWriter
     );
   }
 };
@@ -325,6 +339,36 @@ proto.medcrypt.helm.api.v1.organizationproduct.OrganizationProduct.prototype.get
 /** @param {boolean} value */
 proto.medcrypt.helm.api.v1.organizationproduct.OrganizationProduct.prototype.setIsVulnModify = function(value) {
   jspb.Message.setProto3BooleanField(this, 6, value);
+};
+
+
+/**
+ * optional medcrypt.heimdall.web.common.UUID workspace_id = 7;
+ * @return {?proto.medcrypt.heimdall.web.common.UUID}
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.OrganizationProduct.prototype.getWorkspaceId = function() {
+  return /** @type{?proto.medcrypt.heimdall.web.common.UUID} */ (
+    jspb.Message.getWrapperField(this, heim_common_pb.UUID, 7));
+};
+
+
+/** @param {?proto.medcrypt.heimdall.web.common.UUID|undefined} value */
+proto.medcrypt.helm.api.v1.organizationproduct.OrganizationProduct.prototype.setWorkspaceId = function(value) {
+  jspb.Message.setWrapperField(this, 7, value);
+};
+
+
+proto.medcrypt.helm.api.v1.organizationproduct.OrganizationProduct.prototype.clearWorkspaceId = function() {
+  this.setWorkspaceId(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {!boolean}
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.OrganizationProduct.prototype.hasWorkspaceId = function() {
+  return jspb.Message.getField(this, 7) != null;
 };
 
 
@@ -547,7 +591,8 @@ proto.medcrypt.helm.api.v1.organizationproduct.ListOrganizationProducts.Request.
     metadata: (f = msg.getMetadata()) && heim_common_pb.RequestMetadata.toObject(includeInstance, f),
     organizationId: (f = msg.getOrganizationId()) && heim_common_pb.UUID.toObject(includeInstance, f),
     forSboms: jspb.Message.getFieldWithDefault(msg, 3, false),
-    forVulns: jspb.Message.getFieldWithDefault(msg, 4, false)
+    forVulns: jspb.Message.getFieldWithDefault(msg, 4, false),
+    workspaceId: (f = msg.getWorkspaceId()) && heim_common_pb.UUID.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -601,6 +646,11 @@ proto.medcrypt.helm.api.v1.organizationproduct.ListOrganizationProducts.Request.
     case 4:
       var value = /** @type {boolean} */ (reader.readBool());
       msg.setForVulns(value);
+      break;
+    case 5:
+      var value = new heim_common_pb.UUID;
+      reader.readMessage(value,heim_common_pb.UUID.deserializeBinaryFromReader);
+      msg.setWorkspaceId(value);
       break;
     default:
       reader.skipField();
@@ -659,6 +709,14 @@ proto.medcrypt.helm.api.v1.organizationproduct.ListOrganizationProducts.Request.
     writer.writeBool(
       4,
       f
+    );
+  }
+  f = message.getWorkspaceId();
+  if (f != null) {
+    writer.writeMessage(
+      5,
+      f,
+      heim_common_pb.UUID.serializeBinaryToWriter
     );
   }
 };
@@ -755,6 +813,36 @@ proto.medcrypt.helm.api.v1.organizationproduct.ListOrganizationProducts.Request.
 /** @param {boolean} value */
 proto.medcrypt.helm.api.v1.organizationproduct.ListOrganizationProducts.Request.prototype.setForVulns = function(value) {
   jspb.Message.setProto3BooleanField(this, 4, value);
+};
+
+
+/**
+ * optional medcrypt.heimdall.web.common.UUID workspace_id = 5;
+ * @return {?proto.medcrypt.heimdall.web.common.UUID}
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.ListOrganizationProducts.Request.prototype.getWorkspaceId = function() {
+  return /** @type{?proto.medcrypt.heimdall.web.common.UUID} */ (
+    jspb.Message.getWrapperField(this, heim_common_pb.UUID, 5));
+};
+
+
+/** @param {?proto.medcrypt.heimdall.web.common.UUID|undefined} value */
+proto.medcrypt.helm.api.v1.organizationproduct.ListOrganizationProducts.Request.prototype.setWorkspaceId = function(value) {
+  jspb.Message.setWrapperField(this, 5, value);
+};
+
+
+proto.medcrypt.helm.api.v1.organizationproduct.ListOrganizationProducts.Request.prototype.clearWorkspaceId = function() {
+  this.setWorkspaceId(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {!boolean}
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.ListOrganizationProducts.Request.prototype.hasWorkspaceId = function() {
+  return jspb.Message.getField(this, 5) != null;
 };
 
 
@@ -1248,7 +1336,8 @@ proto.medcrypt.helm.api.v1.organizationproduct.CreateOrganizationProduct.Request
   var f, obj = {
     metadata: (f = msg.getMetadata()) && heim_common_pb.RequestMetadata.toObject(includeInstance, f),
     organizationId: (f = msg.getOrganizationId()) && heim_common_pb.UUID.toObject(includeInstance, f),
-    name: jspb.Message.getFieldWithDefault(msg, 3, "")
+    name: jspb.Message.getFieldWithDefault(msg, 3, ""),
+    workspaceId: (f = msg.getWorkspaceId()) && heim_common_pb.UUID.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -1298,6 +1387,11 @@ proto.medcrypt.helm.api.v1.organizationproduct.CreateOrganizationProduct.Request
     case 3:
       var value = /** @type {string} */ (reader.readString());
       msg.setName(value);
+      break;
+    case 4:
+      var value = new heim_common_pb.UUID;
+      reader.readMessage(value,heim_common_pb.UUID.deserializeBinaryFromReader);
+      msg.setWorkspaceId(value);
       break;
     default:
       reader.skipField();
@@ -1349,6 +1443,14 @@ proto.medcrypt.helm.api.v1.organizationproduct.CreateOrganizationProduct.Request
     writer.writeString(
       3,
       f
+    );
+  }
+  f = message.getWorkspaceId();
+  if (f != null) {
+    writer.writeMessage(
+      4,
+      f,
+      heim_common_pb.UUID.serializeBinaryToWriter
     );
   }
 };
@@ -1426,6 +1528,36 @@ proto.medcrypt.helm.api.v1.organizationproduct.CreateOrganizationProduct.Request
 /** @param {string} value */
 proto.medcrypt.helm.api.v1.organizationproduct.CreateOrganizationProduct.Request.prototype.setName = function(value) {
   jspb.Message.setProto3StringField(this, 3, value);
+};
+
+
+/**
+ * optional medcrypt.heimdall.web.common.UUID workspace_id = 4;
+ * @return {?proto.medcrypt.heimdall.web.common.UUID}
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrganizationProduct.Request.prototype.getWorkspaceId = function() {
+  return /** @type{?proto.medcrypt.heimdall.web.common.UUID} */ (
+    jspb.Message.getWrapperField(this, heim_common_pb.UUID, 4));
+};
+
+
+/** @param {?proto.medcrypt.heimdall.web.common.UUID|undefined} value */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrganizationProduct.Request.prototype.setWorkspaceId = function(value) {
+  jspb.Message.setWrapperField(this, 4, value);
+};
+
+
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrganizationProduct.Request.prototype.clearWorkspaceId = function() {
+  this.setWorkspaceId(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {!boolean}
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrganizationProduct.Request.prototype.hasWorkspaceId = function() {
+  return jspb.Message.getField(this, 4) != null;
 };
 
 

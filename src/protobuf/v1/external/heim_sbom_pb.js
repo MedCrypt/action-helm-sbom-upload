@@ -782,7 +782,8 @@ proto.medcrypt.helm.api.v1.sbom.SubmitSbom.Response.prototype.toObject = functio
  */
 proto.medcrypt.helm.api.v1.sbom.SubmitSbom.Response.toObject = function(includeInstance, msg) {
   var f, obj = {
-    metadata: (f = msg.getMetadata()) && heim_common_pb.ResponseMetadata.toObject(includeInstance, f)
+    metadata: (f = msg.getMetadata()) && heim_common_pb.ResponseMetadata.toObject(includeInstance, f),
+    fileId: (f = msg.getFileId()) && heim_common_pb.UUID.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -824,6 +825,11 @@ proto.medcrypt.helm.api.v1.sbom.SubmitSbom.Response.deserializeBinaryFromReader 
       reader.readMessage(value,heim_common_pb.ResponseMetadata.deserializeBinaryFromReader);
       msg.setMetadata(value);
       break;
+    case 2:
+      var value = new heim_common_pb.UUID;
+      reader.readMessage(value,heim_common_pb.UUID.deserializeBinaryFromReader);
+      msg.setFileId(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -861,6 +867,14 @@ proto.medcrypt.helm.api.v1.sbom.SubmitSbom.Response.serializeBinaryToWriter = fu
       heim_common_pb.ResponseMetadata.serializeBinaryToWriter
     );
   }
+  f = message.getFileId();
+  if (f != null) {
+    writer.writeMessage(
+      2,
+      f,
+      heim_common_pb.UUID.serializeBinaryToWriter
+    );
+  }
 };
 
 
@@ -891,6 +905,36 @@ proto.medcrypt.helm.api.v1.sbom.SubmitSbom.Response.prototype.clearMetadata = fu
  */
 proto.medcrypt.helm.api.v1.sbom.SubmitSbom.Response.prototype.hasMetadata = function() {
   return jspb.Message.getField(this, 1) != null;
+};
+
+
+/**
+ * optional medcrypt.heimdall.web.common.UUID file_id = 2;
+ * @return {?proto.medcrypt.heimdall.web.common.UUID}
+ */
+proto.medcrypt.helm.api.v1.sbom.SubmitSbom.Response.prototype.getFileId = function() {
+  return /** @type{?proto.medcrypt.heimdall.web.common.UUID} */ (
+    jspb.Message.getWrapperField(this, heim_common_pb.UUID, 2));
+};
+
+
+/** @param {?proto.medcrypt.heimdall.web.common.UUID|undefined} value */
+proto.medcrypt.helm.api.v1.sbom.SubmitSbom.Response.prototype.setFileId = function(value) {
+  jspb.Message.setWrapperField(this, 2, value);
+};
+
+
+proto.medcrypt.helm.api.v1.sbom.SubmitSbom.Response.prototype.clearFileId = function() {
+  this.setFileId(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {!boolean}
+ */
+proto.medcrypt.helm.api.v1.sbom.SubmitSbom.Response.prototype.hasFileId = function() {
+  return jspb.Message.getField(this, 2) != null;
 };
 
 
@@ -1621,7 +1665,12 @@ proto.medcrypt.helm.api.v1.sbom.SbomEntry.toObject = function(includeInstance, m
     matchDataTypes: (f = msg.getMatchDataTypes()) && proto.medcrypt.helm.api.v1.sbom.ProductMatchDataTypes.toObject(includeInstance, f),
     rawPurl: jspb.Message.getFieldWithDefault(msg, 18, ""),
     rawCpe: jspb.Message.getFieldWithDefault(msg, 19, ""),
-    rawPart: jspb.Message.getFieldWithDefault(msg, 20, "")
+    rawPart: jspb.Message.getFieldWithDefault(msg, 20, ""),
+    generatedPurl: jspb.Message.getFieldWithDefault(msg, 22, ""),
+    generatedCpe: jspb.Message.getFieldWithDefault(msg, 23, ""),
+    originalFileName: jspb.Message.getFieldWithDefault(msg, 28, ""),
+    originalVendorName: jspb.Message.getFieldWithDefault(msg, 30, ""),
+    rawEntryIdentifier: jspb.Message.getFieldWithDefault(msg, 31, "")
   };
 
   if (includeInstance) {
@@ -1742,6 +1791,26 @@ proto.medcrypt.helm.api.v1.sbom.SbomEntry.deserializeBinaryFromReader = function
     case 20:
       var value = /** @type {string} */ (reader.readString());
       msg.setRawPart(value);
+      break;
+    case 22:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setGeneratedPurl(value);
+      break;
+    case 23:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setGeneratedCpe(value);
+      break;
+    case 28:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setOriginalFileName(value);
+      break;
+    case 30:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setOriginalVendorName(value);
+      break;
+    case 31:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setRawEntryIdentifier(value);
       break;
     default:
       reader.skipField();
@@ -1914,6 +1983,41 @@ proto.medcrypt.helm.api.v1.sbom.SbomEntry.serializeBinaryToWriter = function(mes
   if (f.length > 0) {
     writer.writeString(
       20,
+      f
+    );
+  }
+  f = message.getGeneratedPurl();
+  if (f.length > 0) {
+    writer.writeString(
+      22,
+      f
+    );
+  }
+  f = message.getGeneratedCpe();
+  if (f.length > 0) {
+    writer.writeString(
+      23,
+      f
+    );
+  }
+  f = message.getOriginalFileName();
+  if (f.length > 0) {
+    writer.writeString(
+      28,
+      f
+    );
+  }
+  f = message.getOriginalVendorName();
+  if (f.length > 0) {
+    writer.writeString(
+      30,
+      f
+    );
+  }
+  f = message.getRawEntryIdentifier();
+  if (f.length > 0) {
+    writer.writeString(
+      31,
       f
     );
   }
@@ -2368,6 +2472,81 @@ proto.medcrypt.helm.api.v1.sbom.SbomEntry.prototype.getRawPart = function() {
 /** @param {string} value */
 proto.medcrypt.helm.api.v1.sbom.SbomEntry.prototype.setRawPart = function(value) {
   jspb.Message.setProto3StringField(this, 20, value);
+};
+
+
+/**
+ * optional string generated_purl = 22;
+ * @return {string}
+ */
+proto.medcrypt.helm.api.v1.sbom.SbomEntry.prototype.getGeneratedPurl = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 22, ""));
+};
+
+
+/** @param {string} value */
+proto.medcrypt.helm.api.v1.sbom.SbomEntry.prototype.setGeneratedPurl = function(value) {
+  jspb.Message.setProto3StringField(this, 22, value);
+};
+
+
+/**
+ * optional string generated_cpe = 23;
+ * @return {string}
+ */
+proto.medcrypt.helm.api.v1.sbom.SbomEntry.prototype.getGeneratedCpe = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 23, ""));
+};
+
+
+/** @param {string} value */
+proto.medcrypt.helm.api.v1.sbom.SbomEntry.prototype.setGeneratedCpe = function(value) {
+  jspb.Message.setProto3StringField(this, 23, value);
+};
+
+
+/**
+ * optional string original_file_name = 28;
+ * @return {string}
+ */
+proto.medcrypt.helm.api.v1.sbom.SbomEntry.prototype.getOriginalFileName = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 28, ""));
+};
+
+
+/** @param {string} value */
+proto.medcrypt.helm.api.v1.sbom.SbomEntry.prototype.setOriginalFileName = function(value) {
+  jspb.Message.setProto3StringField(this, 28, value);
+};
+
+
+/**
+ * optional string original_vendor_name = 30;
+ * @return {string}
+ */
+proto.medcrypt.helm.api.v1.sbom.SbomEntry.prototype.getOriginalVendorName = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 30, ""));
+};
+
+
+/** @param {string} value */
+proto.medcrypt.helm.api.v1.sbom.SbomEntry.prototype.setOriginalVendorName = function(value) {
+  jspb.Message.setProto3StringField(this, 30, value);
+};
+
+
+/**
+ * optional string raw_entry_identifier = 31;
+ * @return {string}
+ */
+proto.medcrypt.helm.api.v1.sbom.SbomEntry.prototype.getRawEntryIdentifier = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 31, ""));
+};
+
+
+/** @param {string} value */
+proto.medcrypt.helm.api.v1.sbom.SbomEntry.prototype.setRawEntryIdentifier = function(value) {
+  jspb.Message.setProto3StringField(this, 31, value);
 };
 
 

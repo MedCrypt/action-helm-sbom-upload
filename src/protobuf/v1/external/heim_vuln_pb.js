@@ -22,6 +22,8 @@ goog.exportSymbol('proto.medcrypt.helm.api.v1.vuln.BaseScore.Integrity', null, g
 goog.exportSymbol('proto.medcrypt.helm.api.v1.vuln.BaseScore.PrivilegesRequired', null, global);
 goog.exportSymbol('proto.medcrypt.helm.api.v1.vuln.BaseScore.Scope', null, global);
 goog.exportSymbol('proto.medcrypt.helm.api.v1.vuln.BaseScore.UserInteraction', null, global);
+goog.exportSymbol('proto.medcrypt.helm.api.v1.vuln.CycloneDxRemediationState', null, global);
+goog.exportSymbol('proto.medcrypt.helm.api.v1.vuln.CycloneDxVexStatus', null, global);
 goog.exportSymbol('proto.medcrypt.helm.api.v1.vuln.ListVulnerabilities', null, global);
 goog.exportSymbol('proto.medcrypt.helm.api.v1.vuln.ListVulnerabilities.Request', null, global);
 goog.exportSymbol('proto.medcrypt.helm.api.v1.vuln.ListVulnerabilities.Response', null, global);
@@ -31,6 +33,7 @@ goog.exportSymbol('proto.medcrypt.helm.api.v1.vuln.Severity', null, global);
 goog.exportSymbol('proto.medcrypt.helm.api.v1.vuln.Severity.RescoreType', null, global);
 goog.exportSymbol('proto.medcrypt.helm.api.v1.vuln.Severity.Type', null, global);
 goog.exportSymbol('proto.medcrypt.helm.api.v1.vuln.TextData', null, global);
+goog.exportSymbol('proto.medcrypt.helm.api.v1.vuln.VulnSource', null, global);
 goog.exportSymbol('proto.medcrypt.helm.api.v1.vuln.Vulnerability', null, global);
 goog.exportSymbol('proto.medcrypt.helm.api.v1.vuln.VulnerabilityFilter', null, global);
 goog.exportSymbol('proto.medcrypt.helm.api.v1.vuln.VulnerabilityImpact', null, global);
@@ -1514,7 +1517,12 @@ proto.medcrypt.helm.api.v1.vuln.Vulnerability.toObject = function(includeInstanc
     topCwe: jspb.Message.getFieldWithDefault(msg, 34, false),
     exploitDb: jspb.Message.getFieldWithDefault(msg, 35, false),
     metasploit: jspb.Message.getFieldWithDefault(msg, 36, false),
-    epssScore: jspb.Message.getFieldWithDefault(msg, 37, "")
+    epssScore: jspb.Message.getFieldWithDefault(msg, 37, ""),
+    ai: jspb.Message.getFieldWithDefault(msg, 40, false),
+    cdxRemediationEvidence: jspb.Message.getFieldWithDefault(msg, 41, ""),
+    vexRemediationEvidence: jspb.Message.getFieldWithDefault(msg, 42, ""),
+    cdxVexStatus: jspb.Message.getFieldWithDefault(msg, 43, 0),
+    cdxRemediationState: jspb.Message.getFieldWithDefault(msg, 44, 0)
   };
 
   if (includeInstance) {
@@ -1711,6 +1719,26 @@ proto.medcrypt.helm.api.v1.vuln.Vulnerability.deserializeBinaryFromReader = func
     case 37:
       var value = /** @type {string} */ (reader.readString());
       msg.setEpssScore(value);
+      break;
+    case 40:
+      var value = /** @type {boolean} */ (reader.readBool());
+      msg.setAi(value);
+      break;
+    case 41:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setCdxRemediationEvidence(value);
+      break;
+    case 42:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setVexRemediationEvidence(value);
+      break;
+    case 43:
+      var value = /** @type {!proto.medcrypt.helm.api.v1.vuln.CycloneDxVexStatus} */ (reader.readEnum());
+      msg.setCdxVexStatus(value);
+      break;
+    case 44:
+      var value = /** @type {!proto.medcrypt.helm.api.v1.vuln.CycloneDxRemediationState} */ (reader.readEnum());
+      msg.setCdxRemediationState(value);
       break;
     default:
       reader.skipField();
@@ -2010,6 +2038,41 @@ proto.medcrypt.helm.api.v1.vuln.Vulnerability.serializeBinaryToWriter = function
   if (f.length > 0) {
     writer.writeString(
       37,
+      f
+    );
+  }
+  f = message.getAi();
+  if (f) {
+    writer.writeBool(
+      40,
+      f
+    );
+  }
+  f = message.getCdxRemediationEvidence();
+  if (f.length > 0) {
+    writer.writeString(
+      41,
+      f
+    );
+  }
+  f = message.getVexRemediationEvidence();
+  if (f.length > 0) {
+    writer.writeString(
+      42,
+      f
+    );
+  }
+  f = message.getCdxVexStatus();
+  if (f !== 0.0) {
+    writer.writeEnum(
+      43,
+      f
+    );
+  }
+  f = message.getCdxRemediationState();
+  if (f !== 0.0) {
+    writer.writeEnum(
+      44,
       f
     );
   }
@@ -2780,6 +2843,83 @@ proto.medcrypt.helm.api.v1.vuln.Vulnerability.prototype.setEpssScore = function(
 };
 
 
+/**
+ * optional bool ai = 40;
+ * Note that Boolean fields may be set to 0/1 when serialized from a Java server.
+ * You should avoid comparisons like {@code val === true/false} in those cases.
+ * @return {boolean}
+ */
+proto.medcrypt.helm.api.v1.vuln.Vulnerability.prototype.getAi = function() {
+  return /** @type {boolean} */ (jspb.Message.getFieldWithDefault(this, 40, false));
+};
+
+
+/** @param {boolean} value */
+proto.medcrypt.helm.api.v1.vuln.Vulnerability.prototype.setAi = function(value) {
+  jspb.Message.setProto3BooleanField(this, 40, value);
+};
+
+
+/**
+ * optional string cdx_remediation_evidence = 41;
+ * @return {string}
+ */
+proto.medcrypt.helm.api.v1.vuln.Vulnerability.prototype.getCdxRemediationEvidence = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 41, ""));
+};
+
+
+/** @param {string} value */
+proto.medcrypt.helm.api.v1.vuln.Vulnerability.prototype.setCdxRemediationEvidence = function(value) {
+  jspb.Message.setProto3StringField(this, 41, value);
+};
+
+
+/**
+ * optional string vex_remediation_evidence = 42;
+ * @return {string}
+ */
+proto.medcrypt.helm.api.v1.vuln.Vulnerability.prototype.getVexRemediationEvidence = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 42, ""));
+};
+
+
+/** @param {string} value */
+proto.medcrypt.helm.api.v1.vuln.Vulnerability.prototype.setVexRemediationEvidence = function(value) {
+  jspb.Message.setProto3StringField(this, 42, value);
+};
+
+
+/**
+ * optional CycloneDxVexStatus cdx_vex_status = 43;
+ * @return {!proto.medcrypt.helm.api.v1.vuln.CycloneDxVexStatus}
+ */
+proto.medcrypt.helm.api.v1.vuln.Vulnerability.prototype.getCdxVexStatus = function() {
+  return /** @type {!proto.medcrypt.helm.api.v1.vuln.CycloneDxVexStatus} */ (jspb.Message.getFieldWithDefault(this, 43, 0));
+};
+
+
+/** @param {!proto.medcrypt.helm.api.v1.vuln.CycloneDxVexStatus} value */
+proto.medcrypt.helm.api.v1.vuln.Vulnerability.prototype.setCdxVexStatus = function(value) {
+  jspb.Message.setProto3EnumField(this, 43, value);
+};
+
+
+/**
+ * optional CycloneDxRemediationState cdx_remediation_state = 44;
+ * @return {!proto.medcrypt.helm.api.v1.vuln.CycloneDxRemediationState}
+ */
+proto.medcrypt.helm.api.v1.vuln.Vulnerability.prototype.getCdxRemediationState = function() {
+  return /** @type {!proto.medcrypt.helm.api.v1.vuln.CycloneDxRemediationState} */ (jspb.Message.getFieldWithDefault(this, 44, 0));
+};
+
+
+/** @param {!proto.medcrypt.helm.api.v1.vuln.CycloneDxRemediationState} value */
+proto.medcrypt.helm.api.v1.vuln.Vulnerability.prototype.setCdxRemediationState = function(value) {
+  jspb.Message.setProto3EnumField(this, 44, value);
+};
+
+
 
 /**
  * Generated by JsPbCodeGenerator.
@@ -2836,7 +2976,9 @@ proto.medcrypt.helm.api.v1.vuln.VulnerabilityFilter.toObject = function(includeI
     startDate: jspb.Message.getFieldWithDefault(msg, 7, 0),
     endDate: jspb.Message.getFieldWithDefault(msg, 8, 0),
     patchState: jspb.Message.getFieldWithDefault(msg, 10, 0),
-    minimumCvssBaseScore: +jspb.Message.getFieldWithDefault(msg, 11, 0.0)
+    minimumCvssBaseScore: +jspb.Message.getFieldWithDefault(msg, 11, 0.0),
+    vulnSource: jspb.Message.getFieldWithDefault(msg, 12, 0),
+    cisaKevOnly: jspb.Message.getFieldWithDefault(msg, 13, false)
   };
 
   if (includeInstance) {
@@ -2916,6 +3058,14 @@ proto.medcrypt.helm.api.v1.vuln.VulnerabilityFilter.deserializeBinaryFromReader 
     case 11:
       var value = /** @type {number} */ (reader.readDouble());
       msg.setMinimumCvssBaseScore(value);
+      break;
+    case 12:
+      var value = /** @type {!proto.medcrypt.helm.api.v1.vuln.VulnSource} */ (reader.readEnum());
+      msg.setVulnSource(value);
+      break;
+    case 13:
+      var value = /** @type {boolean} */ (reader.readBool());
+      msg.setCisaKevOnly(value);
       break;
     default:
       reader.skipField();
@@ -3017,6 +3167,20 @@ proto.medcrypt.helm.api.v1.vuln.VulnerabilityFilter.serializeBinaryToWriter = fu
   if (f !== 0.0) {
     writer.writeDouble(
       11,
+      f
+    );
+  }
+  f = message.getVulnSource();
+  if (f !== 0.0) {
+    writer.writeEnum(
+      12,
+      f
+    );
+  }
+  f = message.getCisaKevOnly();
+  if (f) {
+    writer.writeBool(
+      13,
       f
     );
   }
@@ -3230,6 +3394,38 @@ proto.medcrypt.helm.api.v1.vuln.VulnerabilityFilter.prototype.getMinimumCvssBase
 /** @param {number} value */
 proto.medcrypt.helm.api.v1.vuln.VulnerabilityFilter.prototype.setMinimumCvssBaseScore = function(value) {
   jspb.Message.setProto3FloatField(this, 11, value);
+};
+
+
+/**
+ * optional VulnSource vuln_source = 12;
+ * @return {!proto.medcrypt.helm.api.v1.vuln.VulnSource}
+ */
+proto.medcrypt.helm.api.v1.vuln.VulnerabilityFilter.prototype.getVulnSource = function() {
+  return /** @type {!proto.medcrypt.helm.api.v1.vuln.VulnSource} */ (jspb.Message.getFieldWithDefault(this, 12, 0));
+};
+
+
+/** @param {!proto.medcrypt.helm.api.v1.vuln.VulnSource} value */
+proto.medcrypt.helm.api.v1.vuln.VulnerabilityFilter.prototype.setVulnSource = function(value) {
+  jspb.Message.setProto3EnumField(this, 12, value);
+};
+
+
+/**
+ * optional bool cisa_kev_only = 13;
+ * Note that Boolean fields may be set to 0/1 when serialized from a Java server.
+ * You should avoid comparisons like {@code val === true/false} in those cases.
+ * @return {boolean}
+ */
+proto.medcrypt.helm.api.v1.vuln.VulnerabilityFilter.prototype.getCisaKevOnly = function() {
+  return /** @type {boolean} */ (jspb.Message.getFieldWithDefault(this, 13, false));
+};
+
+
+/** @param {boolean} value */
+proto.medcrypt.helm.api.v1.vuln.VulnerabilityFilter.prototype.setCisaKevOnly = function(value) {
+  jspb.Message.setProto3BooleanField(this, 13, value);
 };
 
 
@@ -4149,11 +4345,42 @@ proto.medcrypt.helm.api.v1.vuln.ListVulnerabilities.prototype.hasResponse = func
 /**
  * @enum {number}
  */
+proto.medcrypt.helm.api.v1.vuln.CycloneDxRemediationState = {
+  CDXRS_NOT_DEFINED: 0,
+  CDXRS_RESOLVED: 1,
+  CDXRS_RESOLVED_WITH_PEDIGREE: 2,
+  CDXRS_EXPLOITABLE: 3,
+  CDXRS_IN_TRIAGE: 4,
+  CDXRS_FALSE_POSITIVE: 5,
+  CDXRS_NOT_AFFECTED: 6
+};
+
+/**
+ * @enum {number}
+ */
+proto.medcrypt.helm.api.v1.vuln.CycloneDxVexStatus = {
+  CDXVS_UNKNOWN: 0,
+  CDXVS_UNAFFECTED: 1,
+  CDXVS_AFFECTED: 2
+};
+
+/**
+ * @enum {number}
+ */
 proto.medcrypt.helm.api.v1.vuln.PatchState = {
   UNKNOWN: 0,
   PATCHED: 1,
   UNPATCHED: 2,
   PATCH_AVAILABLE: 3
+};
+
+/**
+ * @enum {number}
+ */
+proto.medcrypt.helm.api.v1.vuln.VulnSource = {
+  UNSET: 0,
+  NVD: 1,
+  AI: 2
 };
 
 goog.object.extend(exports, proto.medcrypt.helm.api.v1.vuln);
