@@ -10,7 +10,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <version.helm-protocol>0.13.0-11029-SNAPSHOT</version.helm-protocol>
+        <version.helm-protocol>0.42.0</version.helm-protocol>
     </properties>
 
     <build>
