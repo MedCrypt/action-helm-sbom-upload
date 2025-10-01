@@ -1,0 +1,66 @@
+name: Test Medcrypt SBOM Upload Action
+
+# Trigger the workflow manually for testing
+on:
+  workflow_dispatch:
+    inputs:
+      # Optional input to select the branch you are actively developing the action on
+      ref:
+        description: 'Branch or Tag of the Action to Test'
+        required: true
+        default: 'workspace_update_test'
+
+      # Since product-uuid and product-name are optional, we'll only require one for testing
+      product-name-test:
+        description: 'Product Name for the Test Run'
+        required: true
+        default: 'Test Product'
+
+      product-version-test:
+        description: 'Product Version for the Test Run'
+        required: true
+        default: '1.0.0-test'
+
+jobs:
+  test_sbom_upload_action:
+    # Use a standard GitHub-hosted runner
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout the repository where the action is defined
+      - name: Checkout Action Repository
+        uses: actions/checkout@v4
+        with:
+          # Use the branch/ref specified in the manual trigger input
+          ref: ${{ github.event.inputs.ref }}
+
+      # 2. Create a dummy SBOM file for the action to process
+      # The action expects the path: ${{ github.workspace }}/sbom.json
+      - name: Create Dummy SBOM File
+        run: |
+          echo '{ "sbom": "dummy content" }' > sbom.json
+          echo "Created dummy SBOM at ${{ github.workspace }}/sbom.json"
+
+      # 3. Call the custom action using a local path reference (./)
+      - name: Run Helm SBOM Upload Action
+        uses: ./  # This tells GitHub to look for action.yml in the root of the current repo
+        id: sbom_upload
+        with:
+          # REQUIRED INPUTS (using dummy/secret values for testing)
+          api-base-url: 'https://helm.coffee-sandbox.medcrypt.co/api-gw/v1'
+          client-id: ${{ secrets.HELM_CLIENT_ID }}      # <-- IMPORTANT: Use a GitHub Secret
+          client-secret: ${{ secrets.HELM_CLIENT_SECRET }}  # <-- IMPORTANT: Use a GitHub Secret
+          workspace-name: 'MedCrypt, Inc-Workspace'
+          product-version-name: 'v1'
+          sbom-file-path: './sbom.json' # Path created in Step 2
+
+          # REQUIRED ALTERNATIVE INPUTS (using the manual trigger input)
+          product-name: 'test_workspace_from_github_action'
+          # product-uuid: '' # Leaving this blank since we provided product-name
+
+          # OPTIONAL INPUTS
+          create-version-if-not-found: true
+
+      # 4. Optional: Use an output from the action (if defined)
+      # - name: Display Action Result
+      #   run: echo "Action finished successfully with status: ${{ steps.sbom_upload.outputs.status }}"
