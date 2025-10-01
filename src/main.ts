@@ -66,6 +66,9 @@ export async function run(): Promise<void> {
     core.setFailed('workspace-name must be specified.');
     return;
   }
+  if (productName === '' && productUuidAsString === '') {
+    core.setFailed('Either product-name or product-uuid must be specified.');
+  }
   const productVersionName: string = core.getInput('product-version-name', reqInputOptions);
   const clientId = core.getInput('client-id', reqInputOptions);
   const clientSecret = core.getInput('client-secret', reqInputOptions);
