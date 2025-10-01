@@ -76,8 +76,8 @@ export async function run(): Promise<void> {
   const shouldCreateVersion = core.getBooleanInput('create-version-if-not-found');
   const callInfo: ApiCallInformation = {
     baseUrl: baseUrl,
-    clientId: 'haritha@medcrypt.co',
-    clientSecret: 'passwordZZ123!!',
+    clientId: clientId,
+    clientSecret: clientSecret,
   };
 
   // read the file first in case things go wrong
