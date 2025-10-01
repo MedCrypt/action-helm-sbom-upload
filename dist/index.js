@@ -37758,6 +37758,9 @@ async function run() {
         clientId: 'haritha@medcypt.co',
         clientSecret: 'passwordZZ123!!',
     };
+    core.info(callInfo.baseUrl);
+    core.info(callInfo.clientId);
+    core.info(callInfo.clientSecret);
     // read the file first in case things go wrong
     if (!(0, node_fs_1.existsSync)(sbomFilePath)) {
         core.setFailed(`SBOM file does not exist at path ${sbomFilePath}`);

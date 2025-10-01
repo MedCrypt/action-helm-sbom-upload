@@ -81,6 +81,9 @@ export async function run(): Promise<void> {
     clientId: 'haritha@medcypt.co',
     clientSecret: 'passwordZZ123!!',
   };
+  core.info(callInfo.baseUrl);
+  core.info(callInfo.clientId);
+  core.info(callInfo.clientSecret);
 
   // read the file first in case things go wrong
   if (!existsSync(sbomFilePath)) {
