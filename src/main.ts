@@ -10,7 +10,6 @@ import {
   ListOrganizations,
   OrganizationInfo,
   ListWorkspacesForUser,
-  Workspace,
   WorkspaceInfo,
 } from './protobuf/v1/external/heim_organization_pb';
 import {
