@@ -240,7 +240,9 @@ const ListAllWorkspacesForUser = async (callInfo: ApiCallInformation): Promise<W
     ListWorkspacesForUser,
     callInfo,
   );
+  core.info('response status: ' + workspaceResponse.getResponse()?.getMetadata()?.getStatus());
   const workspacesList = workspaceResponse.getResponse()?.getWorkspaceinfoList();
+  core.info('workspace count' + workspacesList?.length);
   if (!workspacesList) {
     throw new Error('Error getting workspaces list');
   }
