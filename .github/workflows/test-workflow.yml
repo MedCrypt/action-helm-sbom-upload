@@ -2,24 +2,9 @@ name: Test Medcrypt SBOM Upload Action
 
 # Trigger the workflow manually for testing
 on:
-  workflow_dispatch:
-    inputs:
-      # Optional input to select the branch you are actively developing the action on
-      ref:
-        description: 'Branch or Tag of the Action to Test'
-        required: true
-        default: 'workspace_update_test'
-
-      # Since product-uuid and product-name are optional, we'll only require one for testing
-      product-name-test:
-        description: 'Product Name for the Test Run'
-        required: true
-        default: 'Test Product'
-
-      product-version-test:
-        description: 'Product Version for the Test Run'
-        required: true
-        default: '1.0.0-test'
+  push:
+    branches:
+      - 'workspace_update_test'
 
 jobs:
   test_sbom_upload_action:
