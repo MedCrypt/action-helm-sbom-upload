@@ -32,7 +32,7 @@ jobs:
         id: sbom_upload
         with:
           # REQUIRED INPUTS (using dummy/secret values for testing)
-          api-base-url: 'https://helm.coffee-sandbox.medcrypt.co/api-gw/v1'
+          api-base-url: 'https://helm.coffee-sandbox.medcrypt.co/api-gw/v1/'
           client-id: ${{ secrets.HELM_CLIENT_ID }}      # <-- IMPORTANT: Use a GitHub Secret
           client-secret: ${{ secrets.HELM_CLIENT_SECRET }}  # <-- IMPORTANT: Use a GitHub Secret
           workspace-name: 'MedCrypt, Inc-Workspace'
