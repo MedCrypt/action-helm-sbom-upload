@@ -37944,7 +37944,7 @@ const CreateProduct = async (orgUuid, workspaceUuid, productName, callInfo) => {
     const productResponse = await DoWebApiPostRequest('createorganizationproduct', createProduct, heim_organization_product_pb_1.CreateOrganizationProduct, callInfo);
     const product = productResponse.getResponse()?.getOrganizationProduct();
     if (!product) {
-        throw Error('Error creating product');
+        throw Error('Error creating product or You do not have privileges to create a product.');
     }
     return product;
 };

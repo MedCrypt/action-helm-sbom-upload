@@ -335,7 +335,7 @@ const CreateProduct = async (
   );
   const product = productResponse.getResponse()?.getOrganizationProduct();
   if (!product) {
-    throw Error('Error creating product');
+    throw Error('Error creating product or You do not have privileges to create a product.');
   }
   return product;
 };
