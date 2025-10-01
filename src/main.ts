@@ -59,7 +59,7 @@ export async function run(): Promise<void> {
     baseUrl += '/';
   }
 
-  const workspaceName: string = core.getInput('workspace-name', optInputOptions);
+  const workspaceName: string = core.getInput('workspace-name', reqInputOptions);
   const productName: string = core.getInput('product-name', optInputOptions);
   const productUuidAsString = core.getInput('product-uuid', optInputOptions);
   if (workspaceName === '') {

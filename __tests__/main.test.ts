@@ -8,7 +8,7 @@ import * as main from '../src/main'
 const runMock = jest.spyOn(main, 'run');
 const CLIENT_ID = 'CLIENT-ID';
 const CLIENT_SECRET = 'CLIENT-SECRET';
-const WORKSPACE_NAME = 'Yoyodyne';
+const WORKSPACE_NAME = 'test-workspace';
 const PRODUCT_NAME = 'Yoyodyne';
 const PRODUCT_UUID = '9ef5460a-5246-43dd-89cf-f98cfecaf46d';
 const PRODUCT_VERSION_NAME = '1.0';

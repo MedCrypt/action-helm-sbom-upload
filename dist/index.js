@@ -37736,7 +37736,7 @@ async function run() {
     if (!baseUrl.endsWith('/')) {
         baseUrl += '/';
     }
-    const workspaceName = core.getInput('workspace-name', optInputOptions);
+    const workspaceName = core.getInput('workspace-name', reqInputOptions);
     const productName = core.getInput('product-name', optInputOptions);
     const productUuidAsString = core.getInput('product-uuid', optInputOptions);
     if (workspaceName === '') {
