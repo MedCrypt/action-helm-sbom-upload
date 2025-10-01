@@ -72,6 +72,8 @@ export async function run(): Promise<void> {
   const productVersionName: string = core.getInput('product-version-name', reqInputOptions);
   const clientId = core.getInput('client-id', reqInputOptions);
   const clientSecret = core.getInput('client-secret', reqInputOptions);
+  core.info(clientId);
+  core.info(clientSecret);
   const sbomFilePath = core.getInput('sbom-file-path', reqInputOptions);
   const shouldCreateVersion = core.getBooleanInput('create-version-if-not-found');
   const callInfo: ApiCallInformation = {
@@ -192,6 +194,7 @@ const GetDefaultOrganization = async (callInfo: ApiCallInformation): Promise<Org
   const request = new ListOrganizations.Request();
   listOrganizations.setRequest(request);
   const orgResponse = await DoWebApiPostRequest('listorganizations', listOrganizations, ListOrganizations, callInfo);
+  core.info('response status: ' + orgResponse.getResponse()?.getMetadata()?.getStatus());
   const orgs = orgResponse.getResponse()?.getOrginfoList();
   if (orgs === undefined || orgs.length === 0) {
     return undefined;
