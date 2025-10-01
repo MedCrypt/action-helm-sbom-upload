@@ -6,7 +6,12 @@ import * as core from '@actions/core';
 import { unparse } from 'uuid-parse';
 
 import { UUID } from './protobuf/heim_common_pb';
-import { ListOrganizations, OrganizationInfo } from './protobuf/v1/external/heim_organization_pb';
+import {
+  ListOrganizations,
+  OrganizationInfo,
+  ListWorkspacesForUser,
+  Workspace, WorkspaceInfo
+} from './protobuf/v1/external/heim_organization_pb';
 import {
   CreateOrganizationProduct,
   CreateOrganizationProductVersion,
@@ -18,6 +23,7 @@ import {
 import { SubmitSbom } from './protobuf/v1/external/heim_sbom_pb';
 
 type TOrganizationMsg = ListOrganizations;
+type TWorkspaceMsg = ListWorkspacesForUser;
 
 type TOrganizationProductMsg =
   | ListOrganizationProducts
@@ -26,7 +32,7 @@ type TOrganizationProductMsg =
   | CreateOrganizationProductVersion
   | SubmitSbom;
 
-type TWebApiMsg = TOrganizationMsg | TOrganizationProductMsg;
+type TWebApiMsg = TOrganizationMsg | TOrganizationProductMsg | TWorkspaceMsg;
 
 interface ApiCallInformation {
   baseUrl: string;
@@ -53,10 +59,11 @@ export async function run(): Promise<void> {
     baseUrl += '/';
   }
 
+  const workspaceName: string = core.getInput('workspace-name', optInputOptions);
   const productName: string = core.getInput('product-name', optInputOptions);
   const productUuidAsString = core.getInput('product-uuid', optInputOptions);
-  if (productName === '' && productUuidAsString === '') {
-    core.setFailed('Either product-name or product-uuid must be specified.');
+  if (workspaceName === '') {
+    core.setFailed('workspace-name must be specified.');
     return;
   }
   const productVersionName: string = core.getInput('product-version-name', reqInputOptions);
@@ -86,8 +93,24 @@ export async function run(): Promise<void> {
     return;
   }
   const orgUuid = defaultOrg.getOrg()?.getId();
-
-  const allProducts = await ListAllProducts(orgUuid, callInfo);
+  const allWorkspaces = await ListAllWorkspacesForUser(callInfo);
+  let foundWorkspace: WorkspaceInfo | undefined = undefined;
+  if(allWorkspaces.length === 0){
+    core.setFailed(`Workspaces are not found for the user.`);
+    return;
+  }else{
+    const foundWorkspaces = allWorkspaces.filter((p) => p.getWorkspace()?.getName() === workspaceName);
+    if (foundWorkspaces.length === 0) {
+      core.setFailed(
+          `No workspace with name '${workspaceName}'. Bear in mind that workspace names are case sensitive.`,
+      );
+      return;
+    }else{
+      foundWorkspace = foundWorkspaces[0];
+      core.info(`Found workspace ${foundWorkspace.getWorkspace()?.getName()} based on workspace name.`);
+    }
+  }
+  const allProducts = await ListAllProducts(orgUuid, foundWorkspace.getWorkspace()?.getId(), callInfo);
   let foundProduct: OrganizationProduct | undefined = undefined;
   core.info(`Resolving product (${productName}) and version (${productVersionName})...`);
   if (productUuidAsString !== '') {
@@ -175,12 +198,14 @@ const GetDefaultOrganization = async (callInfo: ApiCallInformation): Promise<Org
 
 const ListAllProducts = async (
   organizationUuid: UUID | undefined,
+  workspaceUuid: UUID | undefined,
   callInfo: ApiCallInformation,
 ): Promise<OrganizationProduct[]> => {
   const listProducts = new ListOrganizationProducts();
   const request = new ListOrganizationProducts.Request();
   listProducts.setRequest(request);
   request.setOrganizationId(organizationUuid);
+  request.setWorkspaceId(workspaceUuid)
 
   const productResponse = await DoWebApiPostRequest(
     'listorganizationproducts',
@@ -193,6 +218,26 @@ const ListAllProducts = async (
     throw new Error('Error getting product list');
   }
   return productList;
+};
+
+const ListAllWorkspacesForUser = async (
+    callInfo: ApiCallInformation,
+): Promise<WorkspaceInfo[]> => {
+  const listWorkspaces = new ListWorkspacesForUser();
+  const request = new ListWorkspacesForUser.Request();
+  listWorkspaces.setRequest(request);
+
+  const workspaceResponse = await DoWebApiPostRequest(
+      'listworkspacesforuser',
+      listWorkspaces,
+      ListWorkspacesForUser,
+      callInfo,
+  );
+  const workspacesList = workspaceResponse.getResponse()?.getWorkspaceinfoList();
+  if (!workspacesList) {
+    throw new Error('Error getting workspaces list');
+  }
+  return workspacesList;
 };
 
 // const CreateProduct = async (
