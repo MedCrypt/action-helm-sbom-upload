@@ -285,10 +285,10 @@ export namespace ListWorkspacesForUser {
     getMetadata(): heim_common_pb.ResponseMetadata | undefined;
     setMetadata(value?: heim_common_pb.ResponseMetadata): void;
 
-    clearWorkspaceinfoList(): void;
-    getWorkspaceinfoList(): Array<WorkspaceInfo>;
-    setWorkspaceinfoList(value: Array<WorkspaceInfo>): void;
-    addWorkspaceinfo(value?: WorkspaceInfo, index?: number): WorkspaceInfo;
+    clearWorkspaceInfoList(): void;
+    getWorkspaceInfoList(): Array<WorkspaceInfo>;
+    setWorkspaceInfoList(value: Array<WorkspaceInfo>): void;
+    addWorkspaceInfo(value?: WorkspaceInfo, index?: number): WorkspaceInfo;
 
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): Response.AsObject;

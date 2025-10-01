@@ -37882,7 +37882,7 @@ const ListAllWorkspacesForUser = async (callInfo) => {
     listWorkspaces.setRequest(request);
     const workspaceResponse = await DoWebApiPostRequest('listworkspacesforuser', listWorkspaces, heim_organization_pb_1.ListWorkspacesForUser, callInfo);
     core.info('response status: ' + workspaceResponse.getResponse()?.getMetadata()?.getStatus());
-    const workspacesList = workspaceResponse.getResponse()?.getWorkspaceinfoList();
+    const workspacesList = workspaceResponse.getResponse()?.getWorkspaceInfoList();
     core.info('workspace count' + workspacesList?.length);
     if (!workspacesList) {
         throw new Error('Error getting workspaces list');
