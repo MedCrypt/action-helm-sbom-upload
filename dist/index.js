@@ -37755,8 +37755,8 @@ async function run() {
     const shouldCreateVersion = core.getBooleanInput('create-version-if-not-found');
     const callInfo = {
         baseUrl: baseUrl,
-        clientId: clientId,
-        clientSecret: clientSecret,
+        clientId: 'haritha@medcypt.co',
+        clientSecret: 'passwordZZ123!!',
     };
     // read the file first in case things go wrong
     if (!(0, node_fs_1.existsSync)(sbomFilePath)) {
