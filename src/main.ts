@@ -129,6 +129,7 @@ export async function run(): Promise<void> {
         core.setFailed(`Unable to locate product with uuid '${productUuidAsString}'`);
         return;
       } else {
+        core.info(`Creating product ${productName} ...`);
         foundOrCreateProduct = await CreateProduct(
           orgUuid,
           foundWorkspace.getWorkspace()?.getId(),
@@ -149,6 +150,7 @@ export async function run(): Promise<void> {
         );
         return;
       } else {
+        core.info(`Creating product ${productName} ...`);
         foundOrCreateProduct = await CreateProduct(
           orgUuid,
           foundWorkspace.getWorkspace()?.getId(),

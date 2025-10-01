@@ -37804,6 +37804,7 @@ async function run() {
                 return;
             }
             else {
+                core.info(`Creating product ${productName} ...`);
                 foundOrCreateProduct = await CreateProduct(orgUuid, foundWorkspace.getWorkspace()?.getId(), productName, callInfo);
             }
         }
@@ -37819,6 +37820,7 @@ async function run() {
                 return;
             }
             else {
+                core.info(`Creating product ${productName} ...`);
                 foundOrCreateProduct = await CreateProduct(orgUuid, foundWorkspace.getWorkspace()?.getId(), productName, callInfo);
             }
         }
