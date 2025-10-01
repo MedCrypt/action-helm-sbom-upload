@@ -30,7 +30,7 @@ inputs:
     description: 'Path to the SBOM file within the github action workspace.'
     required: true
   create-product-if-not-found:
-    description: 'If true, will create the version of the product if it does not exist.'
+    description: 'If true, will create the product if it does not exist.'
     default: false
     required: false
   create-version-if-not-found:
