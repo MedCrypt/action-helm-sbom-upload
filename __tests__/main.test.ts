@@ -43,6 +43,8 @@ describe('action unit tests', () => {
             switch(name) {
                 case 'create-version-if-not-found':
                     return false;
+                case 'create-product-if-not-found':
+                    return false;
                 default:
                     throw Error(`Un-stubbed boolean input ${name}`);
             }

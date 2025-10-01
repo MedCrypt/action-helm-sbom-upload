@@ -37750,6 +37750,7 @@ async function run() {
     const clientId = core.getInput('client-id', reqInputOptions);
     const clientSecret = core.getInput('client-secret', reqInputOptions);
     const sbomFilePath = core.getInput('sbom-file-path', reqInputOptions);
+    const shouldCreateProduct = core.getBooleanInput('create-product-if-not-found');
     const shouldCreateVersion = core.getBooleanInput('create-version-if-not-found');
     const callInfo = {
         baseUrl: baseUrl,
@@ -37788,7 +37789,7 @@ async function run() {
         }
     }
     const allProducts = await ListAllProducts(orgUuid, foundWorkspace.getWorkspace()?.getId(), callInfo);
-    let foundProduct = undefined;
+    let foundOrCreateProduct = undefined;
     core.info(`Resolving product (${productName}) and version (${productVersionName})...`);
     if (productUuidAsString !== '') {
         const foundProducts = allProducts.filter((p) => {
@@ -37798,27 +37799,37 @@ async function run() {
             return false;
         });
         if (foundProducts.length === 0) {
-            core.setFailed(`Unable to locate product with uuid '${productUuidAsString}'`);
-            return;
+            if (!shouldCreateProduct) {
+                core.setFailed(`Unable to locate product with uuid '${productUuidAsString}'`);
+                return;
+            }
+            else {
+                foundOrCreateProduct = await CreateProduct(orgUuid, foundWorkspace.getWorkspace()?.getId(), productName, callInfo);
+            }
         }
-        foundProduct = foundProducts[0];
-        core.info(`Found product ${foundProduct.getName()} based on uuid`);
+        foundOrCreateProduct = foundProducts[0];
+        core.info(`Found product ${foundOrCreateProduct.getName()} based on uuid`);
     }
     else {
         // search based on product name
         const foundProducts = allProducts.filter((p) => p.getName() === productName);
         if (foundProducts.length === 0) {
-            core.setFailed(`Unable to locate product with name '${productName}'. Bear in mind that product names are case sensitive.`);
-            return;
+            if (!shouldCreateProduct) {
+                core.setFailed(`Unable to locate product with name '${productName}'. Bear in mind that product names are case sensitive.`);
+                return;
+            }
+            else {
+                foundOrCreateProduct = await CreateProduct(orgUuid, foundWorkspace.getWorkspace()?.getId(), productName, callInfo);
+            }
         }
-        foundProduct = foundProducts[0];
-        core.info(`Found product ${foundProduct.getName()} based on name`);
+        foundOrCreateProduct = foundProducts[0];
+        core.info(`Found product ${foundOrCreateProduct.getName()} based on name`);
     }
-    if (foundProduct === undefined) {
-        core.setFailed(`Unable to resolve product with name '${productName}' and uuid '${productUuidAsString}'`);
+    if (foundOrCreateProduct === undefined) {
+        core.setFailed(`Unable to create or resolve product with name '${productName}' and uuid '${productUuidAsString}'`);
         return;
     }
-    const allVersions = await ListAllVersionsOfProduct(foundProduct.getId(), callInfo);
+    const allVersions = await ListAllVersionsOfProduct(foundOrCreateProduct.getId(), callInfo);
     const foundVersions = allVersions.filter((v) => v.getRawVersionString().toLowerCase() === productVersionName.toLowerCase());
     let foundOrCreatedVersion = undefined;
     if (foundVersions.length === 0) {
@@ -37827,7 +37838,7 @@ async function run() {
             return;
         }
         core.info(`Creating version ${productVersionName} for product ${productName}...`);
-        foundOrCreatedVersion = await CreateProductVersion(foundProduct.getId(), productVersionName, callInfo);
+        foundOrCreatedVersion = await CreateProductVersion(foundOrCreateProduct.getId(), productVersionName, callInfo);
     }
     else {
         core.info(`Found existing version ${productVersionName}`);
@@ -37916,6 +37927,20 @@ const ListAllVersionsOfProduct = async (productUuid, callInfo) => {
         throw new Error('Error getting product version list');
     }
     return versionList;
+};
+const CreateProduct = async (orgUuid, workspaceUuid, productName, callInfo) => {
+    const createProduct = new heim_organization_product_pb_1.CreateOrganizationProduct();
+    const requestData = new heim_organization_product_pb_1.CreateOrganizationProduct.Request();
+    createProduct.setRequest(requestData);
+    requestData.setOrganizationId(orgUuid);
+    requestData.setWorkspaceId(workspaceUuid);
+    requestData.setName(productName);
+    const productResponse = await DoWebApiPostRequest('createorganizationproduct', createProduct, heim_organization_product_pb_1.CreateOrganizationProduct, callInfo);
+    const product = productResponse.getResponse()?.getOrganizationProduct();
+    if (!product) {
+        throw Error('Error creating product');
+    }
+    return product;
 };
 const CreateProductVersion = async (productUuid, versionString, callInfo) => {
     const createVersion = new heim_organization_product_pb_1.CreateOrganizationProductVersion();

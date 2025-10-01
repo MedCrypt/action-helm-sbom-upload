@@ -8,15 +8,15 @@ import { unparse } from 'uuid-parse';
 import { UUID } from './protobuf/heim_common_pb';
 import {
   ListOrganizations,
-  OrganizationInfo,
   ListWorkspacesForUser,
+  OrganizationInfo,
   WorkspaceInfo,
 } from './protobuf/v1/external/heim_organization_pb';
 import {
   CreateOrganizationProduct,
   CreateOrganizationProductVersion,
-  ListOrganizationProductVersions,
   ListOrganizationProducts,
+  ListOrganizationProductVersions,
   OrganizationProduct,
   OrganizationProductVersion,
 } from './protobuf/v1/external/heim_organization_product_pb';
@@ -73,6 +73,7 @@ export async function run(): Promise<void> {
   const clientId = core.getInput('client-id', reqInputOptions);
   const clientSecret = core.getInput('client-secret', reqInputOptions);
   const sbomFilePath = core.getInput('sbom-file-path', reqInputOptions);
+  const shouldCreateProduct = core.getBooleanInput('create-product-if-not-found');
   const shouldCreateVersion = core.getBooleanInput('create-version-if-not-found');
   const callInfo: ApiCallInformation = {
     baseUrl: baseUrl,
@@ -114,7 +115,7 @@ export async function run(): Promise<void> {
     }
   }
   const allProducts = await ListAllProducts(orgUuid, foundWorkspace.getWorkspace()?.getId(), callInfo);
-  let foundProduct: OrganizationProduct | undefined = undefined;
+  let foundOrCreateProduct: OrganizationProduct | undefined = undefined;
   core.info(`Resolving product (${productName}) and version (${productVersionName})...`);
   if (productUuidAsString !== '') {
     const foundProducts = allProducts.filter((p) => {
@@ -124,30 +125,48 @@ export async function run(): Promise<void> {
       return false;
     });
     if (foundProducts.length === 0) {
-      core.setFailed(`Unable to locate product with uuid '${productUuidAsString}'`);
-      return;
+      if (!shouldCreateProduct) {
+        core.setFailed(`Unable to locate product with uuid '${productUuidAsString}'`);
+        return;
+      } else {
+        foundOrCreateProduct = await CreateProduct(
+          orgUuid,
+          foundWorkspace.getWorkspace()?.getId(),
+          productName,
+          callInfo,
+        );
+      }
     }
-    foundProduct = foundProducts[0];
-    core.info(`Found product ${foundProduct.getName()} based on uuid`);
+    foundOrCreateProduct = foundProducts[0];
+    core.info(`Found product ${foundOrCreateProduct.getName()} based on uuid`);
   } else {
     // search based on product name
     const foundProducts = allProducts.filter((p) => p.getName() === productName);
     if (foundProducts.length === 0) {
-      core.setFailed(
-        `Unable to locate product with name '${productName}'. Bear in mind that product names are case sensitive.`,
-      );
-      return;
+      if (!shouldCreateProduct) {
+        core.setFailed(
+          `Unable to locate product with name '${productName}'. Bear in mind that product names are case sensitive.`,
+        );
+        return;
+      } else {
+        foundOrCreateProduct = await CreateProduct(
+          orgUuid,
+          foundWorkspace.getWorkspace()?.getId(),
+          productName,
+          callInfo,
+        );
+      }
     }
-    foundProduct = foundProducts[0];
-    core.info(`Found product ${foundProduct.getName()} based on name`);
+    foundOrCreateProduct = foundProducts[0];
+    core.info(`Found product ${foundOrCreateProduct.getName()} based on name`);
   }
 
-  if (foundProduct === undefined) {
-    core.setFailed(`Unable to resolve product with name '${productName}' and uuid '${productUuidAsString}'`);
+  if (foundOrCreateProduct === undefined) {
+    core.setFailed(`Unable to create or resolve product with name '${productName}' and uuid '${productUuidAsString}'`);
     return;
   }
 
-  const allVersions = await ListAllVersionsOfProduct(foundProduct.getId(), callInfo);
+  const allVersions = await ListAllVersionsOfProduct(foundOrCreateProduct.getId(), callInfo);
   const foundVersions = allVersions.filter(
     (v) => v.getRawVersionString().toLowerCase() === productVersionName.toLowerCase(),
   );
@@ -160,7 +179,7 @@ export async function run(): Promise<void> {
       return;
     }
     core.info(`Creating version ${productVersionName} for product ${productName}...`);
-    foundOrCreatedVersion = await CreateProductVersion(foundProduct.getId(), productVersionName, callInfo);
+    foundOrCreatedVersion = await CreateProductVersion(foundOrCreateProduct.getId(), productVersionName, callInfo);
   } else {
     core.info(`Found existing version ${productVersionName}`);
     foundOrCreatedVersion = foundVersions[0];
@@ -289,6 +308,32 @@ const ListAllVersionsOfProduct = async (
     throw new Error('Error getting product version list');
   }
   return versionList;
+};
+
+const CreateProduct = async (
+  orgUuid: UUID | undefined,
+  workspaceUuid: UUID | undefined,
+  productName: string,
+  callInfo: ApiCallInformation,
+): Promise<OrganizationProduct> => {
+  const createProduct = new CreateOrganizationProduct();
+  const requestData = new CreateOrganizationProduct.Request();
+  createProduct.setRequest(requestData);
+  requestData.setOrganizationId(orgUuid);
+  requestData.setWorkspaceId(workspaceUuid);
+  requestData.setName(productName);
+
+  const productResponse = await DoWebApiPostRequest(
+    'createorganizationproduct',
+    createProduct,
+    CreateOrganizationProduct,
+    callInfo,
+  );
+  const product = productResponse.getResponse()?.getOrganizationProduct();
+  if (!product) {
+    throw Error('Error creating product');
+  }
+  return product;
 };
 
 const CreateProductVersion = async (
