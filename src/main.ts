@@ -137,9 +137,10 @@ export async function run(): Promise<void> {
           callInfo,
         );
       }
+    } else {
+      foundOrCreateProduct = foundProducts[0];
+      core.info(`Found product ${foundOrCreateProduct.getName()} based on uuid`);
     }
-    foundOrCreateProduct = foundProducts[0];
-    core.info(`Found product ${foundOrCreateProduct.getName()} based on uuid`);
   } else {
     // search based on product name
     const foundProducts = allProducts.filter((p) => p.getName() === productName);
@@ -158,9 +159,10 @@ export async function run(): Promise<void> {
           callInfo,
         );
       }
+    } else {
+      foundOrCreateProduct = foundProducts[0];
+      core.info(`Found product ${foundOrCreateProduct.getName()} based on name`);
     }
-    foundOrCreateProduct = foundProducts[0];
-    core.info(`Found product ${foundOrCreateProduct.getName()} based on name`);
   }
 
   if (foundOrCreateProduct === undefined) {

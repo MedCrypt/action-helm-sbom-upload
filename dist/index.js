@@ -37808,8 +37808,10 @@ async function run() {
                 foundOrCreateProduct = await CreateProduct(orgUuid, foundWorkspace.getWorkspace()?.getId(), productName, callInfo);
             }
         }
-        foundOrCreateProduct = foundProducts[0];
-        core.info(`Found product ${foundOrCreateProduct.getName()} based on uuid`);
+        else {
+            foundOrCreateProduct = foundProducts[0];
+            core.info(`Found product ${foundOrCreateProduct.getName()} based on uuid`);
+        }
     }
     else {
         // search based on product name
@@ -37824,8 +37826,10 @@ async function run() {
                 foundOrCreateProduct = await CreateProduct(orgUuid, foundWorkspace.getWorkspace()?.getId(), productName, callInfo);
             }
         }
-        foundOrCreateProduct = foundProducts[0];
-        core.info(`Found product ${foundOrCreateProduct.getName()} based on name`);
+        else {
+            foundOrCreateProduct = foundProducts[0];
+            core.info(`Found product ${foundOrCreateProduct.getName()} based on name`);
+        }
     }
     if (foundOrCreateProduct === undefined) {
         core.setFailed(`Unable to create or resolve product with name '${productName}' and uuid '${productUuidAsString}'`);
