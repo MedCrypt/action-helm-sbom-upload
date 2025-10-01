@@ -7,7 +7,7 @@
     "tools" : [
       {
         "vendor" : "OWASP",
-        "name" : "Dependency-Track",
+        "name" : "Test",
         "version" : "4.6.2"
       }
     ],
@@ -23,7 +23,7 @@
       "supplier" : {
         "name" : "notepad-plus-plus"
       },
-      "name" : "Notepad++",
+      "name" : "Notepad++1",
       "version" : "8.1.4",
       "type" : "application",
       "cpe": "cpe:2.3:a:notepad-plus-plus:notepad++",
@@ -43,7 +43,7 @@
       "supplier" : {
         "name" : "notepad-plus-plus"
       },
-      "name" : "notepad",
+      "name" : "notepad1",
       "version" : "8.1.4",
       "type" : "application",
       "cpe": "cpe:2.3:a:notepad-plus-plus:notepad++",

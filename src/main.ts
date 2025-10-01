@@ -72,18 +72,13 @@ export async function run(): Promise<void> {
   const productVersionName: string = core.getInput('product-version-name', reqInputOptions);
   const clientId = core.getInput('client-id', reqInputOptions);
   const clientSecret = core.getInput('client-secret', reqInputOptions);
-  core.info(clientId);
-  core.info(clientSecret);
   const sbomFilePath = core.getInput('sbom-file-path', reqInputOptions);
   const shouldCreateVersion = core.getBooleanInput('create-version-if-not-found');
   const callInfo: ApiCallInformation = {
     baseUrl: baseUrl,
-    clientId: 'haritha@medcypt.co',
-    clientSecret: 'passwordZZ123!!',
+    clientId: clientId,
+    clientSecret: clientSecret,
   };
-  core.info(callInfo.baseUrl);
-  core.info(callInfo.clientId);
-  core.info(callInfo.clientSecret);
 
   // read the file first in case things go wrong
   if (!existsSync(sbomFilePath)) {
@@ -197,7 +192,6 @@ const GetDefaultOrganization = async (callInfo: ApiCallInformation): Promise<Org
   const request = new ListOrganizations.Request();
   listOrganizations.setRequest(request);
   const orgResponse = await DoWebApiPostRequest('listorganizations', listOrganizations, ListOrganizations, callInfo);
-  core.info('response status: ' + orgResponse.getResponse()?.getMetadata()?.getStatus());
   const orgs = orgResponse.getResponse()?.getOrginfoList();
   if (orgs === undefined || orgs.length === 0) {
     return undefined;
@@ -240,9 +234,11 @@ const ListAllWorkspacesForUser = async (callInfo: ApiCallInformation): Promise<W
     ListWorkspacesForUser,
     callInfo,
   );
-  core.info('response status: ' + workspaceResponse.getResponse()?.getMetadata()?.getStatus());
+  core.info(
+    'response status on ListAllWorkspacesForUser: ' + workspaceResponse.getResponse()?.getMetadata()?.getStatus(),
+  );
   const workspacesList = workspaceResponse.getResponse()?.getWorkspaceInfoList();
-  core.info('workspace count' + workspacesList?.length);
+  core.info('workspace count: ' + workspacesList?.length);
   if (!workspacesList) {
     throw new Error('Error getting workspaces list');
   }

@@ -37749,18 +37749,13 @@ async function run() {
     const productVersionName = core.getInput('product-version-name', reqInputOptions);
     const clientId = core.getInput('client-id', reqInputOptions);
     const clientSecret = core.getInput('client-secret', reqInputOptions);
-    core.info(clientId);
-    core.info(clientSecret);
     const sbomFilePath = core.getInput('sbom-file-path', reqInputOptions);
     const shouldCreateVersion = core.getBooleanInput('create-version-if-not-found');
     const callInfo = {
         baseUrl: baseUrl,
-        clientId: 'haritha@medcypt.co',
-        clientSecret: 'passwordZZ123!!',
+        clientId: clientId,
+        clientSecret: clientSecret,
     };
-    core.info(callInfo.baseUrl);
-    core.info(callInfo.clientId);
-    core.info(callInfo.clientSecret);
     // read the file first in case things go wrong
     if (!(0, node_fs_1.existsSync)(sbomFilePath)) {
         core.setFailed(`SBOM file does not exist at path ${sbomFilePath}`);
@@ -37856,7 +37851,6 @@ const GetDefaultOrganization = async (callInfo) => {
     const request = new heim_organization_pb_1.ListOrganizations.Request();
     listOrganizations.setRequest(request);
     const orgResponse = await DoWebApiPostRequest('listorganizations', listOrganizations, heim_organization_pb_1.ListOrganizations, callInfo);
-    core.info('response status: ' + orgResponse.getResponse()?.getMetadata()?.getStatus());
     const orgs = orgResponse.getResponse()?.getOrginfoList();
     if (orgs === undefined || orgs.length === 0) {
         return undefined;
@@ -37881,9 +37875,9 @@ const ListAllWorkspacesForUser = async (callInfo) => {
     const request = new heim_organization_pb_1.ListWorkspacesForUser.Request();
     listWorkspaces.setRequest(request);
     const workspaceResponse = await DoWebApiPostRequest('listworkspacesforuser', listWorkspaces, heim_organization_pb_1.ListWorkspacesForUser, callInfo);
-    core.info('response status: ' + workspaceResponse.getResponse()?.getMetadata()?.getStatus());
+    core.info('response status on ListAllWorkspacesForUser: ' + workspaceResponse.getResponse()?.getMetadata()?.getStatus());
     const workspacesList = workspaceResponse.getResponse()?.getWorkspaceInfoList();
-    core.info('workspace count' + workspacesList?.length);
+    core.info('workspace count: ' + workspacesList?.length);
     if (!workspacesList) {
         throw new Error('Error getting workspaces list');
     }
