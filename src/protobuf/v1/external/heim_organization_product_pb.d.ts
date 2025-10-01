@@ -25,6 +25,9 @@ export class OrganizationProduct extends jspb.Message {
   getIsVulnModify(): boolean;
   setIsVulnModify(value: boolean): void;
 
+  getWorkspaceId(): heim_common_pb.UUID | undefined;
+  setWorkspaceId(value?: heim_common_pb.UUID): void;
+
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): OrganizationProduct.AsObject;
   static toObject(includeInstance: boolean, msg: OrganizationProduct): OrganizationProduct.AsObject;
@@ -43,6 +46,7 @@ export namespace OrganizationProduct {
     isSbomModify: boolean,
     isVulnView: boolean,
     isVulnModify: boolean,
+    workspaceId?:heim_common_pb.UUID.AsObject,
   }
 }
 
@@ -91,6 +95,9 @@ export namespace ListOrganizationProducts {
     getForVulns(): boolean;
     setForVulns(value: boolean): void;
 
+    getWorkspaceId(): heim_common_pb.UUID | undefined;
+    setWorkspaceId(value?: heim_common_pb.UUID): void;
+
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): Request.AsObject;
     static toObject(includeInstance: boolean, msg: Request): Request.AsObject;
@@ -107,6 +114,7 @@ export namespace ListOrganizationProducts {
       organizationId?: heim_common_pb.UUID.AsObject,
       forSboms: boolean,
       forVulns: boolean,
+      workspaceId?: heim_common_pb.UUID.AsObject,
     }
   }
 
@@ -187,6 +195,9 @@ export namespace CreateOrganizationProduct {
     getName(): string;
     setName(value: string): void;
 
+    getWorkspaceId(): heim_common_pb.UUID | undefined;
+    setWorkspaceId(value?: heim_common_pb.UUID): void;
+
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): Request.AsObject;
     static toObject(includeInstance: boolean, msg: Request): Request.AsObject;
@@ -202,6 +213,7 @@ export namespace CreateOrganizationProduct {
       metadata?: heim_common_pb.RequestMetadata.AsObject,
       organizationId?: heim_common_pb.UUID.AsObject,
       name: string,
+      workspaceId?: heim_common_pb.UUID.AsObject,
     }
   }
 

@@ -12,12 +12,14 @@ var goog = jspb;
 var global = Function('return this')();
 
 var heim_common_pb = require('../../heim_common_pb.js');
+var heim_vuln_pb = require('../../heim_vuln_pb.js');
 var v1_common_heim_enums_pb = require('../../v1/common/heim_enums_pb.js');
 goog.exportSymbol('proto.medcrypt.helm.web.reports.GetReportFileRequest', null, global);
 goog.exportSymbol('proto.medcrypt.helm.web.reports.GetReportRequestStateRequest', null, global);
 goog.exportSymbol('proto.medcrypt.helm.web.reports.GetReportRequestStateResponse', null, global);
 goog.exportSymbol('proto.medcrypt.helm.web.reports.RequestReportDataCycloneDxVex', null, global);
 goog.exportSymbol('proto.medcrypt.helm.web.reports.RequestReportDataFda', null, global);
+goog.exportSymbol('proto.medcrypt.helm.web.reports.RequestReportDataVulnCsv', null, global);
 goog.exportSymbol('proto.medcrypt.helm.web.reports.RequestReportRequest', null, global);
 goog.exportSymbol('proto.medcrypt.helm.web.reports.RequestReportResponse', null, global);
 
@@ -32,12 +34,19 @@ goog.exportSymbol('proto.medcrypt.helm.web.reports.RequestReportResponse', null,
  * @constructor
  */
 proto.medcrypt.helm.web.reports.RequestReportDataFda = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
+  jspb.Message.initialize(this, opt_data, 0, -1, proto.medcrypt.helm.web.reports.RequestReportDataFda.repeatedFields_, null);
 };
 goog.inherits(proto.medcrypt.helm.web.reports.RequestReportDataFda, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   proto.medcrypt.helm.web.reports.RequestReportDataFda.displayName = 'proto.medcrypt.helm.web.reports.RequestReportDataFda';
 }
+/**
+ * List of repeated fields within this message type.
+ * @private {!Array<number>}
+ * @const
+ */
+proto.medcrypt.helm.web.reports.RequestReportDataFda.repeatedFields_ = [5];
+
 
 
 if (jspb.Message.GENERATE_TO_OBJECT) {
@@ -67,7 +76,12 @@ proto.medcrypt.helm.web.reports.RequestReportDataFda.prototype.toObject = functi
  */
 proto.medcrypt.helm.web.reports.RequestReportDataFda.toObject = function(includeInstance, msg) {
   var f, obj = {
-    organizationProductVersionId: (f = msg.getOrganizationProductVersionId()) && heim_common_pb.UUID.toObject(includeInstance, f)
+    organizationProductVersionId: (f = msg.getOrganizationProductVersionId()) && heim_common_pb.UUID.toObject(includeInstance, f),
+    includeSbomEntryReviewNotes: jspb.Message.getFieldWithDefault(msg, 2, false),
+    includeCdxRemediation: jspb.Message.getFieldWithDefault(msg, 3, false),
+    includeVexRemediation: jspb.Message.getFieldWithDefault(msg, 4, false),
+    organizationProductVersionIdsList: jspb.Message.toObjectList(msg.getOrganizationProductVersionIdsList(),
+    heim_common_pb.UUID.toObject, includeInstance)
   };
 
   if (includeInstance) {
@@ -109,6 +123,23 @@ proto.medcrypt.helm.web.reports.RequestReportDataFda.deserializeBinaryFromReader
       reader.readMessage(value,heim_common_pb.UUID.deserializeBinaryFromReader);
       msg.setOrganizationProductVersionId(value);
       break;
+    case 2:
+      var value = /** @type {boolean} */ (reader.readBool());
+      msg.setIncludeSbomEntryReviewNotes(value);
+      break;
+    case 3:
+      var value = /** @type {boolean} */ (reader.readBool());
+      msg.setIncludeCdxRemediation(value);
+      break;
+    case 4:
+      var value = /** @type {boolean} */ (reader.readBool());
+      msg.setIncludeVexRemediation(value);
+      break;
+    case 5:
+      var value = new heim_common_pb.UUID;
+      reader.readMessage(value,heim_common_pb.UUID.deserializeBinaryFromReader);
+      msg.addOrganizationProductVersionIds(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -146,6 +177,35 @@ proto.medcrypt.helm.web.reports.RequestReportDataFda.serializeBinaryToWriter = f
       heim_common_pb.UUID.serializeBinaryToWriter
     );
   }
+  f = message.getIncludeSbomEntryReviewNotes();
+  if (f) {
+    writer.writeBool(
+      2,
+      f
+    );
+  }
+  f = message.getIncludeCdxRemediation();
+  if (f) {
+    writer.writeBool(
+      3,
+      f
+    );
+  }
+  f = message.getIncludeVexRemediation();
+  if (f) {
+    writer.writeBool(
+      4,
+      f
+    );
+  }
+  f = message.getOrganizationProductVersionIdsList();
+  if (f.length > 0) {
+    writer.writeRepeatedMessage(
+      5,
+      f,
+      heim_common_pb.UUID.serializeBinaryToWriter
+    );
+  }
 };
 
 
@@ -179,6 +239,88 @@ proto.medcrypt.helm.web.reports.RequestReportDataFda.prototype.hasOrganizationPr
 };
 
 
+/**
+ * optional bool include_sbom_entry_review_notes = 2;
+ * Note that Boolean fields may be set to 0/1 when serialized from a Java server.
+ * You should avoid comparisons like {@code val === true/false} in those cases.
+ * @return {boolean}
+ */
+proto.medcrypt.helm.web.reports.RequestReportDataFda.prototype.getIncludeSbomEntryReviewNotes = function() {
+  return /** @type {boolean} */ (jspb.Message.getFieldWithDefault(this, 2, false));
+};
+
+
+/** @param {boolean} value */
+proto.medcrypt.helm.web.reports.RequestReportDataFda.prototype.setIncludeSbomEntryReviewNotes = function(value) {
+  jspb.Message.setProto3BooleanField(this, 2, value);
+};
+
+
+/**
+ * optional bool include_cdx_remediation = 3;
+ * Note that Boolean fields may be set to 0/1 when serialized from a Java server.
+ * You should avoid comparisons like {@code val === true/false} in those cases.
+ * @return {boolean}
+ */
+proto.medcrypt.helm.web.reports.RequestReportDataFda.prototype.getIncludeCdxRemediation = function() {
+  return /** @type {boolean} */ (jspb.Message.getFieldWithDefault(this, 3, false));
+};
+
+
+/** @param {boolean} value */
+proto.medcrypt.helm.web.reports.RequestReportDataFda.prototype.setIncludeCdxRemediation = function(value) {
+  jspb.Message.setProto3BooleanField(this, 3, value);
+};
+
+
+/**
+ * optional bool include_vex_remediation = 4;
+ * Note that Boolean fields may be set to 0/1 when serialized from a Java server.
+ * You should avoid comparisons like {@code val === true/false} in those cases.
+ * @return {boolean}
+ */
+proto.medcrypt.helm.web.reports.RequestReportDataFda.prototype.getIncludeVexRemediation = function() {
+  return /** @type {boolean} */ (jspb.Message.getFieldWithDefault(this, 4, false));
+};
+
+
+/** @param {boolean} value */
+proto.medcrypt.helm.web.reports.RequestReportDataFda.prototype.setIncludeVexRemediation = function(value) {
+  jspb.Message.setProto3BooleanField(this, 4, value);
+};
+
+
+/**
+ * repeated medcrypt.heimdall.web.common.UUID organization_product_version_ids = 5;
+ * @return {!Array.<!proto.medcrypt.heimdall.web.common.UUID>}
+ */
+proto.medcrypt.helm.web.reports.RequestReportDataFda.prototype.getOrganizationProductVersionIdsList = function() {
+  return /** @type{!Array.<!proto.medcrypt.heimdall.web.common.UUID>} */ (
+    jspb.Message.getRepeatedWrapperField(this, heim_common_pb.UUID, 5));
+};
+
+
+/** @param {!Array.<!proto.medcrypt.heimdall.web.common.UUID>} value */
+proto.medcrypt.helm.web.reports.RequestReportDataFda.prototype.setOrganizationProductVersionIdsList = function(value) {
+  jspb.Message.setRepeatedWrapperField(this, 5, value);
+};
+
+
+/**
+ * @param {!proto.medcrypt.heimdall.web.common.UUID=} opt_value
+ * @param {number=} opt_index
+ * @return {!proto.medcrypt.heimdall.web.common.UUID}
+ */
+proto.medcrypt.helm.web.reports.RequestReportDataFda.prototype.addOrganizationProductVersionIds = function(opt_value, opt_index) {
+  return jspb.Message.addToRepeatedWrapperField(this, 5, opt_value, proto.medcrypt.heimdall.web.common.UUID, opt_index);
+};
+
+
+proto.medcrypt.helm.web.reports.RequestReportDataFda.prototype.clearOrganizationProductVersionIdsList = function() {
+  this.setOrganizationProductVersionIdsList([]);
+};
+
+
 
 /**
  * Generated by JsPbCodeGenerator.
@@ -191,12 +333,19 @@ proto.medcrypt.helm.web.reports.RequestReportDataFda.prototype.hasOrganizationPr
  * @constructor
  */
 proto.medcrypt.helm.web.reports.RequestReportDataCycloneDxVex = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
+  jspb.Message.initialize(this, opt_data, 0, -1, proto.medcrypt.helm.web.reports.RequestReportDataCycloneDxVex.repeatedFields_, null);
 };
 goog.inherits(proto.medcrypt.helm.web.reports.RequestReportDataCycloneDxVex, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
   proto.medcrypt.helm.web.reports.RequestReportDataCycloneDxVex.displayName = 'proto.medcrypt.helm.web.reports.RequestReportDataCycloneDxVex';
 }
+/**
+ * List of repeated fields within this message type.
+ * @private {!Array<number>}
+ * @const
+ */
+proto.medcrypt.helm.web.reports.RequestReportDataCycloneDxVex.repeatedFields_ = [2];
+
 
 
 if (jspb.Message.GENERATE_TO_OBJECT) {
@@ -226,7 +375,9 @@ proto.medcrypt.helm.web.reports.RequestReportDataCycloneDxVex.prototype.toObject
  */
 proto.medcrypt.helm.web.reports.RequestReportDataCycloneDxVex.toObject = function(includeInstance, msg) {
   var f, obj = {
-    organizationProductVersionId: (f = msg.getOrganizationProductVersionId()) && heim_common_pb.UUID.toObject(includeInstance, f)
+    organizationProductVersionId: (f = msg.getOrganizationProductVersionId()) && heim_common_pb.UUID.toObject(includeInstance, f),
+    organizationProductVersionIdsList: jspb.Message.toObjectList(msg.getOrganizationProductVersionIdsList(),
+    heim_common_pb.UUID.toObject, includeInstance)
   };
 
   if (includeInstance) {
@@ -268,6 +419,11 @@ proto.medcrypt.helm.web.reports.RequestReportDataCycloneDxVex.deserializeBinaryF
       reader.readMessage(value,heim_common_pb.UUID.deserializeBinaryFromReader);
       msg.setOrganizationProductVersionId(value);
       break;
+    case 2:
+      var value = new heim_common_pb.UUID;
+      reader.readMessage(value,heim_common_pb.UUID.deserializeBinaryFromReader);
+      msg.addOrganizationProductVersionIds(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -305,6 +461,14 @@ proto.medcrypt.helm.web.reports.RequestReportDataCycloneDxVex.serializeBinaryToW
       heim_common_pb.UUID.serializeBinaryToWriter
     );
   }
+  f = message.getOrganizationProductVersionIdsList();
+  if (f.length > 0) {
+    writer.writeRepeatedMessage(
+      2,
+      f,
+      heim_common_pb.UUID.serializeBinaryToWriter
+    );
+  }
 };
 
 
@@ -338,6 +502,368 @@ proto.medcrypt.helm.web.reports.RequestReportDataCycloneDxVex.prototype.hasOrgan
 };
 
 
+/**
+ * repeated medcrypt.heimdall.web.common.UUID organization_product_version_ids = 2;
+ * @return {!Array.<!proto.medcrypt.heimdall.web.common.UUID>}
+ */
+proto.medcrypt.helm.web.reports.RequestReportDataCycloneDxVex.prototype.getOrganizationProductVersionIdsList = function() {
+  return /** @type{!Array.<!proto.medcrypt.heimdall.web.common.UUID>} */ (
+    jspb.Message.getRepeatedWrapperField(this, heim_common_pb.UUID, 2));
+};
+
+
+/** @param {!Array.<!proto.medcrypt.heimdall.web.common.UUID>} value */
+proto.medcrypt.helm.web.reports.RequestReportDataCycloneDxVex.prototype.setOrganizationProductVersionIdsList = function(value) {
+  jspb.Message.setRepeatedWrapperField(this, 2, value);
+};
+
+
+/**
+ * @param {!proto.medcrypt.heimdall.web.common.UUID=} opt_value
+ * @param {number=} opt_index
+ * @return {!proto.medcrypt.heimdall.web.common.UUID}
+ */
+proto.medcrypt.helm.web.reports.RequestReportDataCycloneDxVex.prototype.addOrganizationProductVersionIds = function(opt_value, opt_index) {
+  return jspb.Message.addToRepeatedWrapperField(this, 2, opt_value, proto.medcrypt.heimdall.web.common.UUID, opt_index);
+};
+
+
+proto.medcrypt.helm.web.reports.RequestReportDataCycloneDxVex.prototype.clearOrganizationProductVersionIdsList = function() {
+  this.setOrganizationProductVersionIdsList([]);
+};
+
+
+
+/**
+ * Generated by JsPbCodeGenerator.
+ * @param {Array=} opt_data Optional initial data array, typically from a
+ * server response, or constructed directly in Javascript. The array is used
+ * in place and becomes part of the constructed object. It is not cloned.
+ * If no data is provided, the constructed object will be empty, but still
+ * valid.
+ * @extends {jspb.Message}
+ * @constructor
+ */
+proto.medcrypt.helm.web.reports.RequestReportDataVulnCsv = function(opt_data) {
+  jspb.Message.initialize(this, opt_data, 0, -1, proto.medcrypt.helm.web.reports.RequestReportDataVulnCsv.repeatedFields_, null);
+};
+goog.inherits(proto.medcrypt.helm.web.reports.RequestReportDataVulnCsv, jspb.Message);
+if (goog.DEBUG && !COMPILED) {
+  proto.medcrypt.helm.web.reports.RequestReportDataVulnCsv.displayName = 'proto.medcrypt.helm.web.reports.RequestReportDataVulnCsv';
+}
+/**
+ * List of repeated fields within this message type.
+ * @private {!Array<number>}
+ * @const
+ */
+proto.medcrypt.helm.web.reports.RequestReportDataVulnCsv.repeatedFields_ = [1,4];
+
+
+
+if (jspb.Message.GENERATE_TO_OBJECT) {
+/**
+ * Creates an object representation of this proto suitable for use in Soy templates.
+ * Field names that are reserved in JavaScript and will be renamed to pb_name.
+ * To access a reserved field use, foo.pb_<name>, eg, foo.pb_default.
+ * For the list of reserved names please see:
+ *     com.google.apps.jspb.JsClassTemplate.JS_RESERVED_WORDS.
+ * @param {boolean=} opt_includeInstance Whether to include the JSPB instance
+ *     for transitional soy proto support: http://goto/soy-param-migration
+ * @return {!Object}
+ */
+proto.medcrypt.helm.web.reports.RequestReportDataVulnCsv.prototype.toObject = function(opt_includeInstance) {
+  return proto.medcrypt.helm.web.reports.RequestReportDataVulnCsv.toObject(opt_includeInstance, this);
+};
+
+
+/**
+ * Static version of the {@see toObject} method.
+ * @param {boolean|undefined} includeInstance Whether to include the JSPB
+ *     instance for transitional soy proto support:
+ *     http://goto/soy-param-migration
+ * @param {!proto.medcrypt.helm.web.reports.RequestReportDataVulnCsv} msg The msg instance to transform.
+ * @return {!Object}
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.medcrypt.helm.web.reports.RequestReportDataVulnCsv.toObject = function(includeInstance, msg) {
+  var f, obj = {
+    organizationProductVersionIdsList: jspb.Message.toObjectList(msg.getOrganizationProductVersionIdsList(),
+    heim_common_pb.UUID.toObject, includeInstance),
+    page: (f = msg.getPage()) && heim_common_pb.Page.toObject(includeInstance, f),
+    filter: (f = msg.getFilter()) && heim_vuln_pb.VulnerabilityFilter.toObject(includeInstance, f),
+    orderList: jspb.Message.toObjectList(msg.getOrderList(),
+    heim_vuln_pb.VulnerabilityOrder.toObject, includeInstance),
+    includeSummaries: jspb.Message.getFieldWithDefault(msg, 5, false)
+  };
+
+  if (includeInstance) {
+    obj.$jspbMessageInstance = msg;
+  }
+  return obj;
+};
+}
+
+
+/**
+ * Deserializes binary data (in protobuf wire format).
+ * @param {jspb.ByteSource} bytes The bytes to deserialize.
+ * @return {!proto.medcrypt.helm.web.reports.RequestReportDataVulnCsv}
+ */
+proto.medcrypt.helm.web.reports.RequestReportDataVulnCsv.deserializeBinary = function(bytes) {
+  var reader = new jspb.BinaryReader(bytes);
+  var msg = new proto.medcrypt.helm.web.reports.RequestReportDataVulnCsv;
+  return proto.medcrypt.helm.web.reports.RequestReportDataVulnCsv.deserializeBinaryFromReader(msg, reader);
+};
+
+
+/**
+ * Deserializes binary data (in protobuf wire format) from the
+ * given reader into the given message object.
+ * @param {!proto.medcrypt.helm.web.reports.RequestReportDataVulnCsv} msg The message object to deserialize into.
+ * @param {!jspb.BinaryReader} reader The BinaryReader to use.
+ * @return {!proto.medcrypt.helm.web.reports.RequestReportDataVulnCsv}
+ */
+proto.medcrypt.helm.web.reports.RequestReportDataVulnCsv.deserializeBinaryFromReader = function(msg, reader) {
+  while (reader.nextField()) {
+    if (reader.isEndGroup()) {
+      break;
+    }
+    var field = reader.getFieldNumber();
+    switch (field) {
+    case 1:
+      var value = new heim_common_pb.UUID;
+      reader.readMessage(value,heim_common_pb.UUID.deserializeBinaryFromReader);
+      msg.addOrganizationProductVersionIds(value);
+      break;
+    case 2:
+      var value = new heim_common_pb.Page;
+      reader.readMessage(value,heim_common_pb.Page.deserializeBinaryFromReader);
+      msg.setPage(value);
+      break;
+    case 3:
+      var value = new heim_vuln_pb.VulnerabilityFilter;
+      reader.readMessage(value,heim_vuln_pb.VulnerabilityFilter.deserializeBinaryFromReader);
+      msg.setFilter(value);
+      break;
+    case 4:
+      var value = new heim_vuln_pb.VulnerabilityOrder;
+      reader.readMessage(value,heim_vuln_pb.VulnerabilityOrder.deserializeBinaryFromReader);
+      msg.addOrder(value);
+      break;
+    case 5:
+      var value = /** @type {boolean} */ (reader.readBool());
+      msg.setIncludeSummaries(value);
+      break;
+    default:
+      reader.skipField();
+      break;
+    }
+  }
+  return msg;
+};
+
+
+/**
+ * Serializes the message to binary data (in protobuf wire format).
+ * @return {!Uint8Array}
+ */
+proto.medcrypt.helm.web.reports.RequestReportDataVulnCsv.prototype.serializeBinary = function() {
+  var writer = new jspb.BinaryWriter();
+  proto.medcrypt.helm.web.reports.RequestReportDataVulnCsv.serializeBinaryToWriter(this, writer);
+  return writer.getResultBuffer();
+};
+
+
+/**
+ * Serializes the given message to binary data (in protobuf wire
+ * format), writing to the given BinaryWriter.
+ * @param {!proto.medcrypt.helm.web.reports.RequestReportDataVulnCsv} message
+ * @param {!jspb.BinaryWriter} writer
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.medcrypt.helm.web.reports.RequestReportDataVulnCsv.serializeBinaryToWriter = function(message, writer) {
+  var f = undefined;
+  f = message.getOrganizationProductVersionIdsList();
+  if (f.length > 0) {
+    writer.writeRepeatedMessage(
+      1,
+      f,
+      heim_common_pb.UUID.serializeBinaryToWriter
+    );
+  }
+  f = message.getPage();
+  if (f != null) {
+    writer.writeMessage(
+      2,
+      f,
+      heim_common_pb.Page.serializeBinaryToWriter
+    );
+  }
+  f = message.getFilter();
+  if (f != null) {
+    writer.writeMessage(
+      3,
+      f,
+      heim_vuln_pb.VulnerabilityFilter.serializeBinaryToWriter
+    );
+  }
+  f = message.getOrderList();
+  if (f.length > 0) {
+    writer.writeRepeatedMessage(
+      4,
+      f,
+      heim_vuln_pb.VulnerabilityOrder.serializeBinaryToWriter
+    );
+  }
+  f = message.getIncludeSummaries();
+  if (f) {
+    writer.writeBool(
+      5,
+      f
+    );
+  }
+};
+
+
+/**
+ * repeated medcrypt.heimdall.web.common.UUID organization_product_version_ids = 1;
+ * @return {!Array.<!proto.medcrypt.heimdall.web.common.UUID>}
+ */
+proto.medcrypt.helm.web.reports.RequestReportDataVulnCsv.prototype.getOrganizationProductVersionIdsList = function() {
+  return /** @type{!Array.<!proto.medcrypt.heimdall.web.common.UUID>} */ (
+    jspb.Message.getRepeatedWrapperField(this, heim_common_pb.UUID, 1));
+};
+
+
+/** @param {!Array.<!proto.medcrypt.heimdall.web.common.UUID>} value */
+proto.medcrypt.helm.web.reports.RequestReportDataVulnCsv.prototype.setOrganizationProductVersionIdsList = function(value) {
+  jspb.Message.setRepeatedWrapperField(this, 1, value);
+};
+
+
+/**
+ * @param {!proto.medcrypt.heimdall.web.common.UUID=} opt_value
+ * @param {number=} opt_index
+ * @return {!proto.medcrypt.heimdall.web.common.UUID}
+ */
+proto.medcrypt.helm.web.reports.RequestReportDataVulnCsv.prototype.addOrganizationProductVersionIds = function(opt_value, opt_index) {
+  return jspb.Message.addToRepeatedWrapperField(this, 1, opt_value, proto.medcrypt.heimdall.web.common.UUID, opt_index);
+};
+
+
+proto.medcrypt.helm.web.reports.RequestReportDataVulnCsv.prototype.clearOrganizationProductVersionIdsList = function() {
+  this.setOrganizationProductVersionIdsList([]);
+};
+
+
+/**
+ * optional medcrypt.heimdall.web.common.Page page = 2;
+ * @return {?proto.medcrypt.heimdall.web.common.Page}
+ */
+proto.medcrypt.helm.web.reports.RequestReportDataVulnCsv.prototype.getPage = function() {
+  return /** @type{?proto.medcrypt.heimdall.web.common.Page} */ (
+    jspb.Message.getWrapperField(this, heim_common_pb.Page, 2));
+};
+
+
+/** @param {?proto.medcrypt.heimdall.web.common.Page|undefined} value */
+proto.medcrypt.helm.web.reports.RequestReportDataVulnCsv.prototype.setPage = function(value) {
+  jspb.Message.setWrapperField(this, 2, value);
+};
+
+
+proto.medcrypt.helm.web.reports.RequestReportDataVulnCsv.prototype.clearPage = function() {
+  this.setPage(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {!boolean}
+ */
+proto.medcrypt.helm.web.reports.RequestReportDataVulnCsv.prototype.hasPage = function() {
+  return jspb.Message.getField(this, 2) != null;
+};
+
+
+/**
+ * optional medcrypt.heimdall.web.vuln.VulnerabilityFilter filter = 3;
+ * @return {?proto.medcrypt.heimdall.web.vuln.VulnerabilityFilter}
+ */
+proto.medcrypt.helm.web.reports.RequestReportDataVulnCsv.prototype.getFilter = function() {
+  return /** @type{?proto.medcrypt.heimdall.web.vuln.VulnerabilityFilter} */ (
+    jspb.Message.getWrapperField(this, heim_vuln_pb.VulnerabilityFilter, 3));
+};
+
+
+/** @param {?proto.medcrypt.heimdall.web.vuln.VulnerabilityFilter|undefined} value */
+proto.medcrypt.helm.web.reports.RequestReportDataVulnCsv.prototype.setFilter = function(value) {
+  jspb.Message.setWrapperField(this, 3, value);
+};
+
+
+proto.medcrypt.helm.web.reports.RequestReportDataVulnCsv.prototype.clearFilter = function() {
+  this.setFilter(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {!boolean}
+ */
+proto.medcrypt.helm.web.reports.RequestReportDataVulnCsv.prototype.hasFilter = function() {
+  return jspb.Message.getField(this, 3) != null;
+};
+
+
+/**
+ * repeated medcrypt.heimdall.web.vuln.VulnerabilityOrder order = 4;
+ * @return {!Array.<!proto.medcrypt.heimdall.web.vuln.VulnerabilityOrder>}
+ */
+proto.medcrypt.helm.web.reports.RequestReportDataVulnCsv.prototype.getOrderList = function() {
+  return /** @type{!Array.<!proto.medcrypt.heimdall.web.vuln.VulnerabilityOrder>} */ (
+    jspb.Message.getRepeatedWrapperField(this, heim_vuln_pb.VulnerabilityOrder, 4));
+};
+
+
+/** @param {!Array.<!proto.medcrypt.heimdall.web.vuln.VulnerabilityOrder>} value */
+proto.medcrypt.helm.web.reports.RequestReportDataVulnCsv.prototype.setOrderList = function(value) {
+  jspb.Message.setRepeatedWrapperField(this, 4, value);
+};
+
+
+/**
+ * @param {!proto.medcrypt.heimdall.web.vuln.VulnerabilityOrder=} opt_value
+ * @param {number=} opt_index
+ * @return {!proto.medcrypt.heimdall.web.vuln.VulnerabilityOrder}
+ */
+proto.medcrypt.helm.web.reports.RequestReportDataVulnCsv.prototype.addOrder = function(opt_value, opt_index) {
+  return jspb.Message.addToRepeatedWrapperField(this, 4, opt_value, proto.medcrypt.heimdall.web.vuln.VulnerabilityOrder, opt_index);
+};
+
+
+proto.medcrypt.helm.web.reports.RequestReportDataVulnCsv.prototype.clearOrderList = function() {
+  this.setOrderList([]);
+};
+
+
+/**
+ * optional bool include_summaries = 5;
+ * Note that Boolean fields may be set to 0/1 when serialized from a Java server.
+ * You should avoid comparisons like {@code val === true/false} in those cases.
+ * @return {boolean}
+ */
+proto.medcrypt.helm.web.reports.RequestReportDataVulnCsv.prototype.getIncludeSummaries = function() {
+  return /** @type {boolean} */ (jspb.Message.getFieldWithDefault(this, 5, false));
+};
+
+
+/** @param {boolean} value */
+proto.medcrypt.helm.web.reports.RequestReportDataVulnCsv.prototype.setIncludeSummaries = function(value) {
+  jspb.Message.setProto3BooleanField(this, 5, value);
+};
+
+
 
 /**
  * Generated by JsPbCodeGenerator.
@@ -364,7 +890,7 @@ if (goog.DEBUG && !COMPILED) {
  * @private {!Array<!Array<number>>}
  * @const
  */
-proto.medcrypt.helm.web.reports.RequestReportRequest.oneofGroups_ = [[2,3]];
+proto.medcrypt.helm.web.reports.RequestReportRequest.oneofGroups_ = [[2,3,4]];
 
 /**
  * @enum {number}
@@ -372,7 +898,8 @@ proto.medcrypt.helm.web.reports.RequestReportRequest.oneofGroups_ = [[2,3]];
 proto.medcrypt.helm.web.reports.RequestReportRequest.ReportdataCase = {
   REPORTDATA_NOT_SET: 0,
   REPORT_REQUEST_DATA_FDA: 2,
-  REPORT_REQUEST_DATA_CYCLONE_DX_VEX: 3
+  REPORT_REQUEST_DATA_CYCLONE_DX_VEX: 3,
+  REPORT_REQUEST_DATA_VULN_CSV: 4
 };
 
 /**
@@ -413,7 +940,8 @@ proto.medcrypt.helm.web.reports.RequestReportRequest.toObject = function(include
   var f, obj = {
     metadata: (f = msg.getMetadata()) && heim_common_pb.RequestMetadata.toObject(includeInstance, f),
     reportRequestDataFda: (f = msg.getReportRequestDataFda()) && proto.medcrypt.helm.web.reports.RequestReportDataFda.toObject(includeInstance, f),
-    reportRequestDataCycloneDxVex: (f = msg.getReportRequestDataCycloneDxVex()) && proto.medcrypt.helm.web.reports.RequestReportDataCycloneDxVex.toObject(includeInstance, f)
+    reportRequestDataCycloneDxVex: (f = msg.getReportRequestDataCycloneDxVex()) && proto.medcrypt.helm.web.reports.RequestReportDataCycloneDxVex.toObject(includeInstance, f),
+    reportRequestDataVulnCsv: (f = msg.getReportRequestDataVulnCsv()) && proto.medcrypt.helm.web.reports.RequestReportDataVulnCsv.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -464,6 +992,11 @@ proto.medcrypt.helm.web.reports.RequestReportRequest.deserializeBinaryFromReader
       var value = new proto.medcrypt.helm.web.reports.RequestReportDataCycloneDxVex;
       reader.readMessage(value,proto.medcrypt.helm.web.reports.RequestReportDataCycloneDxVex.deserializeBinaryFromReader);
       msg.setReportRequestDataCycloneDxVex(value);
+      break;
+    case 4:
+      var value = new proto.medcrypt.helm.web.reports.RequestReportDataVulnCsv;
+      reader.readMessage(value,proto.medcrypt.helm.web.reports.RequestReportDataVulnCsv.deserializeBinaryFromReader);
+      msg.setReportRequestDataVulnCsv(value);
       break;
     default:
       reader.skipField();
@@ -516,6 +1049,14 @@ proto.medcrypt.helm.web.reports.RequestReportRequest.serializeBinaryToWriter = f
       3,
       f,
       proto.medcrypt.helm.web.reports.RequestReportDataCycloneDxVex.serializeBinaryToWriter
+    );
+  }
+  f = message.getReportRequestDataVulnCsv();
+  if (f != null) {
+    writer.writeMessage(
+      4,
+      f,
+      proto.medcrypt.helm.web.reports.RequestReportDataVulnCsv.serializeBinaryToWriter
     );
   }
 };
@@ -608,6 +1149,36 @@ proto.medcrypt.helm.web.reports.RequestReportRequest.prototype.clearReportReques
  */
 proto.medcrypt.helm.web.reports.RequestReportRequest.prototype.hasReportRequestDataCycloneDxVex = function() {
   return jspb.Message.getField(this, 3) != null;
+};
+
+
+/**
+ * optional RequestReportDataVulnCsv report_request_data_vuln_csv = 4;
+ * @return {?proto.medcrypt.helm.web.reports.RequestReportDataVulnCsv}
+ */
+proto.medcrypt.helm.web.reports.RequestReportRequest.prototype.getReportRequestDataVulnCsv = function() {
+  return /** @type{?proto.medcrypt.helm.web.reports.RequestReportDataVulnCsv} */ (
+    jspb.Message.getWrapperField(this, proto.medcrypt.helm.web.reports.RequestReportDataVulnCsv, 4));
+};
+
+
+/** @param {?proto.medcrypt.helm.web.reports.RequestReportDataVulnCsv|undefined} value */
+proto.medcrypt.helm.web.reports.RequestReportRequest.prototype.setReportRequestDataVulnCsv = function(value) {
+  jspb.Message.setOneofWrapperField(this, 4, proto.medcrypt.helm.web.reports.RequestReportRequest.oneofGroups_[0], value);
+};
+
+
+proto.medcrypt.helm.web.reports.RequestReportRequest.prototype.clearReportRequestDataVulnCsv = function() {
+  this.setReportRequestDataVulnCsv(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {!boolean}
+ */
+proto.medcrypt.helm.web.reports.RequestReportRequest.prototype.hasReportRequestDataVulnCsv = function() {
+  return jspb.Message.getField(this, 4) != null;
 };
 
 

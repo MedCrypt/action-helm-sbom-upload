@@ -8,6 +8,7 @@ import * as main from '../src/main'
 const runMock = jest.spyOn(main, 'run');
 const CLIENT_ID = 'CLIENT-ID';
 const CLIENT_SECRET = 'CLIENT-SECRET';
+const WORKSPACE_NAME = 'test-workspace';
 const PRODUCT_NAME = 'Yoyodyne';
 const PRODUCT_UUID = '9ef5460a-5246-43dd-89cf-f98cfecaf46d';
 const PRODUCT_VERSION_NAME = '1.0';
@@ -18,6 +19,7 @@ const API_BASE_URL = 'https://not.real.domain.com/api';
 const INPUT_DICTIONARY = new Map<string, string> ([
     ['client-id', CLIENT_ID],
     ['client-secret', CLIENT_SECRET],
+    ['workspace-name', WORKSPACE_NAME],
     ['sbom-file-path', SBOM_FILE_PATH],
     ['product-name', PRODUCT_NAME],
     ['product-uuid', PRODUCT_UUID],
