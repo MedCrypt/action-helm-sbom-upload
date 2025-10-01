@@ -10,7 +10,8 @@ import {
   ListOrganizations,
   OrganizationInfo,
   ListWorkspacesForUser,
-  Workspace, WorkspaceInfo
+  Workspace,
+  WorkspaceInfo,
 } from './protobuf/v1/external/heim_organization_pb';
 import {
   CreateOrganizationProduct,
@@ -95,17 +96,17 @@ export async function run(): Promise<void> {
   const orgUuid = defaultOrg.getOrg()?.getId();
   const allWorkspaces = await ListAllWorkspacesForUser(callInfo);
   let foundWorkspace: WorkspaceInfo | undefined = undefined;
-  if(allWorkspaces.length === 0){
+  if (allWorkspaces.length === 0) {
     core.setFailed(`Workspaces are not found for the user.`);
     return;
-  }else{
+  } else {
     const foundWorkspaces = allWorkspaces.filter((p) => p.getWorkspace()?.getName() === workspaceName);
     if (foundWorkspaces.length === 0) {
       core.setFailed(
-          `No workspace with name '${workspaceName}'. Bear in mind that workspace names are case sensitive.`,
+        `No workspace with name '${workspaceName}'. Bear in mind that workspace names are case sensitive.`,
       );
       return;
-    }else{
+    } else {
       foundWorkspace = foundWorkspaces[0];
       core.info(`Found workspace ${foundWorkspace.getWorkspace()?.getName()} based on workspace name.`);
     }
@@ -205,7 +206,7 @@ const ListAllProducts = async (
   const request = new ListOrganizationProducts.Request();
   listProducts.setRequest(request);
   request.setOrganizationId(organizationUuid);
-  request.setWorkspaceId(workspaceUuid)
+  request.setWorkspaceId(workspaceUuid);
 
   const productResponse = await DoWebApiPostRequest(
     'listorganizationproducts',
@@ -220,18 +221,16 @@ const ListAllProducts = async (
   return productList;
 };
 
-const ListAllWorkspacesForUser = async (
-    callInfo: ApiCallInformation,
-): Promise<WorkspaceInfo[]> => {
+const ListAllWorkspacesForUser = async (callInfo: ApiCallInformation): Promise<WorkspaceInfo[]> => {
   const listWorkspaces = new ListWorkspacesForUser();
   const request = new ListWorkspacesForUser.Request();
   listWorkspaces.setRequest(request);
 
   const workspaceResponse = await DoWebApiPostRequest(
-      'listworkspacesforuser',
-      listWorkspaces,
-      ListWorkspacesForUser,
-      callInfo,
+    'listworkspacesforuser',
+    listWorkspaces,
+    ListWorkspacesForUser,
+    callInfo,
   );
   const workspacesList = workspaceResponse.getResponse()?.getWorkspaceinfoList();
   if (!workspacesList) {
