@@ -14,7 +14,7 @@ inputs:
     required: true
   workspace-name:
       description: 'The name of the workspace as it exists in the Helm system. CASE SENSITIVE. This value must be provided.'
-      required: true
+      required: false
   product-uuid:
     description: 'The 128-bit universally unique identifier for the product, such as 9ef5460a-5246-43dd-89cf-f98cfecaf46d. If this is not specified, then product-name must be provided'
     required: false

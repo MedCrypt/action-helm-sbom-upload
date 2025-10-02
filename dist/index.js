@@ -37736,13 +37736,14 @@ async function run() {
     if (!baseUrl.endsWith('/')) {
         baseUrl += '/';
     }
-    const workspaceName = core.getInput('workspace-name', reqInputOptions);
+    const workspaceName = core.getInput('workspace-name', optInputOptions);
     const productName = core.getInput('product-name', optInputOptions);
     const productUuidAsString = core.getInput('product-uuid', optInputOptions);
-    if (workspaceName === '') {
+    //made workspace optional at this point
+    /*if (workspaceName === '') {
         core.setFailed('workspace-name must be specified.');
         return;
-    }
+      }*/
     if (productName === '' && productUuidAsString === '') {
         core.setFailed('Either product-name or product-uuid must be specified.');
     }
@@ -37771,24 +37772,26 @@ async function run() {
         return;
     }
     const orgUuid = defaultOrg.getOrg()?.getId();
-    const allWorkspaces = await ListAllWorkspacesForUser(callInfo);
     let foundWorkspace = undefined;
-    if (allWorkspaces.length === 0) {
-        core.setFailed(`Workspaces are not found for the user.`);
-        return;
-    }
-    else {
-        const foundWorkspaces = allWorkspaces.filter((p) => p.getWorkspace()?.getName() === workspaceName);
-        if (foundWorkspaces.length === 0) {
-            core.setFailed(`No workspace with name '${workspaceName}'. Bear in mind that workspace names are case sensitive.`);
+    if (workspaceName !== '') {
+        const allWorkspaces = await ListAllWorkspacesForUser(callInfo);
+        if (allWorkspaces.length === 0) {
+            core.setFailed(`Workspaces are not found for the user.`);
             return;
         }
         else {
-            foundWorkspace = foundWorkspaces[0];
-            core.info(`Found workspace ${foundWorkspace.getWorkspace()?.getName()} based on workspace name.`);
+            const foundWorkspaces = allWorkspaces.filter((p) => p.getWorkspace()?.getName() === workspaceName);
+            if (foundWorkspaces.length === 0) {
+                core.setFailed(`No workspace with name '${workspaceName}'. Bear in mind that workspace names are case sensitive.`);
+                return;
+            }
+            else {
+                foundWorkspace = foundWorkspaces[0];
+                core.info(`Found workspace ${foundWorkspace.getWorkspace()?.getName()} based on workspace name.`);
+            }
         }
     }
-    const allProducts = await ListAllProducts(orgUuid, foundWorkspace.getWorkspace()?.getId(), callInfo);
+    const allProducts = await ListAllProducts(orgUuid, foundWorkspace, callInfo);
     let foundOrCreateProduct = undefined;
     core.info(`Resolving product (${productName}) and version (${productVersionName})...`);
     if (productUuidAsString !== '') {
@@ -37805,7 +37808,7 @@ async function run() {
             }
             else {
                 core.info(`Creating product ${productName} ...`);
-                foundOrCreateProduct = await CreateProduct(orgUuid, foundWorkspace.getWorkspace()?.getId(), productName, callInfo);
+                foundOrCreateProduct = await CreateProduct(orgUuid, foundWorkspace, productName, callInfo);
             }
         }
         else {
@@ -37823,7 +37826,7 @@ async function run() {
             }
             else {
                 core.info(`Creating product ${productName} ...`);
-                foundOrCreateProduct = await CreateProduct(orgUuid, foundWorkspace.getWorkspace()?.getId(), productName, callInfo);
+                foundOrCreateProduct = await CreateProduct(orgUuid, foundWorkspace, productName, callInfo);
             }
         }
         else {
@@ -37874,12 +37877,13 @@ const GetDefaultOrganization = async (callInfo) => {
     }
     return orgs[0];
 };
-const ListAllProducts = async (organizationUuid, workspaceUuid, callInfo) => {
+const ListAllProducts = async (organizationUuid, workspace, callInfo) => {
     const listProducts = new heim_organization_product_pb_1.ListOrganizationProducts();
     const request = new heim_organization_product_pb_1.ListOrganizationProducts.Request();
     listProducts.setRequest(request);
     request.setOrganizationId(organizationUuid);
-    request.setWorkspaceId(workspaceUuid);
+    if (workspace)
+        request.setWorkspaceId(workspace?.getWorkspace()?.getId());
     const productResponse = await DoWebApiPostRequest('listorganizationproducts', listProducts, heim_organization_product_pb_1.ListOrganizationProducts, callInfo);
     const productList = productResponse.getResponse()?.getOrganizationProductList();
     if (!productList) {
@@ -37934,12 +37938,13 @@ const ListAllVersionsOfProduct = async (productUuid, callInfo) => {
     }
     return versionList;
 };
-const CreateProduct = async (orgUuid, workspaceUuid, productName, callInfo) => {
+const CreateProduct = async (orgUuid, workspace, productName, callInfo) => {
     const createProduct = new heim_organization_product_pb_1.CreateOrganizationProduct();
     const requestData = new heim_organization_product_pb_1.CreateOrganizationProduct.Request();
     createProduct.setRequest(requestData);
     requestData.setOrganizationId(orgUuid);
-    requestData.setWorkspaceId(workspaceUuid);
+    if (workspace)
+        requestData.setWorkspaceId(workspace.getWorkspace()?.getId());
     requestData.setName(productName);
     const productResponse = await DoWebApiPostRequest('createorganizationproduct', createProduct, heim_organization_product_pb_1.CreateOrganizationProduct, callInfo);
     const product = productResponse.getResponse()?.getOrganizationProduct();
