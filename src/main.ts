@@ -8,15 +8,15 @@ import { unparse } from 'uuid-parse';
 import { UUID } from './protobuf/heim_common_pb';
 import {
   ListOrganizations,
-  OrganizationInfo,
   ListWorkspacesForUser,
+  OrganizationInfo,
   WorkspaceInfo,
 } from './protobuf/v1/external/heim_organization_pb';
 import {
   CreateOrganizationProduct,
   CreateOrganizationProductVersion,
-  ListOrganizationProductVersions,
   ListOrganizationProducts,
+  ListOrganizationProductVersions,
   OrganizationProduct,
   OrganizationProductVersion,
 } from './protobuf/v1/external/heim_organization_product_pb';
@@ -59,13 +59,14 @@ export async function run(): Promise<void> {
     baseUrl += '/';
   }
 
-  const workspaceName: string = core.getInput('workspace-name', reqInputOptions);
+  const workspaceName: string = core.getInput('workspace-name', optInputOptions);
   const productName: string = core.getInput('product-name', optInputOptions);
   const productUuidAsString = core.getInput('product-uuid', optInputOptions);
-  if (workspaceName === '') {
-    core.setFailed('workspace-name must be specified.');
-    return;
-  }
+  //made workspace optional at this point
+  /*if (workspaceName === '') {
+      core.setFailed('workspace-name must be specified.');
+      return;
+    }*/
   if (productName === '' && productUuidAsString === '') {
     core.setFailed('Either product-name or product-uuid must be specified.');
   }
@@ -73,6 +74,7 @@ export async function run(): Promise<void> {
   const clientId = core.getInput('client-id', reqInputOptions);
   const clientSecret = core.getInput('client-secret', reqInputOptions);
   const sbomFilePath = core.getInput('sbom-file-path', reqInputOptions);
+  const shouldCreateProduct = core.getBooleanInput('create-product-if-not-found');
   const shouldCreateVersion = core.getBooleanInput('create-version-if-not-found');
   const callInfo: ApiCallInformation = {
     baseUrl: baseUrl,
@@ -96,25 +98,27 @@ export async function run(): Promise<void> {
     return;
   }
   const orgUuid = defaultOrg.getOrg()?.getId();
-  const allWorkspaces = await ListAllWorkspacesForUser(callInfo);
   let foundWorkspace: WorkspaceInfo | undefined = undefined;
-  if (allWorkspaces.length === 0) {
-    core.setFailed(`Workspaces are not found for the user.`);
-    return;
-  } else {
-    const foundWorkspaces = allWorkspaces.filter((p) => p.getWorkspace()?.getName() === workspaceName);
-    if (foundWorkspaces.length === 0) {
-      core.setFailed(
-        `No workspace with name '${workspaceName}'. Bear in mind that workspace names are case sensitive.`,
-      );
+  if (workspaceName !== '') {
+    const allWorkspaces = await ListAllWorkspacesForUser(callInfo);
+    if (allWorkspaces.length === 0) {
+      core.setFailed(`Workspaces are not found for the user.`);
       return;
     } else {
-      foundWorkspace = foundWorkspaces[0];
-      core.info(`Found workspace ${foundWorkspace.getWorkspace()?.getName()} based on workspace name.`);
+      const foundWorkspaces = allWorkspaces.filter((p) => p.getWorkspace()?.getName() === workspaceName);
+      if (foundWorkspaces.length === 0) {
+        core.setFailed(
+          `No workspace with name '${workspaceName}'. Bear in mind that workspace names are case sensitive.`,
+        );
+        return;
+      } else {
+        foundWorkspace = foundWorkspaces[0];
+        core.info(`Found workspace ${foundWorkspace.getWorkspace()?.getName()} based on workspace name.`);
+      }
     }
   }
-  const allProducts = await ListAllProducts(orgUuid, foundWorkspace.getWorkspace()?.getId(), callInfo);
-  let foundProduct: OrganizationProduct | undefined = undefined;
+  const allProducts = await ListAllProducts(orgUuid, foundWorkspace, callInfo);
+  let foundOrCreateProduct: OrganizationProduct | undefined = undefined;
   core.info(`Resolving product (${productName}) and version (${productVersionName})...`);
   if (productUuidAsString !== '') {
     const foundProducts = allProducts.filter((p) => {
@@ -124,30 +128,42 @@ export async function run(): Promise<void> {
       return false;
     });
     if (foundProducts.length === 0) {
-      core.setFailed(`Unable to locate product with uuid '${productUuidAsString}'`);
-      return;
+      if (!shouldCreateProduct) {
+        core.setFailed(`Unable to locate product with uuid '${productUuidAsString}'`);
+        return;
+      } else {
+        core.info(`Creating product ${productName} ...`);
+        foundOrCreateProduct = await CreateProduct(orgUuid, foundWorkspace, productName, callInfo);
+      }
+    } else {
+      foundOrCreateProduct = foundProducts[0];
+      core.info(`Found product ${foundOrCreateProduct.getName()} based on uuid`);
     }
-    foundProduct = foundProducts[0];
-    core.info(`Found product ${foundProduct.getName()} based on uuid`);
   } else {
     // search based on product name
     const foundProducts = allProducts.filter((p) => p.getName() === productName);
     if (foundProducts.length === 0) {
-      core.setFailed(
-        `Unable to locate product with name '${productName}'. Bear in mind that product names are case sensitive.`,
-      );
-      return;
+      if (!shouldCreateProduct) {
+        core.setFailed(
+          `Unable to locate product with name '${productName}'. Bear in mind that product names are case sensitive.`,
+        );
+        return;
+      } else {
+        core.info(`Creating product ${productName} ...`);
+        foundOrCreateProduct = await CreateProduct(orgUuid, foundWorkspace, productName, callInfo);
+      }
+    } else {
+      foundOrCreateProduct = foundProducts[0];
+      core.info(`Found product ${foundOrCreateProduct.getName()} based on name`);
     }
-    foundProduct = foundProducts[0];
-    core.info(`Found product ${foundProduct.getName()} based on name`);
   }
 
-  if (foundProduct === undefined) {
-    core.setFailed(`Unable to resolve product with name '${productName}' and uuid '${productUuidAsString}'`);
+  if (foundOrCreateProduct === undefined) {
+    core.setFailed(`Unable to create or resolve product with name '${productName}' and uuid '${productUuidAsString}'`);
     return;
   }
 
-  const allVersions = await ListAllVersionsOfProduct(foundProduct.getId(), callInfo);
+  const allVersions = await ListAllVersionsOfProduct(foundOrCreateProduct.getId(), callInfo);
   const foundVersions = allVersions.filter(
     (v) => v.getRawVersionString().toLowerCase() === productVersionName.toLowerCase(),
   );
@@ -160,7 +176,7 @@ export async function run(): Promise<void> {
       return;
     }
     core.info(`Creating version ${productVersionName} for product ${productName}...`);
-    foundOrCreatedVersion = await CreateProductVersion(foundProduct.getId(), productVersionName, callInfo);
+    foundOrCreatedVersion = await CreateProductVersion(foundOrCreateProduct.getId(), productVersionName, callInfo);
   } else {
     core.info(`Found existing version ${productVersionName}`);
     foundOrCreatedVersion = foundVersions[0];
@@ -201,14 +217,14 @@ const GetDefaultOrganization = async (callInfo: ApiCallInformation): Promise<Org
 
 const ListAllProducts = async (
   organizationUuid: UUID | undefined,
-  workspaceUuid: UUID | undefined,
+  workspace: WorkspaceInfo | undefined,
   callInfo: ApiCallInformation,
 ): Promise<OrganizationProduct[]> => {
   const listProducts = new ListOrganizationProducts();
   const request = new ListOrganizationProducts.Request();
   listProducts.setRequest(request);
   request.setOrganizationId(organizationUuid);
-  request.setWorkspaceId(workspaceUuid);
+  if (workspace) request.setWorkspaceId(workspace?.getWorkspace()?.getId());
 
   const productResponse = await DoWebApiPostRequest(
     'listorganizationproducts',
@@ -289,6 +305,32 @@ const ListAllVersionsOfProduct = async (
     throw new Error('Error getting product version list');
   }
   return versionList;
+};
+
+const CreateProduct = async (
+  orgUuid: UUID | undefined,
+  workspace: WorkspaceInfo | undefined,
+  productName: string,
+  callInfo: ApiCallInformation,
+): Promise<OrganizationProduct> => {
+  const createProduct = new CreateOrganizationProduct();
+  const requestData = new CreateOrganizationProduct.Request();
+  createProduct.setRequest(requestData);
+  requestData.setOrganizationId(orgUuid);
+  if (workspace) requestData.setWorkspaceId(workspace.getWorkspace()?.getId());
+  requestData.setName(productName);
+
+  const productResponse = await DoWebApiPostRequest(
+    'createorganizationproduct',
+    createProduct,
+    CreateOrganizationProduct,
+    callInfo,
+  );
+  const product = productResponse.getResponse()?.getOrganizationProduct();
+  if (!product) {
+    throw Error('Error creating product or You do not have privileges to create a product.');
+  }
+  return product;
 };
 
 const CreateProductVersion = async (
