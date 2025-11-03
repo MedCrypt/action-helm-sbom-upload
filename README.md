@@ -1,4 +1,4 @@
-# Medcrypt Helm SBOM Upload V1
+# Medcrypt Helm SBOM Upload V2
 
 [![Coverage](./badges/coverage.svg)](./badges/coverage.svg)
 
@@ -10,7 +10,7 @@ analysis.
 <!-- start usage -->
 
 ```yaml
-- uses: medcrypt/action-helm-sbom-upload@v1
+- uses: medcrypt/action-helm-sbom-upload@v2
   with:
     # Root URL of the medcrypt API. Determines your environment, and provided to you by Medcrypt.
     api-base-url: 'https://helm.medcrypt.co/api-gw/v1/'
