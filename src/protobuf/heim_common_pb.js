@@ -2380,7 +2380,8 @@ proto.medcrypt.heimdall.web.common.InviteUserData.toObject = function(includeIns
     newUserDataList: jspb.Message.toObjectList(msg.getNewUserDataList(),
     proto.medcrypt.heimdall.web.common.NewUserData.toObject, includeInstance),
     existingUserDataList: jspb.Message.toObjectList(msg.getExistingUserDataList(),
-    proto.medcrypt.heimdall.web.common.ExistingUserData.toObject, includeInstance)
+    proto.medcrypt.heimdall.web.common.ExistingUserData.toObject, includeInstance),
+    orgId: (f = msg.getOrgId()) && proto.medcrypt.heimdall.web.common.UUID.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -2431,6 +2432,11 @@ proto.medcrypt.heimdall.web.common.InviteUserData.deserializeBinaryFromReader = 
       var value = new proto.medcrypt.heimdall.web.common.ExistingUserData;
       reader.readMessage(value,proto.medcrypt.heimdall.web.common.ExistingUserData.deserializeBinaryFromReader);
       msg.addExistingUserData(value);
+      break;
+    case 5:
+      var value = new proto.medcrypt.heimdall.web.common.UUID;
+      reader.readMessage(value,proto.medcrypt.heimdall.web.common.UUID.deserializeBinaryFromReader);
+      msg.setOrgId(value);
       break;
     default:
       reader.skipField();
@@ -2483,6 +2489,14 @@ proto.medcrypt.heimdall.web.common.InviteUserData.serializeBinaryToWriter = func
       4,
       f,
       proto.medcrypt.heimdall.web.common.ExistingUserData.serializeBinaryToWriter
+    );
+  }
+  f = message.getOrgId();
+  if (f != null) {
+    writer.writeMessage(
+      5,
+      f,
+      proto.medcrypt.heimdall.web.common.UUID.serializeBinaryToWriter
     );
   }
 };
@@ -2577,6 +2591,36 @@ proto.medcrypt.heimdall.web.common.InviteUserData.prototype.addExistingUserData 
 
 proto.medcrypt.heimdall.web.common.InviteUserData.prototype.clearExistingUserDataList = function() {
   this.setExistingUserDataList([]);
+};
+
+
+/**
+ * optional UUID org_id = 5;
+ * @return {?proto.medcrypt.heimdall.web.common.UUID}
+ */
+proto.medcrypt.heimdall.web.common.InviteUserData.prototype.getOrgId = function() {
+  return /** @type{?proto.medcrypt.heimdall.web.common.UUID} */ (
+    jspb.Message.getWrapperField(this, proto.medcrypt.heimdall.web.common.UUID, 5));
+};
+
+
+/** @param {?proto.medcrypt.heimdall.web.common.UUID|undefined} value */
+proto.medcrypt.heimdall.web.common.InviteUserData.prototype.setOrgId = function(value) {
+  jspb.Message.setWrapperField(this, 5, value);
+};
+
+
+proto.medcrypt.heimdall.web.common.InviteUserData.prototype.clearOrgId = function() {
+  this.setOrgId(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {!boolean}
+ */
+proto.medcrypt.heimdall.web.common.InviteUserData.prototype.hasOrgId = function() {
+  return jspb.Message.getField(this, 5) != null;
 };
 
 
@@ -3094,7 +3138,8 @@ proto.medcrypt.heimdall.web.common.UserWorkspaceInfo.toObject = function(include
     isOrgOwner: jspb.Message.getFieldWithDefault(msg, 5, false),
     isWsAdmin: jspb.Message.getFieldWithDefault(msg, 6, false),
     isActive: jspb.Message.getFieldWithDefault(msg, 7, false),
-    workspaceName: jspb.Message.getFieldWithDefault(msg, 8, "")
+    workspaceName: jspb.Message.getFieldWithDefault(msg, 8, ""),
+    isActiveInOrg: jspb.Message.getFieldWithDefault(msg, 9, false)
   };
 
   if (includeInstance) {
@@ -3164,6 +3209,10 @@ proto.medcrypt.heimdall.web.common.UserWorkspaceInfo.deserializeBinaryFromReader
     case 8:
       var value = /** @type {string} */ (reader.readString());
       msg.setWorkspaceName(value);
+      break;
+    case 9:
+      var value = /** @type {boolean} */ (reader.readBool());
+      msg.setIsActiveInOrg(value);
       break;
     default:
       reader.skipField();
@@ -3249,6 +3298,13 @@ proto.medcrypt.heimdall.web.common.UserWorkspaceInfo.serializeBinaryToWriter = f
   if (f.length > 0) {
     writer.writeString(
       8,
+      f
+    );
+  }
+  f = message.getIsActiveInOrg();
+  if (f) {
+    writer.writeBool(
+      9,
       f
     );
   }
@@ -3408,6 +3464,23 @@ proto.medcrypt.heimdall.web.common.UserWorkspaceInfo.prototype.getWorkspaceName 
 /** @param {string} value */
 proto.medcrypt.heimdall.web.common.UserWorkspaceInfo.prototype.setWorkspaceName = function(value) {
   jspb.Message.setProto3StringField(this, 8, value);
+};
+
+
+/**
+ * optional bool is_active_in_org = 9;
+ * Note that Boolean fields may be set to 0/1 when serialized from a Java server.
+ * You should avoid comparisons like {@code val === true/false} in those cases.
+ * @return {boolean}
+ */
+proto.medcrypt.heimdall.web.common.UserWorkspaceInfo.prototype.getIsActiveInOrg = function() {
+  return /** @type {boolean} */ (jspb.Message.getFieldWithDefault(this, 9, false));
+};
+
+
+/** @param {boolean} value */
+proto.medcrypt.heimdall.web.common.UserWorkspaceInfo.prototype.setIsActiveInOrg = function(value) {
+  jspb.Message.setProto3BooleanField(this, 9, value);
 };
 
 

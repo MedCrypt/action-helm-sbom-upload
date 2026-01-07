@@ -12,6 +12,12 @@ var goog = jspb;
 var global = Function('return this')();
 
 var heim_common_pb = require('../../heim_common_pb.js');
+goog.exportSymbol('proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct', null, global);
+goog.exportSymbol('proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Request', null, global);
+goog.exportSymbol('proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Response', null, global);
+goog.exportSymbol('proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion', null, global);
+goog.exportSymbol('proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Request', null, global);
+goog.exportSymbol('proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Response', null, global);
 goog.exportSymbol('proto.medcrypt.helm.api.v1.organizationproduct.CreateOrganizationProduct', null, global);
 goog.exportSymbol('proto.medcrypt.helm.api.v1.organizationproduct.CreateOrganizationProduct.Request', null, global);
 goog.exportSymbol('proto.medcrypt.helm.api.v1.organizationproduct.CreateOrganizationProduct.Response', null, global);
@@ -1835,6 +1841,758 @@ proto.medcrypt.helm.api.v1.organizationproduct.CreateOrganizationProduct.prototy
  * @extends {jspb.Message}
  * @constructor
  */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct = function(opt_data) {
+  jspb.Message.initialize(this, opt_data, 0, -1, null, proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.oneofGroups_);
+};
+goog.inherits(proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct, jspb.Message);
+if (goog.DEBUG && !COMPILED) {
+  proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.displayName = 'proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct';
+}
+/**
+ * Oneof group definitions for this message. Each group defines the field
+ * numbers belonging to that group. When of these fields' value is set, all
+ * other fields in the group are cleared. During deserialization, if multiple
+ * fields are encountered for a group, only the last value seen will be kept.
+ * @private {!Array<!Array<number>>}
+ * @const
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.oneofGroups_ = [[1,2]];
+
+/**
+ * @enum {number}
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.PayloadCase = {
+  PAYLOAD_NOT_SET: 0,
+  REQUEST: 1,
+  RESPONSE: 2
+};
+
+/**
+ * @return {proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.PayloadCase}
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.prototype.getPayloadCase = function() {
+  return /** @type {proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.PayloadCase} */(jspb.Message.computeOneofCase(this, proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.oneofGroups_[0]));
+};
+
+
+
+if (jspb.Message.GENERATE_TO_OBJECT) {
+/**
+ * Creates an object representation of this proto suitable for use in Soy templates.
+ * Field names that are reserved in JavaScript and will be renamed to pb_name.
+ * To access a reserved field use, foo.pb_<name>, eg, foo.pb_default.
+ * For the list of reserved names please see:
+ *     com.google.apps.jspb.JsClassTemplate.JS_RESERVED_WORDS.
+ * @param {boolean=} opt_includeInstance Whether to include the JSPB instance
+ *     for transitional soy proto support: http://goto/soy-param-migration
+ * @return {!Object}
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.prototype.toObject = function(opt_includeInstance) {
+  return proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.toObject(opt_includeInstance, this);
+};
+
+
+/**
+ * Static version of the {@see toObject} method.
+ * @param {boolean|undefined} includeInstance Whether to include the JSPB
+ *     instance for transitional soy proto support:
+ *     http://goto/soy-param-migration
+ * @param {!proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct} msg The msg instance to transform.
+ * @return {!Object}
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.toObject = function(includeInstance, msg) {
+  var f, obj = {
+    request: (f = msg.getRequest()) && proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Request.toObject(includeInstance, f),
+    response: (f = msg.getResponse()) && proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Response.toObject(includeInstance, f)
+  };
+
+  if (includeInstance) {
+    obj.$jspbMessageInstance = msg;
+  }
+  return obj;
+};
+}
+
+
+/**
+ * Deserializes binary data (in protobuf wire format).
+ * @param {jspb.ByteSource} bytes The bytes to deserialize.
+ * @return {!proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct}
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.deserializeBinary = function(bytes) {
+  var reader = new jspb.BinaryReader(bytes);
+  var msg = new proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct;
+  return proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.deserializeBinaryFromReader(msg, reader);
+};
+
+
+/**
+ * Deserializes binary data (in protobuf wire format) from the
+ * given reader into the given message object.
+ * @param {!proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct} msg The message object to deserialize into.
+ * @param {!jspb.BinaryReader} reader The BinaryReader to use.
+ * @return {!proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct}
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.deserializeBinaryFromReader = function(msg, reader) {
+  while (reader.nextField()) {
+    if (reader.isEndGroup()) {
+      break;
+    }
+    var field = reader.getFieldNumber();
+    switch (field) {
+    case 1:
+      var value = new proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Request;
+      reader.readMessage(value,proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Request.deserializeBinaryFromReader);
+      msg.setRequest(value);
+      break;
+    case 2:
+      var value = new proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Response;
+      reader.readMessage(value,proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Response.deserializeBinaryFromReader);
+      msg.setResponse(value);
+      break;
+    default:
+      reader.skipField();
+      break;
+    }
+  }
+  return msg;
+};
+
+
+/**
+ * Serializes the message to binary data (in protobuf wire format).
+ * @return {!Uint8Array}
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.prototype.serializeBinary = function() {
+  var writer = new jspb.BinaryWriter();
+  proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.serializeBinaryToWriter(this, writer);
+  return writer.getResultBuffer();
+};
+
+
+/**
+ * Serializes the given message to binary data (in protobuf wire
+ * format), writing to the given BinaryWriter.
+ * @param {!proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct} message
+ * @param {!jspb.BinaryWriter} writer
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.serializeBinaryToWriter = function(message, writer) {
+  var f = undefined;
+  f = message.getRequest();
+  if (f != null) {
+    writer.writeMessage(
+      1,
+      f,
+      proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Request.serializeBinaryToWriter
+    );
+  }
+  f = message.getResponse();
+  if (f != null) {
+    writer.writeMessage(
+      2,
+      f,
+      proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Response.serializeBinaryToWriter
+    );
+  }
+};
+
+
+
+/**
+ * Generated by JsPbCodeGenerator.
+ * @param {Array=} opt_data Optional initial data array, typically from a
+ * server response, or constructed directly in Javascript. The array is used
+ * in place and becomes part of the constructed object. It is not cloned.
+ * If no data is provided, the constructed object will be empty, but still
+ * valid.
+ * @extends {jspb.Message}
+ * @constructor
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Request = function(opt_data) {
+  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
+};
+goog.inherits(proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Request, jspb.Message);
+if (goog.DEBUG && !COMPILED) {
+  proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Request.displayName = 'proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Request';
+}
+
+
+if (jspb.Message.GENERATE_TO_OBJECT) {
+/**
+ * Creates an object representation of this proto suitable for use in Soy templates.
+ * Field names that are reserved in JavaScript and will be renamed to pb_name.
+ * To access a reserved field use, foo.pb_<name>, eg, foo.pb_default.
+ * For the list of reserved names please see:
+ *     com.google.apps.jspb.JsClassTemplate.JS_RESERVED_WORDS.
+ * @param {boolean=} opt_includeInstance Whether to include the JSPB instance
+ *     for transitional soy proto support: http://goto/soy-param-migration
+ * @return {!Object}
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Request.prototype.toObject = function(opt_includeInstance) {
+  return proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Request.toObject(opt_includeInstance, this);
+};
+
+
+/**
+ * Static version of the {@see toObject} method.
+ * @param {boolean|undefined} includeInstance Whether to include the JSPB
+ *     instance for transitional soy proto support:
+ *     http://goto/soy-param-migration
+ * @param {!proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Request} msg The msg instance to transform.
+ * @return {!Object}
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Request.toObject = function(includeInstance, msg) {
+  var f, obj = {
+    metadata: (f = msg.getMetadata()) && heim_common_pb.RequestMetadata.toObject(includeInstance, f),
+    organizationId: (f = msg.getOrganizationId()) && heim_common_pb.UUID.toObject(includeInstance, f),
+    workspaceId: (f = msg.getWorkspaceId()) && heim_common_pb.UUID.toObject(includeInstance, f),
+    orgProdId: (f = msg.getOrgProdId()) && heim_common_pb.UUID.toObject(includeInstance, f),
+    unarchiveprod: jspb.Message.getFieldWithDefault(msg, 5, false)
+  };
+
+  if (includeInstance) {
+    obj.$jspbMessageInstance = msg;
+  }
+  return obj;
+};
+}
+
+
+/**
+ * Deserializes binary data (in protobuf wire format).
+ * @param {jspb.ByteSource} bytes The bytes to deserialize.
+ * @return {!proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Request}
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Request.deserializeBinary = function(bytes) {
+  var reader = new jspb.BinaryReader(bytes);
+  var msg = new proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Request;
+  return proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Request.deserializeBinaryFromReader(msg, reader);
+};
+
+
+/**
+ * Deserializes binary data (in protobuf wire format) from the
+ * given reader into the given message object.
+ * @param {!proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Request} msg The message object to deserialize into.
+ * @param {!jspb.BinaryReader} reader The BinaryReader to use.
+ * @return {!proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Request}
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Request.deserializeBinaryFromReader = function(msg, reader) {
+  while (reader.nextField()) {
+    if (reader.isEndGroup()) {
+      break;
+    }
+    var field = reader.getFieldNumber();
+    switch (field) {
+    case 1:
+      var value = new heim_common_pb.RequestMetadata;
+      reader.readMessage(value,heim_common_pb.RequestMetadata.deserializeBinaryFromReader);
+      msg.setMetadata(value);
+      break;
+    case 2:
+      var value = new heim_common_pb.UUID;
+      reader.readMessage(value,heim_common_pb.UUID.deserializeBinaryFromReader);
+      msg.setOrganizationId(value);
+      break;
+    case 3:
+      var value = new heim_common_pb.UUID;
+      reader.readMessage(value,heim_common_pb.UUID.deserializeBinaryFromReader);
+      msg.setWorkspaceId(value);
+      break;
+    case 4:
+      var value = new heim_common_pb.UUID;
+      reader.readMessage(value,heim_common_pb.UUID.deserializeBinaryFromReader);
+      msg.setOrgProdId(value);
+      break;
+    case 5:
+      var value = /** @type {boolean} */ (reader.readBool());
+      msg.setUnarchiveprod(value);
+      break;
+    default:
+      reader.skipField();
+      break;
+    }
+  }
+  return msg;
+};
+
+
+/**
+ * Serializes the message to binary data (in protobuf wire format).
+ * @return {!Uint8Array}
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Request.prototype.serializeBinary = function() {
+  var writer = new jspb.BinaryWriter();
+  proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Request.serializeBinaryToWriter(this, writer);
+  return writer.getResultBuffer();
+};
+
+
+/**
+ * Serializes the given message to binary data (in protobuf wire
+ * format), writing to the given BinaryWriter.
+ * @param {!proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Request} message
+ * @param {!jspb.BinaryWriter} writer
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Request.serializeBinaryToWriter = function(message, writer) {
+  var f = undefined;
+  f = message.getMetadata();
+  if (f != null) {
+    writer.writeMessage(
+      1,
+      f,
+      heim_common_pb.RequestMetadata.serializeBinaryToWriter
+    );
+  }
+  f = message.getOrganizationId();
+  if (f != null) {
+    writer.writeMessage(
+      2,
+      f,
+      heim_common_pb.UUID.serializeBinaryToWriter
+    );
+  }
+  f = message.getWorkspaceId();
+  if (f != null) {
+    writer.writeMessage(
+      3,
+      f,
+      heim_common_pb.UUID.serializeBinaryToWriter
+    );
+  }
+  f = message.getOrgProdId();
+  if (f != null) {
+    writer.writeMessage(
+      4,
+      f,
+      heim_common_pb.UUID.serializeBinaryToWriter
+    );
+  }
+  f = message.getUnarchiveprod();
+  if (f) {
+    writer.writeBool(
+      5,
+      f
+    );
+  }
+};
+
+
+/**
+ * optional medcrypt.heimdall.web.common.RequestMetadata metadata = 1;
+ * @return {?proto.medcrypt.heimdall.web.common.RequestMetadata}
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Request.prototype.getMetadata = function() {
+  return /** @type{?proto.medcrypt.heimdall.web.common.RequestMetadata} */ (
+    jspb.Message.getWrapperField(this, heim_common_pb.RequestMetadata, 1));
+};
+
+
+/** @param {?proto.medcrypt.heimdall.web.common.RequestMetadata|undefined} value */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Request.prototype.setMetadata = function(value) {
+  jspb.Message.setWrapperField(this, 1, value);
+};
+
+
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Request.prototype.clearMetadata = function() {
+  this.setMetadata(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {!boolean}
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Request.prototype.hasMetadata = function() {
+  return jspb.Message.getField(this, 1) != null;
+};
+
+
+/**
+ * optional medcrypt.heimdall.web.common.UUID organization_id = 2;
+ * @return {?proto.medcrypt.heimdall.web.common.UUID}
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Request.prototype.getOrganizationId = function() {
+  return /** @type{?proto.medcrypt.heimdall.web.common.UUID} */ (
+    jspb.Message.getWrapperField(this, heim_common_pb.UUID, 2));
+};
+
+
+/** @param {?proto.medcrypt.heimdall.web.common.UUID|undefined} value */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Request.prototype.setOrganizationId = function(value) {
+  jspb.Message.setWrapperField(this, 2, value);
+};
+
+
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Request.prototype.clearOrganizationId = function() {
+  this.setOrganizationId(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {!boolean}
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Request.prototype.hasOrganizationId = function() {
+  return jspb.Message.getField(this, 2) != null;
+};
+
+
+/**
+ * optional medcrypt.heimdall.web.common.UUID workspace_id = 3;
+ * @return {?proto.medcrypt.heimdall.web.common.UUID}
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Request.prototype.getWorkspaceId = function() {
+  return /** @type{?proto.medcrypt.heimdall.web.common.UUID} */ (
+    jspb.Message.getWrapperField(this, heim_common_pb.UUID, 3));
+};
+
+
+/** @param {?proto.medcrypt.heimdall.web.common.UUID|undefined} value */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Request.prototype.setWorkspaceId = function(value) {
+  jspb.Message.setWrapperField(this, 3, value);
+};
+
+
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Request.prototype.clearWorkspaceId = function() {
+  this.setWorkspaceId(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {!boolean}
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Request.prototype.hasWorkspaceId = function() {
+  return jspb.Message.getField(this, 3) != null;
+};
+
+
+/**
+ * optional medcrypt.heimdall.web.common.UUID org_prod_id = 4;
+ * @return {?proto.medcrypt.heimdall.web.common.UUID}
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Request.prototype.getOrgProdId = function() {
+  return /** @type{?proto.medcrypt.heimdall.web.common.UUID} */ (
+    jspb.Message.getWrapperField(this, heim_common_pb.UUID, 4));
+};
+
+
+/** @param {?proto.medcrypt.heimdall.web.common.UUID|undefined} value */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Request.prototype.setOrgProdId = function(value) {
+  jspb.Message.setWrapperField(this, 4, value);
+};
+
+
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Request.prototype.clearOrgProdId = function() {
+  this.setOrgProdId(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {!boolean}
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Request.prototype.hasOrgProdId = function() {
+  return jspb.Message.getField(this, 4) != null;
+};
+
+
+/**
+ * optional bool unarchiveProd = 5;
+ * Note that Boolean fields may be set to 0/1 when serialized from a Java server.
+ * You should avoid comparisons like {@code val === true/false} in those cases.
+ * @return {boolean}
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Request.prototype.getUnarchiveprod = function() {
+  return /** @type {boolean} */ (jspb.Message.getFieldWithDefault(this, 5, false));
+};
+
+
+/** @param {boolean} value */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Request.prototype.setUnarchiveprod = function(value) {
+  jspb.Message.setProto3BooleanField(this, 5, value);
+};
+
+
+
+/**
+ * Generated by JsPbCodeGenerator.
+ * @param {Array=} opt_data Optional initial data array, typically from a
+ * server response, or constructed directly in Javascript. The array is used
+ * in place and becomes part of the constructed object. It is not cloned.
+ * If no data is provided, the constructed object will be empty, but still
+ * valid.
+ * @extends {jspb.Message}
+ * @constructor
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Response = function(opt_data) {
+  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
+};
+goog.inherits(proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Response, jspb.Message);
+if (goog.DEBUG && !COMPILED) {
+  proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Response.displayName = 'proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Response';
+}
+
+
+if (jspb.Message.GENERATE_TO_OBJECT) {
+/**
+ * Creates an object representation of this proto suitable for use in Soy templates.
+ * Field names that are reserved in JavaScript and will be renamed to pb_name.
+ * To access a reserved field use, foo.pb_<name>, eg, foo.pb_default.
+ * For the list of reserved names please see:
+ *     com.google.apps.jspb.JsClassTemplate.JS_RESERVED_WORDS.
+ * @param {boolean=} opt_includeInstance Whether to include the JSPB instance
+ *     for transitional soy proto support: http://goto/soy-param-migration
+ * @return {!Object}
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Response.prototype.toObject = function(opt_includeInstance) {
+  return proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Response.toObject(opt_includeInstance, this);
+};
+
+
+/**
+ * Static version of the {@see toObject} method.
+ * @param {boolean|undefined} includeInstance Whether to include the JSPB
+ *     instance for transitional soy proto support:
+ *     http://goto/soy-param-migration
+ * @param {!proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Response} msg The msg instance to transform.
+ * @return {!Object}
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Response.toObject = function(includeInstance, msg) {
+  var f, obj = {
+    metadata: (f = msg.getMetadata()) && heim_common_pb.ResponseMetadata.toObject(includeInstance, f),
+    organizationProduct: (f = msg.getOrganizationProduct()) && proto.medcrypt.helm.api.v1.organizationproduct.OrganizationProduct.toObject(includeInstance, f)
+  };
+
+  if (includeInstance) {
+    obj.$jspbMessageInstance = msg;
+  }
+  return obj;
+};
+}
+
+
+/**
+ * Deserializes binary data (in protobuf wire format).
+ * @param {jspb.ByteSource} bytes The bytes to deserialize.
+ * @return {!proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Response}
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Response.deserializeBinary = function(bytes) {
+  var reader = new jspb.BinaryReader(bytes);
+  var msg = new proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Response;
+  return proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Response.deserializeBinaryFromReader(msg, reader);
+};
+
+
+/**
+ * Deserializes binary data (in protobuf wire format) from the
+ * given reader into the given message object.
+ * @param {!proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Response} msg The message object to deserialize into.
+ * @param {!jspb.BinaryReader} reader The BinaryReader to use.
+ * @return {!proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Response}
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Response.deserializeBinaryFromReader = function(msg, reader) {
+  while (reader.nextField()) {
+    if (reader.isEndGroup()) {
+      break;
+    }
+    var field = reader.getFieldNumber();
+    switch (field) {
+    case 1:
+      var value = new heim_common_pb.ResponseMetadata;
+      reader.readMessage(value,heim_common_pb.ResponseMetadata.deserializeBinaryFromReader);
+      msg.setMetadata(value);
+      break;
+    case 2:
+      var value = new proto.medcrypt.helm.api.v1.organizationproduct.OrganizationProduct;
+      reader.readMessage(value,proto.medcrypt.helm.api.v1.organizationproduct.OrganizationProduct.deserializeBinaryFromReader);
+      msg.setOrganizationProduct(value);
+      break;
+    default:
+      reader.skipField();
+      break;
+    }
+  }
+  return msg;
+};
+
+
+/**
+ * Serializes the message to binary data (in protobuf wire format).
+ * @return {!Uint8Array}
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Response.prototype.serializeBinary = function() {
+  var writer = new jspb.BinaryWriter();
+  proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Response.serializeBinaryToWriter(this, writer);
+  return writer.getResultBuffer();
+};
+
+
+/**
+ * Serializes the given message to binary data (in protobuf wire
+ * format), writing to the given BinaryWriter.
+ * @param {!proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Response} message
+ * @param {!jspb.BinaryWriter} writer
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Response.serializeBinaryToWriter = function(message, writer) {
+  var f = undefined;
+  f = message.getMetadata();
+  if (f != null) {
+    writer.writeMessage(
+      1,
+      f,
+      heim_common_pb.ResponseMetadata.serializeBinaryToWriter
+    );
+  }
+  f = message.getOrganizationProduct();
+  if (f != null) {
+    writer.writeMessage(
+      2,
+      f,
+      proto.medcrypt.helm.api.v1.organizationproduct.OrganizationProduct.serializeBinaryToWriter
+    );
+  }
+};
+
+
+/**
+ * optional medcrypt.heimdall.web.common.ResponseMetadata metadata = 1;
+ * @return {?proto.medcrypt.heimdall.web.common.ResponseMetadata}
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Response.prototype.getMetadata = function() {
+  return /** @type{?proto.medcrypt.heimdall.web.common.ResponseMetadata} */ (
+    jspb.Message.getWrapperField(this, heim_common_pb.ResponseMetadata, 1));
+};
+
+
+/** @param {?proto.medcrypt.heimdall.web.common.ResponseMetadata|undefined} value */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Response.prototype.setMetadata = function(value) {
+  jspb.Message.setWrapperField(this, 1, value);
+};
+
+
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Response.prototype.clearMetadata = function() {
+  this.setMetadata(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {!boolean}
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Response.prototype.hasMetadata = function() {
+  return jspb.Message.getField(this, 1) != null;
+};
+
+
+/**
+ * optional OrganizationProduct organization_product = 2;
+ * @return {?proto.medcrypt.helm.api.v1.organizationproduct.OrganizationProduct}
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Response.prototype.getOrganizationProduct = function() {
+  return /** @type{?proto.medcrypt.helm.api.v1.organizationproduct.OrganizationProduct} */ (
+    jspb.Message.getWrapperField(this, proto.medcrypt.helm.api.v1.organizationproduct.OrganizationProduct, 2));
+};
+
+
+/** @param {?proto.medcrypt.helm.api.v1.organizationproduct.OrganizationProduct|undefined} value */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Response.prototype.setOrganizationProduct = function(value) {
+  jspb.Message.setWrapperField(this, 2, value);
+};
+
+
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Response.prototype.clearOrganizationProduct = function() {
+  this.setOrganizationProduct(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {!boolean}
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Response.prototype.hasOrganizationProduct = function() {
+  return jspb.Message.getField(this, 2) != null;
+};
+
+
+/**
+ * optional Request request = 1;
+ * @return {?proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Request}
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.prototype.getRequest = function() {
+  return /** @type{?proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Request} */ (
+    jspb.Message.getWrapperField(this, proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Request, 1));
+};
+
+
+/** @param {?proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Request|undefined} value */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.prototype.setRequest = function(value) {
+  jspb.Message.setOneofWrapperField(this, 1, proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.oneofGroups_[0], value);
+};
+
+
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.prototype.clearRequest = function() {
+  this.setRequest(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {!boolean}
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.prototype.hasRequest = function() {
+  return jspb.Message.getField(this, 1) != null;
+};
+
+
+/**
+ * optional Response response = 2;
+ * @return {?proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Response}
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.prototype.getResponse = function() {
+  return /** @type{?proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Response} */ (
+    jspb.Message.getWrapperField(this, proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Response, 2));
+};
+
+
+/** @param {?proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.Response|undefined} value */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.prototype.setResponse = function(value) {
+  jspb.Message.setOneofWrapperField(this, 2, proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.oneofGroups_[0], value);
+};
+
+
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.prototype.clearResponse = function() {
+  this.setResponse(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {!boolean}
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProduct.prototype.hasResponse = function() {
+  return jspb.Message.getField(this, 2) != null;
+};
+
+
+
+/**
+ * Generated by JsPbCodeGenerator.
+ * @param {Array=} opt_data Optional initial data array, typically from a
+ * server response, or constructed directly in Javascript. The array is used
+ * in place and becomes part of the constructed object. It is not cloned.
+ * If no data is provided, the constructed object will be empty, but still
+ * valid.
+ * @extends {jspb.Message}
+ * @constructor
+ */
 proto.medcrypt.helm.api.v1.organizationproduct.OrganizationProductVersion = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
@@ -3414,6 +4172,714 @@ proto.medcrypt.helm.api.v1.organizationproduct.CreateOrganizationProductVersion.
  * @return {!boolean}
  */
 proto.medcrypt.helm.api.v1.organizationproduct.CreateOrganizationProductVersion.prototype.hasResponse = function() {
+  return jspb.Message.getField(this, 2) != null;
+};
+
+
+
+/**
+ * Generated by JsPbCodeGenerator.
+ * @param {Array=} opt_data Optional initial data array, typically from a
+ * server response, or constructed directly in Javascript. The array is used
+ * in place and becomes part of the constructed object. It is not cloned.
+ * If no data is provided, the constructed object will be empty, but still
+ * valid.
+ * @extends {jspb.Message}
+ * @constructor
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion = function(opt_data) {
+  jspb.Message.initialize(this, opt_data, 0, -1, null, proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.oneofGroups_);
+};
+goog.inherits(proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion, jspb.Message);
+if (goog.DEBUG && !COMPILED) {
+  proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.displayName = 'proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion';
+}
+/**
+ * Oneof group definitions for this message. Each group defines the field
+ * numbers belonging to that group. When of these fields' value is set, all
+ * other fields in the group are cleared. During deserialization, if multiple
+ * fields are encountered for a group, only the last value seen will be kept.
+ * @private {!Array<!Array<number>>}
+ * @const
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.oneofGroups_ = [[1,2]];
+
+/**
+ * @enum {number}
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.PayloadCase = {
+  PAYLOAD_NOT_SET: 0,
+  REQUEST: 1,
+  RESPONSE: 2
+};
+
+/**
+ * @return {proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.PayloadCase}
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.prototype.getPayloadCase = function() {
+  return /** @type {proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.PayloadCase} */(jspb.Message.computeOneofCase(this, proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.oneofGroups_[0]));
+};
+
+
+
+if (jspb.Message.GENERATE_TO_OBJECT) {
+/**
+ * Creates an object representation of this proto suitable for use in Soy templates.
+ * Field names that are reserved in JavaScript and will be renamed to pb_name.
+ * To access a reserved field use, foo.pb_<name>, eg, foo.pb_default.
+ * For the list of reserved names please see:
+ *     com.google.apps.jspb.JsClassTemplate.JS_RESERVED_WORDS.
+ * @param {boolean=} opt_includeInstance Whether to include the JSPB instance
+ *     for transitional soy proto support: http://goto/soy-param-migration
+ * @return {!Object}
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.prototype.toObject = function(opt_includeInstance) {
+  return proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.toObject(opt_includeInstance, this);
+};
+
+
+/**
+ * Static version of the {@see toObject} method.
+ * @param {boolean|undefined} includeInstance Whether to include the JSPB
+ *     instance for transitional soy proto support:
+ *     http://goto/soy-param-migration
+ * @param {!proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion} msg The msg instance to transform.
+ * @return {!Object}
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.toObject = function(includeInstance, msg) {
+  var f, obj = {
+    request: (f = msg.getRequest()) && proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Request.toObject(includeInstance, f),
+    response: (f = msg.getResponse()) && proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Response.toObject(includeInstance, f)
+  };
+
+  if (includeInstance) {
+    obj.$jspbMessageInstance = msg;
+  }
+  return obj;
+};
+}
+
+
+/**
+ * Deserializes binary data (in protobuf wire format).
+ * @param {jspb.ByteSource} bytes The bytes to deserialize.
+ * @return {!proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion}
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.deserializeBinary = function(bytes) {
+  var reader = new jspb.BinaryReader(bytes);
+  var msg = new proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion;
+  return proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.deserializeBinaryFromReader(msg, reader);
+};
+
+
+/**
+ * Deserializes binary data (in protobuf wire format) from the
+ * given reader into the given message object.
+ * @param {!proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion} msg The message object to deserialize into.
+ * @param {!jspb.BinaryReader} reader The BinaryReader to use.
+ * @return {!proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion}
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.deserializeBinaryFromReader = function(msg, reader) {
+  while (reader.nextField()) {
+    if (reader.isEndGroup()) {
+      break;
+    }
+    var field = reader.getFieldNumber();
+    switch (field) {
+    case 1:
+      var value = new proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Request;
+      reader.readMessage(value,proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Request.deserializeBinaryFromReader);
+      msg.setRequest(value);
+      break;
+    case 2:
+      var value = new proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Response;
+      reader.readMessage(value,proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Response.deserializeBinaryFromReader);
+      msg.setResponse(value);
+      break;
+    default:
+      reader.skipField();
+      break;
+    }
+  }
+  return msg;
+};
+
+
+/**
+ * Serializes the message to binary data (in protobuf wire format).
+ * @return {!Uint8Array}
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.prototype.serializeBinary = function() {
+  var writer = new jspb.BinaryWriter();
+  proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.serializeBinaryToWriter(this, writer);
+  return writer.getResultBuffer();
+};
+
+
+/**
+ * Serializes the given message to binary data (in protobuf wire
+ * format), writing to the given BinaryWriter.
+ * @param {!proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion} message
+ * @param {!jspb.BinaryWriter} writer
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.serializeBinaryToWriter = function(message, writer) {
+  var f = undefined;
+  f = message.getRequest();
+  if (f != null) {
+    writer.writeMessage(
+      1,
+      f,
+      proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Request.serializeBinaryToWriter
+    );
+  }
+  f = message.getResponse();
+  if (f != null) {
+    writer.writeMessage(
+      2,
+      f,
+      proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Response.serializeBinaryToWriter
+    );
+  }
+};
+
+
+
+/**
+ * Generated by JsPbCodeGenerator.
+ * @param {Array=} opt_data Optional initial data array, typically from a
+ * server response, or constructed directly in Javascript. The array is used
+ * in place and becomes part of the constructed object. It is not cloned.
+ * If no data is provided, the constructed object will be empty, but still
+ * valid.
+ * @extends {jspb.Message}
+ * @constructor
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Request = function(opt_data) {
+  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
+};
+goog.inherits(proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Request, jspb.Message);
+if (goog.DEBUG && !COMPILED) {
+  proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Request.displayName = 'proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Request';
+}
+
+
+if (jspb.Message.GENERATE_TO_OBJECT) {
+/**
+ * Creates an object representation of this proto suitable for use in Soy templates.
+ * Field names that are reserved in JavaScript and will be renamed to pb_name.
+ * To access a reserved field use, foo.pb_<name>, eg, foo.pb_default.
+ * For the list of reserved names please see:
+ *     com.google.apps.jspb.JsClassTemplate.JS_RESERVED_WORDS.
+ * @param {boolean=} opt_includeInstance Whether to include the JSPB instance
+ *     for transitional soy proto support: http://goto/soy-param-migration
+ * @return {!Object}
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Request.prototype.toObject = function(opt_includeInstance) {
+  return proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Request.toObject(opt_includeInstance, this);
+};
+
+
+/**
+ * Static version of the {@see toObject} method.
+ * @param {boolean|undefined} includeInstance Whether to include the JSPB
+ *     instance for transitional soy proto support:
+ *     http://goto/soy-param-migration
+ * @param {!proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Request} msg The msg instance to transform.
+ * @return {!Object}
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Request.toObject = function(includeInstance, msg) {
+  var f, obj = {
+    metadata: (f = msg.getMetadata()) && heim_common_pb.RequestMetadata.toObject(includeInstance, f),
+    organizationProductId: (f = msg.getOrganizationProductId()) && heim_common_pb.UUID.toObject(includeInstance, f),
+    organizationProductVersId: (f = msg.getOrganizationProductVersId()) && heim_common_pb.UUID.toObject(includeInstance, f),
+    unarchiveprodvers: jspb.Message.getFieldWithDefault(msg, 4, false)
+  };
+
+  if (includeInstance) {
+    obj.$jspbMessageInstance = msg;
+  }
+  return obj;
+};
+}
+
+
+/**
+ * Deserializes binary data (in protobuf wire format).
+ * @param {jspb.ByteSource} bytes The bytes to deserialize.
+ * @return {!proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Request}
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Request.deserializeBinary = function(bytes) {
+  var reader = new jspb.BinaryReader(bytes);
+  var msg = new proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Request;
+  return proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Request.deserializeBinaryFromReader(msg, reader);
+};
+
+
+/**
+ * Deserializes binary data (in protobuf wire format) from the
+ * given reader into the given message object.
+ * @param {!proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Request} msg The message object to deserialize into.
+ * @param {!jspb.BinaryReader} reader The BinaryReader to use.
+ * @return {!proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Request}
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Request.deserializeBinaryFromReader = function(msg, reader) {
+  while (reader.nextField()) {
+    if (reader.isEndGroup()) {
+      break;
+    }
+    var field = reader.getFieldNumber();
+    switch (field) {
+    case 1:
+      var value = new heim_common_pb.RequestMetadata;
+      reader.readMessage(value,heim_common_pb.RequestMetadata.deserializeBinaryFromReader);
+      msg.setMetadata(value);
+      break;
+    case 2:
+      var value = new heim_common_pb.UUID;
+      reader.readMessage(value,heim_common_pb.UUID.deserializeBinaryFromReader);
+      msg.setOrganizationProductId(value);
+      break;
+    case 3:
+      var value = new heim_common_pb.UUID;
+      reader.readMessage(value,heim_common_pb.UUID.deserializeBinaryFromReader);
+      msg.setOrganizationProductVersId(value);
+      break;
+    case 4:
+      var value = /** @type {boolean} */ (reader.readBool());
+      msg.setUnarchiveprodvers(value);
+      break;
+    default:
+      reader.skipField();
+      break;
+    }
+  }
+  return msg;
+};
+
+
+/**
+ * Serializes the message to binary data (in protobuf wire format).
+ * @return {!Uint8Array}
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Request.prototype.serializeBinary = function() {
+  var writer = new jspb.BinaryWriter();
+  proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Request.serializeBinaryToWriter(this, writer);
+  return writer.getResultBuffer();
+};
+
+
+/**
+ * Serializes the given message to binary data (in protobuf wire
+ * format), writing to the given BinaryWriter.
+ * @param {!proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Request} message
+ * @param {!jspb.BinaryWriter} writer
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Request.serializeBinaryToWriter = function(message, writer) {
+  var f = undefined;
+  f = message.getMetadata();
+  if (f != null) {
+    writer.writeMessage(
+      1,
+      f,
+      heim_common_pb.RequestMetadata.serializeBinaryToWriter
+    );
+  }
+  f = message.getOrganizationProductId();
+  if (f != null) {
+    writer.writeMessage(
+      2,
+      f,
+      heim_common_pb.UUID.serializeBinaryToWriter
+    );
+  }
+  f = message.getOrganizationProductVersId();
+  if (f != null) {
+    writer.writeMessage(
+      3,
+      f,
+      heim_common_pb.UUID.serializeBinaryToWriter
+    );
+  }
+  f = message.getUnarchiveprodvers();
+  if (f) {
+    writer.writeBool(
+      4,
+      f
+    );
+  }
+};
+
+
+/**
+ * optional medcrypt.heimdall.web.common.RequestMetadata metadata = 1;
+ * @return {?proto.medcrypt.heimdall.web.common.RequestMetadata}
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Request.prototype.getMetadata = function() {
+  return /** @type{?proto.medcrypt.heimdall.web.common.RequestMetadata} */ (
+    jspb.Message.getWrapperField(this, heim_common_pb.RequestMetadata, 1));
+};
+
+
+/** @param {?proto.medcrypt.heimdall.web.common.RequestMetadata|undefined} value */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Request.prototype.setMetadata = function(value) {
+  jspb.Message.setWrapperField(this, 1, value);
+};
+
+
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Request.prototype.clearMetadata = function() {
+  this.setMetadata(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {!boolean}
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Request.prototype.hasMetadata = function() {
+  return jspb.Message.getField(this, 1) != null;
+};
+
+
+/**
+ * optional medcrypt.heimdall.web.common.UUID organization_product_id = 2;
+ * @return {?proto.medcrypt.heimdall.web.common.UUID}
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Request.prototype.getOrganizationProductId = function() {
+  return /** @type{?proto.medcrypt.heimdall.web.common.UUID} */ (
+    jspb.Message.getWrapperField(this, heim_common_pb.UUID, 2));
+};
+
+
+/** @param {?proto.medcrypt.heimdall.web.common.UUID|undefined} value */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Request.prototype.setOrganizationProductId = function(value) {
+  jspb.Message.setWrapperField(this, 2, value);
+};
+
+
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Request.prototype.clearOrganizationProductId = function() {
+  this.setOrganizationProductId(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {!boolean}
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Request.prototype.hasOrganizationProductId = function() {
+  return jspb.Message.getField(this, 2) != null;
+};
+
+
+/**
+ * optional medcrypt.heimdall.web.common.UUID organization_product_vers_id = 3;
+ * @return {?proto.medcrypt.heimdall.web.common.UUID}
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Request.prototype.getOrganizationProductVersId = function() {
+  return /** @type{?proto.medcrypt.heimdall.web.common.UUID} */ (
+    jspb.Message.getWrapperField(this, heim_common_pb.UUID, 3));
+};
+
+
+/** @param {?proto.medcrypt.heimdall.web.common.UUID|undefined} value */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Request.prototype.setOrganizationProductVersId = function(value) {
+  jspb.Message.setWrapperField(this, 3, value);
+};
+
+
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Request.prototype.clearOrganizationProductVersId = function() {
+  this.setOrganizationProductVersId(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {!boolean}
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Request.prototype.hasOrganizationProductVersId = function() {
+  return jspb.Message.getField(this, 3) != null;
+};
+
+
+/**
+ * optional bool unarchiveProdVers = 4;
+ * Note that Boolean fields may be set to 0/1 when serialized from a Java server.
+ * You should avoid comparisons like {@code val === true/false} in those cases.
+ * @return {boolean}
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Request.prototype.getUnarchiveprodvers = function() {
+  return /** @type {boolean} */ (jspb.Message.getFieldWithDefault(this, 4, false));
+};
+
+
+/** @param {boolean} value */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Request.prototype.setUnarchiveprodvers = function(value) {
+  jspb.Message.setProto3BooleanField(this, 4, value);
+};
+
+
+
+/**
+ * Generated by JsPbCodeGenerator.
+ * @param {Array=} opt_data Optional initial data array, typically from a
+ * server response, or constructed directly in Javascript. The array is used
+ * in place and becomes part of the constructed object. It is not cloned.
+ * If no data is provided, the constructed object will be empty, but still
+ * valid.
+ * @extends {jspb.Message}
+ * @constructor
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Response = function(opt_data) {
+  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
+};
+goog.inherits(proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Response, jspb.Message);
+if (goog.DEBUG && !COMPILED) {
+  proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Response.displayName = 'proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Response';
+}
+
+
+if (jspb.Message.GENERATE_TO_OBJECT) {
+/**
+ * Creates an object representation of this proto suitable for use in Soy templates.
+ * Field names that are reserved in JavaScript and will be renamed to pb_name.
+ * To access a reserved field use, foo.pb_<name>, eg, foo.pb_default.
+ * For the list of reserved names please see:
+ *     com.google.apps.jspb.JsClassTemplate.JS_RESERVED_WORDS.
+ * @param {boolean=} opt_includeInstance Whether to include the JSPB instance
+ *     for transitional soy proto support: http://goto/soy-param-migration
+ * @return {!Object}
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Response.prototype.toObject = function(opt_includeInstance) {
+  return proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Response.toObject(opt_includeInstance, this);
+};
+
+
+/**
+ * Static version of the {@see toObject} method.
+ * @param {boolean|undefined} includeInstance Whether to include the JSPB
+ *     instance for transitional soy proto support:
+ *     http://goto/soy-param-migration
+ * @param {!proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Response} msg The msg instance to transform.
+ * @return {!Object}
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Response.toObject = function(includeInstance, msg) {
+  var f, obj = {
+    metadata: (f = msg.getMetadata()) && heim_common_pb.ResponseMetadata.toObject(includeInstance, f),
+    organizationProductVersion: (f = msg.getOrganizationProductVersion()) && proto.medcrypt.helm.api.v1.organizationproduct.OrganizationProductVersion.toObject(includeInstance, f)
+  };
+
+  if (includeInstance) {
+    obj.$jspbMessageInstance = msg;
+  }
+  return obj;
+};
+}
+
+
+/**
+ * Deserializes binary data (in protobuf wire format).
+ * @param {jspb.ByteSource} bytes The bytes to deserialize.
+ * @return {!proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Response}
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Response.deserializeBinary = function(bytes) {
+  var reader = new jspb.BinaryReader(bytes);
+  var msg = new proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Response;
+  return proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Response.deserializeBinaryFromReader(msg, reader);
+};
+
+
+/**
+ * Deserializes binary data (in protobuf wire format) from the
+ * given reader into the given message object.
+ * @param {!proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Response} msg The message object to deserialize into.
+ * @param {!jspb.BinaryReader} reader The BinaryReader to use.
+ * @return {!proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Response}
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Response.deserializeBinaryFromReader = function(msg, reader) {
+  while (reader.nextField()) {
+    if (reader.isEndGroup()) {
+      break;
+    }
+    var field = reader.getFieldNumber();
+    switch (field) {
+    case 1:
+      var value = new heim_common_pb.ResponseMetadata;
+      reader.readMessage(value,heim_common_pb.ResponseMetadata.deserializeBinaryFromReader);
+      msg.setMetadata(value);
+      break;
+    case 2:
+      var value = new proto.medcrypt.helm.api.v1.organizationproduct.OrganizationProductVersion;
+      reader.readMessage(value,proto.medcrypt.helm.api.v1.organizationproduct.OrganizationProductVersion.deserializeBinaryFromReader);
+      msg.setOrganizationProductVersion(value);
+      break;
+    default:
+      reader.skipField();
+      break;
+    }
+  }
+  return msg;
+};
+
+
+/**
+ * Serializes the message to binary data (in protobuf wire format).
+ * @return {!Uint8Array}
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Response.prototype.serializeBinary = function() {
+  var writer = new jspb.BinaryWriter();
+  proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Response.serializeBinaryToWriter(this, writer);
+  return writer.getResultBuffer();
+};
+
+
+/**
+ * Serializes the given message to binary data (in protobuf wire
+ * format), writing to the given BinaryWriter.
+ * @param {!proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Response} message
+ * @param {!jspb.BinaryWriter} writer
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Response.serializeBinaryToWriter = function(message, writer) {
+  var f = undefined;
+  f = message.getMetadata();
+  if (f != null) {
+    writer.writeMessage(
+      1,
+      f,
+      heim_common_pb.ResponseMetadata.serializeBinaryToWriter
+    );
+  }
+  f = message.getOrganizationProductVersion();
+  if (f != null) {
+    writer.writeMessage(
+      2,
+      f,
+      proto.medcrypt.helm.api.v1.organizationproduct.OrganizationProductVersion.serializeBinaryToWriter
+    );
+  }
+};
+
+
+/**
+ * optional medcrypt.heimdall.web.common.ResponseMetadata metadata = 1;
+ * @return {?proto.medcrypt.heimdall.web.common.ResponseMetadata}
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Response.prototype.getMetadata = function() {
+  return /** @type{?proto.medcrypt.heimdall.web.common.ResponseMetadata} */ (
+    jspb.Message.getWrapperField(this, heim_common_pb.ResponseMetadata, 1));
+};
+
+
+/** @param {?proto.medcrypt.heimdall.web.common.ResponseMetadata|undefined} value */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Response.prototype.setMetadata = function(value) {
+  jspb.Message.setWrapperField(this, 1, value);
+};
+
+
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Response.prototype.clearMetadata = function() {
+  this.setMetadata(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {!boolean}
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Response.prototype.hasMetadata = function() {
+  return jspb.Message.getField(this, 1) != null;
+};
+
+
+/**
+ * optional OrganizationProductVersion organization_product_version = 2;
+ * @return {?proto.medcrypt.helm.api.v1.organizationproduct.OrganizationProductVersion}
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Response.prototype.getOrganizationProductVersion = function() {
+  return /** @type{?proto.medcrypt.helm.api.v1.organizationproduct.OrganizationProductVersion} */ (
+    jspb.Message.getWrapperField(this, proto.medcrypt.helm.api.v1.organizationproduct.OrganizationProductVersion, 2));
+};
+
+
+/** @param {?proto.medcrypt.helm.api.v1.organizationproduct.OrganizationProductVersion|undefined} value */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Response.prototype.setOrganizationProductVersion = function(value) {
+  jspb.Message.setWrapperField(this, 2, value);
+};
+
+
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Response.prototype.clearOrganizationProductVersion = function() {
+  this.setOrganizationProductVersion(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {!boolean}
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Response.prototype.hasOrganizationProductVersion = function() {
+  return jspb.Message.getField(this, 2) != null;
+};
+
+
+/**
+ * optional Request request = 1;
+ * @return {?proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Request}
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.prototype.getRequest = function() {
+  return /** @type{?proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Request} */ (
+    jspb.Message.getWrapperField(this, proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Request, 1));
+};
+
+
+/** @param {?proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Request|undefined} value */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.prototype.setRequest = function(value) {
+  jspb.Message.setOneofWrapperField(this, 1, proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.oneofGroups_[0], value);
+};
+
+
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.prototype.clearRequest = function() {
+  this.setRequest(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {!boolean}
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.prototype.hasRequest = function() {
+  return jspb.Message.getField(this, 1) != null;
+};
+
+
+/**
+ * optional Response response = 2;
+ * @return {?proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Response}
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.prototype.getResponse = function() {
+  return /** @type{?proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Response} */ (
+    jspb.Message.getWrapperField(this, proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Response, 2));
+};
+
+
+/** @param {?proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.Response|undefined} value */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.prototype.setResponse = function(value) {
+  jspb.Message.setOneofWrapperField(this, 2, proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.oneofGroups_[0], value);
+};
+
+
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.prototype.clearResponse = function() {
+  this.setResponse(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {!boolean}
+ */
+proto.medcrypt.helm.api.v1.organizationproduct.CreateOrUnarchiveOrganizationProductVersion.prototype.hasResponse = function() {
   return jspb.Message.getField(this, 2) != null;
 };
 
