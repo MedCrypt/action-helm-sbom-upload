@@ -14,7 +14,9 @@ import {
 } from './protobuf/v1/external/heim_organization_pb';
 import {
   CreateOrganizationProduct,
+  CreateOrUnarchiveOrganizationProduct,
   CreateOrganizationProductVersion,
+  CreateOrUnarchiveOrganizationProductVersion,
   ListOrganizationProducts,
   ListOrganizationProductVersions,
   OrganizationProduct,
@@ -29,7 +31,9 @@ type TOrganizationProductMsg =
   | ListOrganizationProducts
   | ListOrganizationProductVersions
   | CreateOrganizationProduct
+  | CreateOrUnarchiveOrganizationProduct
   | CreateOrganizationProductVersion
+  | CreateOrUnarchiveOrganizationProductVersion
   | SubmitSbom;
 
 type TWebApiMsg = TOrganizationMsg | TOrganizationProductMsg | TWorkspaceMsg;
@@ -326,6 +330,36 @@ const CreateProduct = async (
     CreateOrganizationProduct,
     callInfo,
   );
+  let product = productResponse.getResponse()?.getOrganizationProduct();
+  if (!product) {
+    throw Error('Error creating product or You do not have privileges to create a product.');
+  }
+
+  if (product.getName() === 'Archived Item Found') {
+    product = await CreateOrUnarchiveProduct(orgUuid, workspace, product.getId(), callInfo);
+  }
+  return product;
+};
+
+const CreateOrUnarchiveProduct = async (
+  orgUuid: UUID | undefined,
+  workspace: WorkspaceInfo | undefined,
+  orgProdUuid: UUID | undefined,
+  callInfo: ApiCallInformation,
+): Promise<OrganizationProduct> => {
+  const createProduct = new CreateOrUnarchiveOrganizationProduct();
+  const requestData = new CreateOrUnarchiveOrganizationProduct.Request();
+  createProduct.setRequest(requestData);
+  requestData.setOrganizationId(orgUuid);
+  if (workspace) requestData.setWorkspaceId(workspace.getWorkspace()?.getId());
+  requestData.setOrgProdId(orgProdUuid);
+
+  const productResponse = await DoWebApiPostRequest(
+    'createorunarchiveorganizationproduct',
+    createProduct,
+    CreateOrUnarchiveOrganizationProduct,
+    callInfo,
+  );
   const product = productResponse.getResponse()?.getOrganizationProduct();
   if (!product) {
     throw Error('Error creating product or You do not have privileges to create a product.');
@@ -348,6 +382,37 @@ const CreateProductVersion = async (
     'createorganizationproductversion',
     createVersion,
     CreateOrganizationProductVersion,
+    callInfo,
+  );
+  let productVersion = productVersionResponse.getResponse()?.getOrganizationProductVersion();
+  if (!productVersion) {
+    throw Error('Error creating product version');
+  }
+  if (productVersion.getRawVersionString() === 'Archived Item Found') {
+    productVersion = await CreateOrUnarchiveProductVersion(
+      productVersion.getOrganizationProductId(),
+      productVersion.getId(),
+      callInfo,
+    );
+  }
+  return productVersion;
+};
+
+const CreateOrUnarchiveProductVersion = async (
+  productUuid: UUID | undefined,
+  productVersUuid: UUID | undefined,
+  callInfo: ApiCallInformation,
+): Promise<OrganizationProductVersion> => {
+  const createVersion = new CreateOrUnarchiveOrganizationProductVersion();
+  const requestData = new CreateOrUnarchiveOrganizationProductVersion.Request();
+  createVersion.setRequest(requestData);
+  requestData.setOrganizationProductId(productUuid);
+  requestData.setOrganizationProductVersId(productVersUuid);
+
+  const productVersionResponse = await DoWebApiPostRequest(
+    'createorunarchiveorganizationproductversion',
+    createVersion,
+    CreateOrUnarchiveOrganizationProductVersion,
     callInfo,
   );
   const productVersion = productVersionResponse.getResponse()?.getOrganizationProductVersion();

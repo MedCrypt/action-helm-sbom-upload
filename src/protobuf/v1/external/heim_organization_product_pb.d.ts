@@ -252,6 +252,111 @@ export namespace CreateOrganizationProduct {
   }
 }
 
+
+export class CreateOrUnarchiveOrganizationProduct extends jspb.Message {
+  hasRequest(): boolean;
+  clearRequest(): void;
+  getRequest(): CreateOrUnarchiveOrganizationProduct.Request | undefined;
+  setRequest(value?: CreateOrUnarchiveOrganizationProduct.Request): void;
+
+  hasResponse(): boolean;
+  clearResponse(): void;
+  getResponse(): CreateOrUnarchiveOrganizationProduct.Response | undefined;
+  setResponse(value?: CreateOrUnarchiveOrganizationProduct.Response): void;
+
+  getPayloadCase(): CreateOrUnarchiveOrganizationProduct.PayloadCase;
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): CreateOrUnarchiveOrganizationProduct.AsObject;
+  static toObject(includeInstance: boolean, msg: CreateOrUnarchiveOrganizationProduct): CreateOrUnarchiveOrganizationProduct.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: CreateOrUnarchiveOrganizationProduct, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): CreateOrUnarchiveOrganizationProduct;
+  static deserializeBinaryFromReader(message: CreateOrUnarchiveOrganizationProduct, reader: jspb.BinaryReader): CreateOrUnarchiveOrganizationProduct;
+}
+
+export namespace CreateOrUnarchiveOrganizationProduct {
+  export type AsObject = {
+    request?: CreateOrUnarchiveOrganizationProduct.Request.AsObject,
+    response?: CreateOrUnarchiveOrganizationProduct.Response.AsObject,
+  }
+
+  export class Request extends jspb.Message {
+    hasMetadata(): boolean;
+    clearMetadata(): void;
+    getMetadata(): heim_common_pb.RequestMetadata | undefined;
+    setMetadata(value?: heim_common_pb.RequestMetadata): void;
+
+    hasOrganizationId(): boolean;
+    clearOrganizationId(): void;
+    getOrganizationId(): heim_common_pb.UUID | undefined;
+    setOrganizationId(value?: heim_common_pb.UUID): void;
+
+    getWorkspaceId(): heim_common_pb.UUID | undefined;
+    setWorkspaceId(value?: heim_common_pb.UUID): void;
+
+    getOrgProdId(): heim_common_pb.UUID | undefined;
+    setOrgProdId(value?: heim_common_pb.UUID): void;
+
+    getUnarchiveProd(): boolean;
+    setUnarchiveProd(value: boolean): void;
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): Request.AsObject;
+    static toObject(includeInstance: boolean, msg: Request): Request.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: Request, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): Request;
+    static deserializeBinaryFromReader(message: Request, reader: jspb.BinaryReader): Request;
+  }
+
+  export namespace Request {
+    export type AsObject = {
+      metadata?: heim_common_pb.RequestMetadata.AsObject,
+      organizationId?: heim_common_pb.UUID.AsObject,
+      workspaceId?: heim_common_pb.UUID.AsObject,
+      orgProdId?: heim_common_pb.UUID.AsObject,
+      unarchiveProd: boolean,
+    }
+  }
+
+  export class Response extends jspb.Message {
+    hasMetadata(): boolean;
+    clearMetadata(): void;
+    getMetadata(): heim_common_pb.ResponseMetadata | undefined;
+    setMetadata(value?: heim_common_pb.ResponseMetadata): void;
+
+    hasOrganizationProduct(): boolean;
+    clearOrganizationProduct(): void;
+    getOrganizationProduct(): OrganizationProduct | undefined;
+    setOrganizationProduct(value?: OrganizationProduct): void;
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): Response.AsObject;
+    static toObject(includeInstance: boolean, msg: Response): Response.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: Response, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): Response;
+    static deserializeBinaryFromReader(message: Response, reader: jspb.BinaryReader): Response;
+  }
+
+  export namespace Response {
+    export type AsObject = {
+      metadata?: heim_common_pb.ResponseMetadata.AsObject,
+      organizationProduct?: OrganizationProduct.AsObject,
+    }
+  }
+
+  export enum PayloadCase {
+    PAYLOAD_NOT_SET = 0,
+    REQUEST = 1,
+    RESPONSE = 2,
+  }
+}
+
+
 export class OrganizationProductVersion extends jspb.Message {
   hasId(): boolean;
   clearId(): void;
@@ -440,6 +545,105 @@ export namespace CreateOrganizationProductVersion {
       metadata?: heim_common_pb.RequestMetadata.AsObject,
       organizationProductId?: heim_common_pb.UUID.AsObject,
       rawVersionString: string,
+    }
+  }
+
+  export class Response extends jspb.Message {
+    hasMetadata(): boolean;
+    clearMetadata(): void;
+    getMetadata(): heim_common_pb.ResponseMetadata | undefined;
+    setMetadata(value?: heim_common_pb.ResponseMetadata): void;
+
+    hasOrganizationProductVersion(): boolean;
+    clearOrganizationProductVersion(): void;
+    getOrganizationProductVersion(): OrganizationProductVersion | undefined;
+    setOrganizationProductVersion(value?: OrganizationProductVersion): void;
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): Response.AsObject;
+    static toObject(includeInstance: boolean, msg: Response): Response.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: Response, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): Response;
+    static deserializeBinaryFromReader(message: Response, reader: jspb.BinaryReader): Response;
+  }
+
+  export namespace Response {
+    export type AsObject = {
+      metadata?: heim_common_pb.ResponseMetadata.AsObject,
+      organizationProductVersion?: OrganizationProductVersion.AsObject,
+    }
+  }
+
+  export enum PayloadCase {
+    PAYLOAD_NOT_SET = 0,
+    REQUEST = 1,
+    RESPONSE = 2,
+  }
+}
+
+export class CreateOrUnarchiveOrganizationProductVersion extends jspb.Message {
+  hasRequest(): boolean;
+  clearRequest(): void;
+  getRequest(): CreateOrUnarchiveOrganizationProductVersion.Request | undefined;
+  setRequest(value?: CreateOrUnarchiveOrganizationProductVersion.Request): void;
+
+  hasResponse(): boolean;
+  clearResponse(): void;
+  getResponse(): CreateOrUnarchiveOrganizationProductVersion.Response | undefined;
+  setResponse(value?: CreateOrUnarchiveOrganizationProductVersion.Response): void;
+
+  getPayloadCase(): CreateOrUnarchiveOrganizationProductVersion.PayloadCase;
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): CreateOrUnarchiveOrganizationProductVersion.AsObject;
+  static toObject(includeInstance: boolean, msg: CreateOrUnarchiveOrganizationProductVersion): CreateOrUnarchiveOrganizationProductVersion.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: CreateOrUnarchiveOrganizationProductVersion, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): CreateOrUnarchiveOrganizationProductVersion;
+  static deserializeBinaryFromReader(message: CreateOrUnarchiveOrganizationProductVersion, reader: jspb.BinaryReader): CreateOrUnarchiveOrganizationProductVersion;
+}
+
+export namespace CreateOrUnarchiveOrganizationProductVersion {
+  export type AsObject = {
+    request?: CreateOrUnarchiveOrganizationProductVersion.Request.AsObject,
+    response?: CreateOrUnarchiveOrganizationProductVersion.Response.AsObject,
+  }
+
+  export class Request extends jspb.Message {
+    hasMetadata(): boolean;
+    clearMetadata(): void;
+    getMetadata(): heim_common_pb.RequestMetadata | undefined;
+    setMetadata(value?: heim_common_pb.RequestMetadata): void;
+
+    hasOrganizationProductId(): boolean;
+    clearOrganizationProductId(): void;
+    getOrganizationProductId(): heim_common_pb.UUID | undefined;
+    setOrganizationProductId(value?: heim_common_pb.UUID): void;
+
+    getOrganizationProductVersId(): heim_common_pb.UUID | undefined;
+    setOrganizationProductVersId(value?: heim_common_pb.UUID): void;
+
+    getUnarchiveProdVers(): boolean;
+    setUnarchiveProdVers(value: boolean): void;
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): Request.AsObject;
+    static toObject(includeInstance: boolean, msg: Request): Request.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: Request, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): Request;
+    static deserializeBinaryFromReader(message: Request, reader: jspb.BinaryReader): Request;
+  }
+
+  export namespace Request {
+    export type AsObject = {
+      metadata?: heim_common_pb.RequestMetadata.AsObject,
+      organizationProductId?: heim_common_pb.UUID.AsObject,
+      organizationProductVersId?: heim_common_pb.UUID.AsObject,
+      unarchiveProdVers: boolean,
     }
   }
 
